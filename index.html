@@ -370,6 +370,141 @@ textarea{font:inherit;padding:10px 12px;border:1px solid var(--line);border-radi
   .msg{max-width:94%}
 }
 @media (prefers-reduced-motion:reduce){.tbar .bar i{transition:none}}
+@media (prefers-reduced-motion:reduce){.anim-bars .fill,.anim-ring circle.fg,.anim-stack .it,.anim-split .p,.anim-balance .beam,.anim-check circle,.anim-check path,.anim-plane .pl,.cring circle{transition:none!important;animation:none!important}}
+
+/* ===== SOS Course ===== */
+.course-grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));margin:18px 0}
+.course-card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:var(--shadow);border-top:6px solid var(--cc);display:flex;flex-direction:column;gap:10px}
+.course-card .ctag{font-size:.78rem;font-weight:700;color:var(--cc);text-transform:uppercase;letter-spacing:.04em}
+.course-card h3{margin:0}
+.course-card p{color:var(--muted);font-size:.95rem;margin:0}
+.course-head-row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.cring{flex:0 0 auto}
+.course-card .clen{font-size:.85rem;color:var(--muted)}
+.course-card .cbtn{all:unset;box-sizing:border-box;cursor:pointer;margin-top:auto;background:var(--cc);color:#fff;font-weight:700;padding:10px 16px;border-radius:10px;text-align:center}
+.course-card .cbtn:hover{filter:brightness(1.08)}
+.course-card .cbtn:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+.sos-shell{display:grid;grid-template-columns:250px minmax(0,1fr);gap:22px;align-items:start;margin-top:10px}
+.sos-side{position:sticky;top:12px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:14px}
+.sos-side .back{all:unset;cursor:pointer;color:var(--muted);font-weight:600;font-size:.86rem}
+.sos-side .back:hover{color:var(--ink)}
+.sos-side h4{margin:0;font-size:1.02rem}
+.sos-bar{height:7px;border-radius:99px;background:var(--surface2);overflow:hidden}
+.sos-bar i{display:block;height:100%;background:var(--cc);border-radius:99px;transition:width .5s ease}
+.sos-list{display:flex;flex-direction:column;gap:3px}
+.sos-list button{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:9px;font-size:.9rem;font-weight:600;color:var(--ink)}
+.sos-list button:hover{background:var(--surface2)}
+.sos-list button[aria-current="true"]{background:var(--cc);color:#fff}
+.sos-list button .tick{width:18px;height:18px;border-radius:50%;border:2px solid var(--line);flex:0 0 auto;display:grid;place-items:center;font-size:11px;color:transparent}
+.sos-list button[aria-current="true"] .tick{border-color:#fff}
+.sos-list button.done .tick{background:var(--good);border-color:var(--good);color:#fff}
+.sos-list button[aria-current="true"].done .tick{background:#fff;color:var(--cc);border-color:#fff}
+
+.lesson{background:var(--surface);border:1px solid var(--line);border-top:6px solid var(--cc);border-radius:16px;padding:24px;box-shadow:var(--shadow)}
+.lesson .lk{display:inline-block;font-size:.78rem;font-weight:700;color:var(--cc);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
+.lesson h2{margin-bottom:.4em}
+.lesson p{color:var(--ink)}
+.lesson-say{border-left:5px solid var(--cc);background:var(--surface2);border-radius:0 12px 12px 0;padding:12px 16px;margin:16px 0}
+.lesson-say span{display:block;font-size:.78rem;font-weight:700;color:var(--cc);margin-bottom:2px}
+.lesson-foot{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:20px}
+.lchk{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;gap:8px;background:var(--good-soft);color:var(--good);font-weight:700;padding:9px 16px;border-radius:10px}
+.lchk[aria-pressed="false"]{background:var(--surface2);color:var(--muted)}
+.lnavbtn{all:unset;box-sizing:border-box;cursor:pointer;background:var(--cc);color:#fff;font-weight:700;padding:9px 18px;border-radius:10px}
+.lnavbtn:hover{filter:brightness(1.08)}
+.lnavbtn[disabled]{opacity:.35;cursor:default}
+
+/* animation stage */
+.anim-stage{margin:18px 0;background:var(--surface2);border:1px dashed var(--line);border-radius:14px;padding:22px;min-height:150px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.anim-replay{position:absolute;top:10px;right:10px;cursor:pointer;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:4px 10px;font-size:.78rem;font-weight:600;color:var(--muted)}
+.anim-replay:hover{color:var(--cc);border-color:var(--cc)}
+.anim-note{position:absolute;bottom:8px;left:0;right:0;text-align:center;font-size:.76rem;color:var(--muted)}
+
+.anim-counter{text-align:center}
+.anim-counter .num{font-family:var(--display);font-weight:800;font-size:3.2rem;color:var(--cc);line-height:1}
+.anim-counter .suf{font-family:var(--display);font-weight:800;font-size:1.6rem;color:var(--cc)}
+.anim-counter .lab{max-width:34em;margin:6px auto 0;color:var(--muted);font-size:.92rem}
+
+.anim-pulse{display:flex;flex-direction:column;align-items:center;gap:10px}
+.anim-pulse .badge{width:96px;height:96px;border-radius:50%;background:var(--cc);display:grid;place-items:center;font-size:2.6rem;position:relative;animation:floatY 2.6s ease-in-out infinite}
+.anim-pulse .badge::before,.anim-pulse .badge::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid var(--cc);opacity:0;animation:pulseRing 2.2s ease-out infinite}
+.anim-pulse .badge::after{animation-delay:1.1s}
+.anim-pulse .lab{font-weight:700;color:var(--ink)}
+@keyframes pulseRing{0%{transform:scale(1);opacity:.55}100%{transform:scale(1.9);opacity:0}}
+@keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+
+.anim-bars{width:100%;max-width:480px;display:flex;flex-direction:column;gap:14px}
+.anim-bars .row b{display:block;font-size:.85rem;margin-bottom:4px}
+.anim-bars .track{background:var(--surface);border:1px solid var(--line);border-radius:99px;height:22px;overflow:hidden}
+.anim-bars .fill{height:100%;width:0;border-radius:99px;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;color:#fff;font-size:.78rem;font-weight:700;transition:width 1.1s cubic-bezier(.2,.8,.2,1)}
+.anim-bars.go .fill{width:var(--w)}
+
+.anim-ring{display:flex;flex-direction:column;align-items:center;gap:8px}
+.anim-ring svg{transform:rotate(-90deg)}
+.anim-ring circle.bg{fill:none;stroke:var(--line);stroke-width:12}
+.anim-ring circle.fg{fill:none;stroke:var(--cc);stroke-width:12;stroke-linecap:round;stroke-dasharray:326.7;stroke-dashoffset:326.7;transition:stroke-dashoffset 1.4s cubic-bezier(.2,.8,.2,1)}
+.anim-ring.go circle.fg{stroke-dashoffset:var(--off)}
+.anim-ring .rlabel{position:relative;margin-top:-104px;font-family:var(--display);font-weight:800;font-size:1.3rem;color:var(--cc);text-align:center;width:100px}
+.anim-ring .lab{max-width:30em;text-align:center;color:var(--muted);font-size:.9rem;margin-top:6px}
+
+.anim-stack{display:flex;flex-direction:column;gap:8px;width:100%;max-width:420px}
+.anim-stack .it{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:9px 14px;font-size:.9rem;opacity:0;transform:translateY(10px);transition:opacity .5s ease,transform .5s ease}
+.anim-stack.go .it{opacity:1;transform:translateY(0)}
+.anim-stack.go .it:nth-child(1){transition-delay:.05s}
+.anim-stack.go .it:nth-child(2){transition-delay:.3s}
+.anim-stack.go .it:nth-child(3){transition-delay:.55s}
+.anim-stack.go .it:nth-child(4){transition-delay:.8s}
+.anim-stack.go .it:nth-child(5){transition-delay:1.05s}
+.anim-stack .it b{color:var(--cc)}
+
+.anim-timeline{width:100%;max-width:560px}
+.anim-timeline .tl{display:flex;align-items:flex-start;position:relative}
+.anim-timeline .seg{flex:1;text-align:center;position:relative;padding-top:26px}
+.anim-timeline .seg .dot{position:absolute;top:0;left:50%;transform:translateX(-50%);width:18px;height:18px;border-radius:50%;background:var(--surface);border:3px solid var(--line);transition:background .4s ease,border-color .4s ease;z-index:1}
+.anim-timeline .seg.on .dot{background:var(--cc);border-color:var(--cc)}
+.anim-timeline .seg .ln{position:absolute;top:9px;left:-50%;width:100%;height:3px;background:var(--line);z-index:0}
+.anim-timeline .seg:first-child .ln{display:none}
+.anim-timeline .seg.on .ln{background:var(--cc)}
+.anim-timeline .seg span{display:block;font-size:.78rem;color:var(--muted);margin-top:8px;padding:0 2px}
+.anim-timeline .seg.on span{color:var(--ink);font-weight:700}
+
+.anim-split{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:stretch;width:100%;max-width:560px}
+.anim-split .p{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;opacity:0;transform:translateY(8px);transition:opacity .5s ease,transform .5s ease}
+.anim-split.go .p{opacity:1;transform:translateY(0)}
+.anim-split.go .p.b{transition-delay:.35s}
+.anim-split .p.a{border-top:4px solid var(--bad)}
+.anim-split .p.b{border-top:4px solid var(--good)}
+.anim-split .p h5{margin:0 0 6px;font-size:.85rem}
+.anim-split .p ul{margin:0;padding-left:1.1em;font-size:.85rem}
+.anim-split .vs{align-self:center;font-family:var(--display);font-weight:800;color:var(--muted)}
+
+.anim-balance{display:flex;flex-direction:column;align-items:center;gap:10px}
+.anim-balance svg{width:220px;height:130px}
+.anim-balance .beam{transform-origin:110px 46px;transition:transform 1.3s cubic-bezier(.34,1.4,.4,1)}
+.anim-balance.go .beam{transform:rotate(0deg)}
+.anim-balance .lab{color:var(--muted);font-size:.9rem;max-width:26em;text-align:center}
+
+.anim-check{display:flex;flex-direction:column;align-items:center;gap:10px}
+.anim-check svg{width:110px;height:110px}
+.anim-check circle{fill:none;stroke:var(--cc);stroke-width:6;stroke-dasharray:301;stroke-dashoffset:301;transition:stroke-dashoffset 1s ease}
+.anim-check path{fill:none;stroke:var(--cc);stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:60;stroke-dashoffset:60;transition:stroke-dashoffset .5s ease .9s}
+.anim-check.go circle{stroke-dashoffset:0}
+.anim-check.go path{stroke-dashoffset:0}
+.anim-check .lab{color:var(--muted);font-size:.9rem}
+
+.anim-plane{display:flex;flex-direction:column;align-items:center;gap:6px;width:100%}
+.anim-plane .track{position:relative;width:100%;max-width:420px;height:70px}
+.anim-plane .dots{position:absolute;top:34px;left:8%;right:8%;height:2px;background:repeating-linear-gradient(90deg,var(--line) 0 8px,transparent 8px 16px)}
+.anim-plane .pl{position:absolute;top:16px;left:0;font-size:2rem;transform:translateX(0) rotate(0deg);transition:transform 1.3s cubic-bezier(.3,.6,.3,1),opacity .3s ease .9s;opacity:1}
+.anim-plane.go .pl{transform:translateX(calc(100% - 40px)) rotate(0deg);opacity:0}
+.anim-plane .lab{color:var(--muted);font-size:.9rem;text-align:center}
+
+@media (max-width:900px){
+  .sos-shell{grid-template-columns:1fr}
+  .sos-side{position:static}
+  .sos-list{flex-direction:row;overflow-x:auto}
+  .sos-list button{white-space:nowrap;flex:0 0 auto}
+}
 </style>
 </head>
 <body>
@@ -409,6 +544,7 @@ textarea{font:inherit;padding:10px 12px;border:1px solid var(--line);border-radi
       <button class="dept" type="button" data-go="packages" style="border-top-color:#0E7C86"><b>Sales department</b><span>Packages and prices, the call playbook, customer types, conversation scripts and discovery questions.</span></button>
       <button class="dept" type="button" data-go="wa" style="border-top-color:#128C7E"><b>Client tools</b><span>Build a WhatsApp summary for the client from what you discussed: package, price, delivery, next steps.</span></button>
       <button class="dept m" type="button" data-go="process" style="border-top-color:#A21CAF"><b>Marketing department</b><span>Marketing 101 and the marketing process: ten proven ideas with diagrams and how to use them on a call.</span></button>
+      <button class="dept" type="button" data-go="sos" style="border-top-color:#F59E0B"><b>Sales training</b><span>The SOS Course: three short, animated courses on why websites matter and how to close the deal.</span></button>
       <div class="dept soft"><b>More departments</b><span>Tell us which teams need their own pages (delivery, support, accounts) and they can be added here.</span></div>
     </div>
 
@@ -856,6 +992,20 @@ textarea{font:inherit;padding:10px 12px;border:1px solid var(--line);border-radi
     </div>
   </section>
 
+
+  <!-- SOS COURSE -->
+  <section class="view" id="v-sos" aria-labelledby="h-sos">
+    <h1 id="h-sos">SOS Course</h1>
+    <p class="lead">Three short courses that turn agents into confident website closers: why websites matter, why people say yes, and how to apply both on a Carrow call. Every lesson has a plain explanation and a short animation to make the point stick.</p>
+    <div id="sos-hub"></div>
+    <div id="sos-course" hidden>
+      <div class="sos-shell">
+        <nav class="sos-side" id="sos-side" aria-label="Lessons"></nav>
+        <div class="lesson" id="sos-main"></div>
+      </div>
+    </div>
+  </section>
+
   </main>
 </div>
 <div class="toast" id="toast" role="status">Copied</div>
@@ -885,12 +1035,13 @@ var HIGHLIGHTS={
 var NAV=[
  {g:null,items:[["ask","Ask Me"],["home","Start here"]]},
  {g:"Sales department",items:[["packages","Packages"],["call","Call playbook"],["types","Customer types"],["convo","Conversation scripts"],["sell","Discovery & selling"]]},
+ {g:"Sales training",items:[["sos","SOS Course"]]},
  {g:"Client tools",items:[["wa","WhatsApp summary"]]},
  {g:"Marketing department",items:[["marketing","Marketing 101"],["process","Marketing process"]]},
  {g:"Reference",items:[["faq","FAQ"]]}
 ];
 var TABS=[];NAV.forEach(function(g){g.items.forEach(function(i){TABS.push(i)})});
-var PAL={home:["#0B6B5D","#12A08A"],ask:["#B45309","#EA580C"],packages:["#0B4F6C","#0E7C86"],call:["#3730A3","#6366F1"],types:["#9D174D","#DB2777"],convo:["#7C2D12","#C2410C"],sell:["#9A3412","#DC2626"],marketing:["#1E40AF","#2563EB"],process:["#6D28D9","#A21CAF"],faq:["#166534","#0F766E"],wa:["#075E54","#128C7E"]};
+var PAL={home:["#0B6B5D","#12A08A"],ask:["#B45309","#EA580C"],packages:["#0B4F6C","#0E7C86"],call:["#3730A3","#6366F1"],types:["#9D174D","#DB2777"],convo:["#7C2D12","#C2410C"],sell:["#9A3412","#DC2626"],marketing:["#1E40AF","#2563EB"],process:["#6D28D9","#A21CAF"],faq:["#166534","#0F766E"],wa:["#075E54","#128C7E"],sos:["#1E1B4B","#F59E0B"]};
 var TC={analytical:"#1D4ED8",driver:"#B91C1C",amiable:"#15803D",expressive:"#B45309"};
 var JUMPS=[
  ["packages","Packages","Prices, inclusions, delivery times and a package recommender."],
@@ -901,7 +1052,8 @@ var JUMPS=[
  ["sell","Discovery & selling","Questions to ask, benefit language and an ROI calculator."],
  ["marketing","Marketing 101","What marketing is and how modern algorithms work."],
  ["process","Marketing process","Ten frameworks with diagrams, from product-market fit to the Lindy effect."],
- ["faq","FAQ","Searchable answers, including objection handling."]
+ ["faq","FAQ","Searchable answers, including objection handling."],
+ ["sos","SOS Course","Three short courses on why websites matter and how to close, with animated lessons."]
 ];
 
 /* ---------- NAV ---------- */
@@ -1256,11 +1408,24 @@ I.convo=function(){var S=[["Cold contact","Open with permission","#64748B"],["Le
  S.forEach(function(s,i){var x=i*150;b+=chev(x,8,160,50,s[2],16)+T(x+80,38,s[0],13,"#fff","middle")+'<text x="'+(x+80)+'" y="82" font-size="10.5" text-anchor="middle" style="fill:var(--muted)" font-family="Arial">'+s[1].split(" ").reduce(function(a,w){var l=a[a.length-1];if((l+" "+w).length>24){a.push(w)}else{a[a.length-1]=(l+" "+w).trim()}return a},[""]).join("</text><text x=\""+(x+80)+"\" y=\"96\" font-size=\"10.5\" text-anchor=\"middle\" style=\"fill:var(--muted)\" font-family=\"Arial\">")+'</text>'});
  return svg(b,"0 0 780 108")};
 
+H.sos=function(){return svg(
+ C(340,70,86,"#fff",.08)+C(50,205,66,"#fff",.08)+
+ win(108,26,224,152,"#F59E0B",
+   R(120,48,200,58,"#FFF4DC",6)+R(128,58,92,10,"#7C2D12")+R(128,74,150,6,"#E2B25A")+R(128,86,110,6,"#E2B25A")+
+   R(120,116,60,44,"#FEF3E2",6)+R(188,116,60,44,"#FEF3E2",6)+R(256,116,60,44,"#FEF3E2",6)+
+   C(150,138,14,"#EA580C")+P("M145 131l14 7-14 7z","#fff")+
+   C(218,138,14,"#8B5CF6")+R(210,130,16,16,"#fff",3)+
+   C(286,138,14,"#10B981")+P("M279 139l5 5 9-11","none",'stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"')
+ )+
+ P("M36 66l50-19 50 19-50 19z","#1E1B4B")+P("M56 78v20c0 6 14 10 30 10s30-4 30-10V78l-30 11z","#312E81")+C(136,68,3,"#F59E0B")+L(136,68,136,90,"#F59E0B",2)+
+ coin(372,196,26,"#F59E0B","%")+spark(70,38,9,"#F59E0B")+spark(360,110,7,"#fff")+star(28,158,10,"#F59E0B")
+)};
+
 return {hero:H,info:I};
 })();
 
 /* ---------- v3 FEATURES: heroes, tabs, finder, conversations, WhatsApp summary ---------- */
-var BADGE={home:"Carrow Sales Hub",ask:"Search everything",packages:"Sales department",call:"Sales department",types:"Sales department",convo:"Sales department",sell:"Sales department",wa:"Client tools",marketing:"Marketing department",process:"Marketing department",faq:"Reference"};
+var BADGE={home:"Carrow Sales Hub",ask:"Search everything",packages:"Sales department",call:"Sales department",types:"Sales department",convo:"Sales department",sell:"Sales department",wa:"Client tools",marketing:"Marketing department",process:"Marketing department",faq:"Reference",sos:"Sales training"};
 var INFOMAP={packages:"packages",call:"call",sell:"sell",marketing:"marketing",convo:"convo"};
 function rgba(h,a){var n=parseInt(h.slice(1),16);return "rgba("+(n>>16&255)+","+(n>>8&255)+","+(n&255)+","+a+")"}
 function decorate(){
@@ -1501,6 +1666,12 @@ function extraKB(){
   var sg=[];SIG.forEach(function(g){g.i.forEach(function(s){sg.push(s[0]+" ("+Object.keys(s[1]).map(TN).join(", ")+")")})});
   addKB({gate:/\b(find|identify|spot|recogni[sz]e|detect|signal|signals|which type|what type|know|tell|figure)\b/,title:"How to find the customer type: signals to listen for",kw:"identify spot recognise tell find detect signals",text:sg.join(". "),html:UL(sg),view:"types",kind:"Customer types",go:function(){show("types",false);tabTo("types","find");window.scrollTo(0,0)}});
   addKB({title:"WhatsApp client summary: how to send a summary",kw:"whatsapp message send summary proposal follow up client recap",text:"Use the Client summary page: enter client and business name, tick their goals, choose the package and delivery option, tick points and what we need from them, choose the next step, then copy the message or open it in WhatsApp.",html:"<p>Use the <b>WhatsApp summary</b> page: enter the client and business name, tick their goals, pick the package and delivery, choose the points to include and what we need from them, set the next step, then copy the message or open it in WhatsApp.</p>",view:"wa",kind:"Client tools",go:function(){show("wa",true)}});
+  COURSES.forEach(function(c){
+    c.lessons.forEach(function(l,i){
+      var h="<p>"+l.body.join("</p><p>")+"</p><p><b>Say this:</b> "+esc(l.say)+"</p>";
+      addKB({title:c.title+": "+l.title,kw:"sos course training lesson "+c.tag,text:l.body.join(" ")+" "+l.say,html:h,view:"sos",kind:"SOS Course · "+c.tag,go:function(){openSOS(c.id,i)}});
+    });
+  });
 }
 
 /* ---------- MARKETING PROCESS LIBRARY ---------- */
@@ -1826,6 +1997,219 @@ function finishKB(){
 }
 function txt(html){var d=document.createElement("div");d.innerHTML=html;return (d.textContent||"")}
 function goEl(view,el){return function(){show(view,false);setTimeout(function(){if(el){el.scrollIntoView({behavior:"smooth",block:"center"});flashEl(el)}else{window.scrollTo(0,0)}},80)}}
+
+
+/* ---------- SOS COURSE ---------- */
+var COURSES=[
+{id:"why",title:"Why Every Business Needs a Website",tag:"Course 1 · Foundations",cc:["#B91C1C","#EA580C"],
+ summary:"The conviction every agent needs before the first call: why a website isn't optional for a modern business, explained in plain terms you can say out loud.",
+ lessons:[
+  {id:"front-door",title:"Your Website Is the New Front Door",
+   body:["Before smartphones, a customer's first contact with a business was often a phone call or a walk-in. Today it's a search. Someone hears a name, gets a recommendation, or sees a signboard, and the very next thing they do is pull out their phone and look it up. That search is the new front door.",
+   "If nothing loads when they knock, no website appears, they don't wait outside; they turn to the next result. A missing website doesn't just fail to help, it actively loses the customer to whoever answered the door instead.",
+   "For you as the agent, this reframes the whole pitch. It isn't “do you want a website?” It's “your customers are already knocking, is anyone answering?”"],
+   say:"Right now, someone is searching for what you do. If they find you, professional and easy to reach, that's a customer. If they find nothing, that's a customer for someone else.",
+   anim:{type:"counter",target:90,suffix:"%",label:"Consumer research consistently finds the large majority of buyers check a business online before they call, visit or buy. The exact figure moves study to study; the direction never does. (Illustrative, general trend.)"}},
+  {id:"always-open",title:"Open 24 Hours, No Overtime",
+   body:["A shop has hours. A phone line has hours. A website doesn't. It answers questions, shows prices, shows work and collects enquiries at 2pm and at 2am, on a Sunday and on a holiday, without anyone standing behind a counter.",
+   "This matters because buying decisions don't wait for business hours. A parent browsing a bakery's menu at 11pm, a homeowner comparing electricians on a Saturday morning, a manager scoping vendors between meetings, all of them are deciding right now, not when the shop reopens Monday.",
+   "A website converts idle hours into working hours. It is the one part of the business that's open the whole time, every day of the year."],
+   say:"Think about how many decisions your customers make outside your working hours. Your website is the one part of the business that's open the whole time.",
+   anim:{type:"pulse",icon:"⏰",label:"Still taking enquiries, right now"}},
+  {id:"first-impression",title:"Trust Is Won or Lost in a Blink",
+   body:["People don't read a website before deciding whether to trust it. They glance. Layout, colour, spacing and speed register before a single word is read, and that glance sets the tone for everything that follows.",
+   "This is the halo effect (covered on the Marketing 101 page): one strong first impression colours every later judgement about professionalism, pricing and reliability. One weak impression does the same damage in reverse.",
+   "The practical result: a business can be excellent at what it does and still lose a sale in the first two seconds, because the website spoke first, and spoke badly."],
+   say:"Your website talks before you do. If it looks rushed, people quietly assume the business is too.",
+   anim:{type:"counter",target:50,suffix:"ms",label:"A frequently cited study on web design (Lindgaard et al.) found visitors form a snap judgement of a site's credibility in about this many milliseconds, roughly the blink of an eye."}},
+  {id:"word-of-mouth",title:"Word of Mouth Now Needs a Landing Spot",
+   body:["Referrals still start a conversation, but they rarely finish one. A friend says “you should try them,” and the very next step is a search, not a purchase. If there's nowhere for that curiosity to land, the referral runs out of road.",
+   "A website gives word of mouth somewhere to go: proof, photos, prices, a way to act immediately while the recommendation is still warm. Without it, the referral has to survive an extra, unnecessary hurdle.",
+   "Every review, tag and recommendation a business earns is only as useful as the page it eventually leads to."],
+   say:"All the word of mouth your business already earns needs somewhere to land. Right now, where does it go?",
+   anim:{type:"stack",items:["“Try this place, they're great!”","“Let me check their Instagram…”","“Do they even have a website?”","“Found it — looks proper, booking now.”"]}},
+  {id:"employee",title:"Cheaper Than a Hire, Working Every Shift",
+   body:["A website is not an ongoing salary. It's paid for once (with an optional support plan), and then it keeps introducing the business to new people without a monthly bill for its time.",
+   "Compare it to what it replaces: someone answering “what do you do,” “how much,” and “where are you” over and over. A well-built site answers all three before the phone even rings.",
+   "This is the honest way to talk about price: not as a cost to justify, but as a one-time investment measured against what even a few new customers are worth."],
+   say:"What's one customer worth to you? A website usually pays for itself in the first handful it brings in, and then it keeps earning.",
+   anim:{type:"bars",unit:"₹",rows:[["Standard package (one time)",34680,"#EA580C"],["Value of just 3 new customers (illustrative, ₹15,000 each)",45000,"#16A34A"]]}},
+  {id:"invisible",title:"What Happens Without One",
+   body:["It's tempting to think “no website” just means missing an opportunity. In a competitive market it means something sharper: every customer who searches and finds a competitor instead is a customer actively redirected away, not just one who was never reached.",
+   "Businesses without a website don't stay neutral, they slowly become invisible to anyone who wasn't already a personal contact, while competitors with even a modest site keep showing up in searches, maps and shares.",
+   "This is the gentle way to raise urgency without pressure: not “buy now or lose out,” but “right now, this gap is quietly costing you customers you'll never even hear about.”"],
+   say:"The hardest customers to win back are the ones you never knew you lost. That's what happens quietly, every day, without a website.",
+   anim:{type:"split",a:{h:"No website",items:["Invisible to new searches","No proof for a hesitant buyer","Closed the moment the shop shuts","Referrals stall with nowhere to land"]},b:{h:"With a website",items:["Found by anyone searching nearby","Reviews and work on display","Still answering enquiries at midnight","Referrals convert while still warm"]}}}
+ ]},
+{id:"psych",title:"The Psychology of Yes",tag:"Course 2 · Persuasion",cc:["#5B21B6","#8B5CF6"],
+ summary:"Why people actually say yes. Six honest persuasion principles, the kind used in every good sales conversation, applied to selling a website.",
+ lessons:[
+  {id:"trust-first",title:"People Buy Trust Before They Buy Anything Else",
+   body:["No one hands over money to a stranger without a reason to believe them first. Every sale, however small, is really two decisions at once: do I trust this person, and does this solve my problem. The first decision usually happens before the second is even considered.",
+   "This is why a rushed pitch backfires. Leading with features and price before the client feels heard skips the decision that actually unlocks the sale. Trust isn't a formality before the real conversation, it is the real conversation.",
+   "Build it deliberately: ask real questions, listen to the answers, and let the client hear their own goal repeated back accurately. Being understood does more for trust than any feature list."],
+   say:"Before I recommend anything, tell me about your business. I want to understand it properly, not just sell into it.",
+   anim:{type:"pulse",icon:"🤝",label:"Trust is decided before price is"}},
+  {id:"give-first",title:"Give Value Before You Ask for Anything",
+   body:["People resist being sold to, but they welcome being helped. Point out one thing about a client's current online presence, a slow page, a missing contact form, something they can act on whether or not they buy from you, and you've given something useful before asking for anything.",
+   "This isn't a trick, it's a sequence. Genuine, specific help early in a conversation signals competence and goodwill at once, and it earns the right to ask deeper questions later, because you've shown you're paying attention to their business, not just your quota.",
+   "The smallest version of this: notice something real and say it out loud, before you pitch anything at all."],
+   say:"I had a look at your business online before calling. One thing stood out to me: [a specific, useful observation].",
+   anim:{type:"pulse",icon:"🎁",label:"Help first, ask second"}},
+  {id:"show-dont-tell",title:"Proof Persuades Faster Than Promises",
+   body:["“We're great at this” is a claim. “Here's a business like yours that we helped, and here's what changed” is proof, and proof moves faster, because the listener convinces themselves by drawing the comparison to their own business.",
+   "This is why examples and specific outcomes matter more in conversation than adjectives. Calling a site “beautiful” asks the client to take your word for it. Showing one, even a screenshot on a call, lets them decide for themselves, which they trust far more.",
+   "Keep two or three strong examples ready before every call, ideally close to the client's own industry, so proof is never more than a sentence away."],
+   say:"Rather than tell you it works, let me show you one we built for a business a lot like yours.",
+   anim:{type:"stack",items:["★★★★★ “Booked us out for a month.”","★★★★★ “Looks exactly like our brand.”","★★★★★ “Enquiries doubled after launch.”"]}},
+  {id:"urgency",title:"Create Real Urgency, Never Manufactured Pressure",
+   body:["Urgency helps a hesitant buyer move, but only if it's honest. A genuine deadline, an express delivery slot, a season the client is trying to be ready for, gives someone a real reason to decide now instead of drifting. A fake deadline, invented pressure just to force a close, is felt as manipulation the moment it's noticed, and it damages trust.",
+   "The distinction is simple: urgency should come from the client's own situation, not from your script. “You mentioned festival season starts in three weeks, that's when you need this live” is real. “This offer expires tonight” for no real reason is not.",
+   "Used honestly, urgency turns a “someday” into a “let's start this week,” which is often all a genuinely interested client needs."],
+   say:"You said you want this ready before [their real deadline]. Standard takes 3 days, so if we start by [date], you're covered comfortably.",
+   anim:{type:"ring",percent:78,label:"Real urgency comes from the client's own deadline, not an invented clock."}},
+  {id:"small-yes",title:"A Small Yes Makes the Big Yes Easier",
+   body:["Asking for a big commitment straight away, “shall we start a ₹65,000 project,” feels risky to a stranger. Asking for a series of small, easy agreements, two minutes of their time, one honest question, one fair observation about their needs, feels safe, and each small yes makes the next one more natural.",
+   "This is why the call structure used throughout this hub (open, discover, present, handle doubt, close) works: it's a staircase of small, comfortable agreements that ends at the doorstep of a decision the client has effectively already made, one step at a time.",
+   "Skipping steps to rush to the close usually backfires, because you're asking for a big yes with no staircase built underneath it."],
+   say:"Would it be alright if I ask a few quick questions first, so anything I suggest actually fits your business?",
+   anim:{type:"timeline",steps:["Agreed to talk","Shared their goal","Package fits","Price feels fair","Placed the order"]}},
+  {id:"silence",title:"The Best Thing You Can Say Is Nothing, For a Moment",
+   body:["After asking a real question, most new agents fill the silence that follows out of nerves, and accidentally answer their own question or talk the client out of thinking. A pause of even three or four seconds after a good question is not dead air, it's the client doing the most valuable thing they can do on the call: thinking about their own answer.",
+   "The same applies after presenting a price. The instinct is to keep talking to soften it. Resist it. Silence after a price puts the decision where it belongs, with the client, and it often produces a more honest reaction than another sentence would have.",
+   "A good rule for any call: whoever is more uncomfortable with silence usually loses the negotiation. Practise sitting in it."],
+   say:"(Say nothing for a moment. Let the question do its work.)",
+   anim:{type:"bars",unit:"",flat:true,rows:[["Talking",100,"#8B5CF6"],["Listening",35,"#C4B5FD"],["The pause that closes deals",8,"#5B21B6"]]}}
+ ]},
+{id:"play",title:"The Carrow Closing Playbook",tag:"Course 3 · Practical Close",cc:["#065F46","#10B981"],
+ summary:"Applying Courses 1 and 2 with Carrow's own tools, step by step, from the first hello to a signed WhatsApp confirmation.",
+ lessons:[
+  {id:"stranger-to-lead",title:"From Stranger to Lead in the First Minute",
+   body:["A lead isn't created by pitching harder, it's created by earning sixty honest seconds. State who you are and why you're calling in one clear sentence, then ask permission to continue. This habit, covered in the Call Playbook, turns more cold contacts into leads than any opening line, because it respects the other person's time instead of assuming it.",
+   "The moment someone says “go ahead” instead of hanging up, they've become a lead: not a customer yet, just someone who's agreed to listen. Treat that agreement carefully; the next few questions decide whether it turns into real interest.",
+   "Course 1 gave you the conviction. Course 2 gave you the psychology. This course is about applying both, call by call, using Carrow's own packages and tools."],
+   say:"Hi, this is [Agent] from Carrow Marketing. I know this is out of the blue, do you have two minutes, or is there a better time?",
+   anim:{type:"timeline",steps:["Stranger","Permission given","Reason to listen","Lead"]}},
+  {id:"diagnose",title:"Diagnose Before You Prescribe",
+   body:["Recommending a package before understanding the client's goal is like prescribing before asking what hurts. It might accidentally be right, but it damages trust either way, because the client can tell you're pattern-matching, not listening.",
+   "Use the discovery questions on the Discovery & selling page, and notice which of the four customer types you're speaking to (see Customer types and Conversation scripts). The diagnosis should decide the recommendation, not the other way around.",
+   "Once you know the goal, the Packages page's recommender turns that diagnosis into a specific package and price in seconds, so you can move from questions to a confident recommendation without missing a beat."],
+   say:"Before I recommend anything, what's the one result you want this website to bring you in the next few months?",
+   anim:{type:"pulse",icon:"🔍",label:"Ask before you prescribe"}},
+  {id:"features-to-future",title:"Turn Every Feature Into a Future",
+   body:["A feature is what the package includes. A benefit is what the client's life looks like because of it. Clients don't buy “autoresponder integration,” they buy “I stop losing leads because I was busy.” The Discovery & selling page has a full feature-to-benefit translator, use it in your own words on the call.",
+   "This is also where the ROI calculator earns its place: instead of asking a client to imagine value, put their own numbers into it live on the call and let them watch the estimate build in front of them. A number they helped produce is more convincing than any number you state.",
+   "Every time you catch yourself listing what's included, pause and add one sentence about what changes for the client because of it."],
+   say:"So that's not just a contact form, it means every visitor has an easy way to reach you, even at 11pm, without you lifting a finger.",
+   anim:{type:"split",a:{h:"Feature",items:["Autoresponder integration","Speed optimisation","Working calculators","Custom design"]},b:{h:"Future for the client",items:["No lead ever goes cold","Visitors don't give up and leave","Instant answers, more enquiries","Looks trustworthy in one glance"]}}},
+  {id:"handle-wobble",title:"Handle the Wobble Without Losing Your Footing",
+   body:["Objections are not rejections, they're a wobble: a genuine, temporary doubt on the way to a decision. Treat them with LAAR (Listen, Acknowledge, Ask, Respond), covered fully in the Call Playbook, and the wobble usually settles once the real concern is named and answered.",
+   "The mistake to avoid is defending immediately. “It's not expensive, actually…” argues with the client's feeling before you've confirmed what's really behind it. Acknowledging first costs nothing and keeps the conversation open.",
+   "Most objections are really one of three things in disguise: not enough trust yet, not enough clarity on value, or genuinely the wrong timing. Find out which one you're actually handling before you respond to it."],
+   say:"That's a fair concern. Just so I understand properly, is it the price itself, or whether it's the right time?",
+   anim:{type:"balance",label:"LAAR steadies the wobble: Listen, Acknowledge, Ask, Respond."}},
+  {id:"ask-for-order",title:"Ask for the Order Like You Expect Yes",
+   body:["After a good discovery, a clear recommendation and a handled objection, many agents still hesitate at the very last step, actually asking for the order, and let a warm conversation quietly fade into “let me think about it” by default.",
+   "Assume the sale respectfully. Not aggressively; “so should we get started,” said plainly and directly with a concrete next step attached, closes more conversations than a hopeful, open-ended “so, what do you think?” A confident, specific question is easier to say yes to than a vague one.",
+   "If the answer is genuinely not yet, that's fine, but let the client say so, rather than assuming it for them by never asking clearly."],
+   say:"Based on everything we've discussed, I'd suggest we start with Standard. Shall I send the order link now?",
+   anim:{type:"check",label:"A clear ask gets a clear answer"}},
+  {id:"lock-in-writing",title:"Lock It In Writing Before the Call Ends",
+   body:["A verbal yes is easy to forget by tomorrow, for both sides. Before you hang up, agree a concrete next step, an order link sent today, content needed by Friday, a follow-up call on Thursday at 4, and confirm it in writing immediately, while the conversation is still fresh.",
+   "This is exactly what the WhatsApp summary builder on this hub is for: turn what you just discussed into a clear, professional message in the client's own tone, sent within minutes of hanging up. A prompt, clear summary is itself a small proof point: this is how the business runs things after the sale too.",
+   "No call, however good, is finished until the next step exists somewhere the client can see it after you've hung up."],
+   say:"I'll send you a short summary on WhatsApp right now with everything we discussed, so you have it in writing.",
+   anim:{type:"plane",label:"Confirmed in writing, within minutes"}}
+ ]}
+];
+var COX={};COURSES.forEach(function(c){COX[c.id]=c});
+var sosCourse=null,sosLesson=0;
+var SOSKEY="carrow_sos_done_v1";
+function sosLoad(){try{return JSON.parse(localStorage.getItem(SOSKEY)||"{}")}catch(e){return{}}}
+function sosSave(o){try{localStorage.setItem(SOSKEY,JSON.stringify(o))}catch(e){}}
+var sosDone=sosLoad();
+function sosDoneCount(c){var n=0;c.lessons.forEach(function(l){if(sosDone[c.id+":"+l.id])n++});return n}
+
+function sosHub(){
+  sosCourse=null;
+  var h='<div class="course-grid">';
+  COURSES.forEach(function(c){
+    var n=sosDoneCount(c),tot=c.lessons.length,pct=Math.round(n/tot*100),r=42,off=(2*Math.PI*r)*(1-pct/100);
+    h+='<div class="course-card" style="--cc:'+c.cc[1]+'"><div class="course-head-row"><div><div class="ctag">'+c.tag+'</div><h3>'+c.title+'</h3></div>'+
+      '<svg class="cring" width="52" height="52" viewBox="0 0 100 100"><circle cx="50" cy="50" r="'+r+'" fill="none" stroke="var(--line)" stroke-width="10"/><circle cx="50" cy="50" r="'+r+'" fill="none" stroke="'+c.cc[1]+'" stroke-width="10" stroke-linecap="round" stroke-dasharray="'+(2*Math.PI*r).toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'" transform="rotate(-90 50 50)"/><text x="50" y="56" text-anchor="middle" font-size="26" font-weight="800" font-family="Arial" fill="'+c.cc[1]+'">'+pct+'</text></svg></div>'+
+      '<p>'+c.summary+'</p><div class="clen">'+tot+' lessons'+(n?' · '+n+' complete':'')+'</div>'+
+      '<button class="cbtn" type="button" data-course="'+c.id+'">'+(n===0?"Start course":n===tot?"Review course":"Continue course")+'</button></div>';
+  });
+  h+='</div>';
+  $("#sos-hub").innerHTML=h;
+  $("#sos-course").hidden=true;$("#sos-hub").hidden=false;
+}
+function sosOpen(cid,idx){
+  sosCourse=cid;sosLesson=idx||0;
+  $("#sos-hub").hidden=true;$("#sos-course").hidden=false;
+  sosRenderSide();sosRenderLesson();
+}
+function sosRenderSide(){
+  var c=COX[sosCourse],n=sosDoneCount(c),pct=Math.round(n/c.lessons.length*100);
+  $("#sos-course").style.setProperty("--cc",c.cc[1]);
+  $("#sos-side").innerHTML='<button class="back" type="button" id="sos-back">← All courses</button><div><h4>'+c.title+'</h4><div class="small" style="color:var(--muted);margin:2px 0 8px">'+n+' of '+c.lessons.length+' complete</div><div class="sos-bar"><i style="width:'+pct+'%"></i></div></div><div class="sos-list">'+
+   c.lessons.map(function(l,i){return '<button type="button" data-li="'+i+'" class="'+(sosDone[c.id+":"+l.id]?"done":"")+'" aria-current="'+(i===sosLesson)+'"><span class="tick">✓</span>'+(i+1)+'. '+l.title+'</button>'}).join("")+'</div>';
+}
+function sosRenderLesson(){
+  var c=COX[sosCourse],l=c.lessons[sosLesson],done=!!sosDone[c.id+":"+l.id];
+  var h='<span class="lk">'+c.tag+' · Lesson '+(sosLesson+1)+' of '+c.lessons.length+'</span><h2>'+l.title+'</h2>'+
+   l.body.map(function(p){return "<p>"+p+"</p>"}).join("")+
+   '<div class="anim-stage" id="sos-anim"><button class="anim-replay" type="button" id="sos-replay">↻ Replay</button></div>'+
+   '<div class="lesson-say"><span>Say this on a call</span>'+esc(l.say)+'</div>'+
+   '<div class="lesson-foot"><button class="lchk" type="button" id="sos-done" aria-pressed="'+done+'">'+(done?"✓ Completed":"Mark lesson complete")+'</button><div style="display:flex;gap:8px"><button class="lnavbtn" type="button" id="sos-prev" '+(sosLesson===0?"disabled":"")+'>← Previous</button><button class="lnavbtn" type="button" id="sos-next" '+(sosLesson===c.lessons.length-1?"disabled":"")+'>Next lesson →</button></div></div>';
+  $("#sos-main").innerHTML=h;
+  sosBuildAnim(l.anim);
+  sosRenderSide();
+}
+function sosBuildAnim(a){
+  var stage=$("#sos-anim"),body="";
+  if(a.type==="counter"){body='<div class="anim-counter"><div><span class="num" data-cnt="'+a.target+'">0</span><span class="suf">'+esc(a.suffix||"")+'</span></div><p class="lab">'+a.label+'</p></div>'}
+  else if(a.type==="pulse"){body='<div class="anim-pulse"><div class="badge">'+a.icon+'</div><div class="lab">'+esc(a.label)+'</div></div>'}
+  else if(a.type==="bars"){body='<div class="anim-bars'+(a.flat?" flat":"")+'">'+a.rows.map(function(r){var mx=Math.max.apply(null,a.rows.map(function(x){return x[1]}));return '<div class="row"><b>'+esc(r[0])+'</b><div class="track"><div class="fill" style="--w:'+(r[1]/mx*100)+'%;background:'+r[2]+'">'+(a.unit||"")+r[1].toLocaleString("en-IN")+'</div></div></div>'}).join("")+'</div>'}
+  else if(a.type==="ring"){var r=52,c=2*Math.PI*r,off=c*(1-a.percent/100);body='<div class="anim-ring" style="--off:'+off.toFixed(1)+'"><svg width="130" height="130" viewBox="0 0 130 130"><circle class="bg" cx="65" cy="65" r="'+r+'"/><circle class="fg" cx="65" cy="65" r="'+r+'" style="stroke-dasharray:'+c.toFixed(1)+'"/></svg><div class="rlabel">'+a.percent+'%</div><p class="lab">'+esc(a.label)+'</p></div>'}
+  else if(a.type==="stack"){body='<div class="anim-stack">'+a.items.map(function(t){return '<div class="it">'+t+'</div>'}).join("")+'</div>'}
+  else if(a.type==="timeline"){body='<div class="anim-timeline"><div class="tl">'+a.steps.map(function(s,i){return '<div class="seg" data-i="'+i+'"><span class="ln"></span><span class="dot"></span><span>'+esc(s)+'</span></div>'}).join("")+'</div></div>'}
+  else if(a.type==="split"){body='<div class="anim-split"><div class="p a"><h5>'+esc(a.a.h)+'</h5><ul>'+a.a.items.map(function(x){return "<li>"+esc(x)+"</li>"}).join("")+'</ul></div><div class="vs">VS</div><div class="p b"><h5>'+esc(a.b.h)+'</h5><ul>'+a.b.items.map(function(x){return "<li>"+esc(x)+"</li>"}).join("")+'</ul></div></div>'}
+  else if(a.type==="balance"){body='<div class="anim-balance"><svg viewBox="0 0 220 130"><line x1="110" y1="46" x2="110" y2="112" stroke="var(--line)" stroke-width="8" stroke-linecap="round"/><g class="beam"><rect x="10" y="42" width="200" height="8" rx="4" fill="var(--muted)"/><circle cx="20" cy="60" r="14" fill="var(--bad)"/><circle cx="200" cy="60" r="14" fill="var(--good)"/></g><circle cx="110" cy="46" r="7" fill="var(--ink)"/></svg><div class="lab">'+esc(a.label)+'</div></div>'}
+  else if(a.type==="check"){body='<div class="anim-check"><svg viewBox="0 0 110 110"><circle cx="55" cy="55" r="48"/><path d="M34 56l14 14 28-30"/></svg><div class="lab">'+esc(a.label)+'</div></div>'}
+  else if(a.type==="plane"){body='<div class="anim-plane"><div class="track"><div class="dots"></div><div class="pl">📨</div></div><div class="lab">'+esc(a.label)+'</div></div>'}
+  stage.innerHTML=body+'<button class="anim-replay" type="button" id="sos-replay">↻ Replay</button>';
+  sosPlay(stage,a);
+}
+function sosPlay(stage,a){
+  var reduced=false;try{reduced=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches}catch(e){}
+  requestAnimationFrame(function(){requestAnimationFrame(function(){
+    if(a.type==="counter"){
+      var el=stage.querySelector("[data-cnt]"),target=+el.dataset.cnt;
+      if(reduced){el.textContent=target;return}
+      var t0=null,dur=1100;
+      function step(ts){if(!t0)t0=ts;var p=Math.min(1,(ts-t0)/dur),v=Math.round(target*(1-Math.pow(1-p,3)));el.textContent=v;if(p<1)requestAnimationFrame(step)}
+      requestAnimationFrame(step);
+    } else if(a.type==="timeline"){
+      var segs=$$(".seg",stage);
+      if(reduced){segs.forEach(function(s){s.classList.add("on")});return}
+      segs.forEach(function(s,i){setTimeout(function(){s.classList.add("on")},220*i)});
+    } else {
+      var root=stage.firstElementChild;if(root)root.classList.add("go");
+    }
+  })});
+}
+document.addEventListener("click",function(e){
+  var b=e.target.closest("[data-course]");if(b){sosOpen(b.dataset.course,0);window.scrollTo(0,0);return}
+  b=e.target.closest("#sos-back");if(b){sosHub();return}
+  b=e.target.closest("#sos-side [data-li]");if(b){sosLesson=+b.dataset.li;sosRenderLesson();window.scrollTo(0,0);return}
+  b=e.target.closest("#sos-prev");if(b){sosLesson--;sosRenderLesson();window.scrollTo(0,0);return}
+  b=e.target.closest("#sos-next");if(b){sosLesson++;sosRenderLesson();window.scrollTo(0,0);return}
+  b=e.target.closest("#sos-done");if(b){var c=COX[sosCourse],l=c.lessons[sosLesson],k=c.id+":"+l.id;if(sosDone[k])delete sosDone[k];else sosDone[k]=true;sosSave(sosDone);sosRenderLesson();return}
+  b=e.target.closest("#sos-replay");if(b){var l2=COX[sosCourse].lessons[sosLesson];sosBuildAnim(l2.anim);return}
+});
+function openSOS(cid,idx){show("sos",true);if(cid)sosOpen(cid,idx||0);else sosHub()}
+sosHub();
 
 function buildKB(){
   /* FAQ */
