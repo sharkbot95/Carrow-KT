@@ -1,0 +1,5 @@
+{
+  "redirects": [
+    { "source": "/wfm", "destination": "/wfm/", "permanent": true }
+  ]
+}
