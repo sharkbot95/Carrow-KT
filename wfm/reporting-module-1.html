@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Module 1: From Data to Decisions | WFM Reporting and Analytics | Carrow Academy</title>
+<meta name="description" content="From data to decisions: inputs and outputs, report cadence, variance analysis, metric definitions and dashboard thresholds.">
+<meta name="robots" content="noindex,follow"><link rel="canonical" href="https://carrowacademy.space/reporting-module-1.html">
+<meta name="theme-color" content="#F4F7FB">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Carrow Academy"><meta property="og:title" content="Module 1: From Data to Decisions | WFM Reporting and Analytics | Carrow Academy"><meta property="og:description" content="From data to decisions: inputs and outputs, report cadence, variance analysis, metric definitions and dashboard thresholds."><meta property="og:url" content="https://carrowacademy.space/reporting-module-1.html"><meta name="twitter:card" content="summary">
+<style>/* Carrow Academy theme. Light and dark palettes. WCAG AA contrast checked. */
+:root{--bg:#F4F7FB;--card:#FFFFFF;--ink:#0F1E2E;--mute:#46596D;--line:#D3DDE8;--accent:#0B6B5F;--accent-ink:#FFFFFF;--on:#FFFFFF;--hi:#FFF1CC;--hiink:#6B4A00;--ok:#0B6B5F;--bad:#B3261E;--hero:#0F2236;--heroink:#E8EFF7;--bar:#4FD1BD;--bar2:#F0B429;color-scheme:light}
+:root[data-theme="dark"]{--bg:#0B1422;--card:#142238;--ink:#E8EFF7;--mute:#A3B4C6;--line:#26384D;--accent:#4FD1BD;--accent-ink:#0B1422;--on:#0B1422;--hi:#3A3016;--hiink:#F5D98A;--ok:#4FD1BD;--bad:#FF8A80;--hero:#08101B;--heroink:#E8EFF7;color-scheme:dark}
+@media (prefers-color-scheme:dark){:root:not([data-theme]){--bg:#0B1422;--card:#142238;--ink:#E8EFF7;--mute:#A3B4C6;--line:#26384D;--accent:#4FD1BD;--accent-ink:#0B1422;--on:#0B1422;--hi:#3A3016;--hiink:#F5D98A;--ok:#4FD1BD;--bad:#FF8A80;--hero:#08101B;color-scheme:dark}}
+html{box-sizing:border-box;scroll-padding-top:76px}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;-webkit-text-size-adjust:100%}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.topbar{display:flex;align-items:center;gap:18px;padding:10px 18px;padding-top:calc(10px + env(safe-area-inset-top,0px));background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
+.brand{font-weight:800;color:var(--ink);text-decoration:none;letter-spacing:-.01em;font-size:1.05rem}
+.brand span{color:var(--accent)}
+.tn{display:flex;gap:18px;margin-left:auto;font-size:.95rem}
+.tn a{color:var(--mute);text-decoration:none;font-weight:600}
+.tn a:hover{color:var(--ink)}
+.tt{flex:none;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--bg);color:var(--ink);display:grid;place-items:center;cursor:pointer}
+.tt svg{width:20px;height:20px}
+.brand{white-space:nowrap}
+@media (max-width:560px){.topbar{flex-wrap:wrap;gap:4px 12px;padding-left:12px;padding-right:12px}.tn{order:3;flex:1 0 100%;justify-content:space-between;margin-left:0;gap:8px;font-size:.92rem;border-top:1px solid var(--line);padding-top:6px}.tt{margin-left:auto;width:36px;height:36px}html{scroll-padding-top:110px}}
+.skip{position:absolute;left:-999px}.skip:focus{left:8px;top:8px;background:var(--card);padding:8px;z-index:50}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style><style>
+:root{box-sizing:border-box}
+header.mh{padding:18px;border-bottom:1px solid var(--line);background:var(--card)}
+header p{margin:0;color:var(--mute);font-size:.88rem}
+header h1{margin:2px 0 0;font-size:1.4rem;line-height:1.2}
+.layout{max-width:1040px;margin:0 auto;padding:22px 18px 60px;display:grid;gap:24px;grid-template-columns:260px 1fr}
+.layout>nav{align-self:start;position:sticky;top:76px}
+.layout>nav button{display:flex;gap:10px;width:100%;text-align:left;font:inherit;font-size:.95rem;background:none;border:1px solid transparent;border-radius:8px;padding:9px 10px;color:var(--ink);cursor:pointer}
+.layout>nav button[aria-current="true"]{background:var(--card);border-color:var(--line);font-weight:700}
+.layout>nav .dot{flex:none;width:20px;height:20px;border-radius:50%;border:2px solid var(--line);margin-top:2px;font-size:.7rem;display:grid;place-items:center}
+.layout>nav .done .dot{background:var(--ok);border-color:var(--ok);color:var(--on)}
+.bar{height:8px;background:var(--line);border-radius:4px;margin:0 0 14px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+.pl{font-size:.82rem;color:var(--mute);margin:0 0 4px}
+article{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:26px 28px;min-width:0}
+article h2{margin:0 0 4px;font-size:1.7rem;line-height:1.2}
+.meta{color:var(--mute);font-size:.9rem;margin:0 0 18px}
+article h3{margin:24px 0 6px;font-size:1.1rem}
+article p,article li{max-width:68ch}
+.obj,.key,.try{border-radius:8px;padding:12px 16px;margin:16px 0}
+.obj{background:var(--bg);border:1px solid var(--line)}
+.key{background:var(--hi);color:var(--hiink)}
+.try{border:2px dashed var(--accent)}
+.obj b,.key b,.try b{display:block;margin-bottom:2px}
+.obj ul,.key ul{margin:4px 0 0;padding-left:20px}
+.sc{overflow-x:auto}
+table{width:100%;border-collapse:collapse;margin:10px 0;font-size:.94rem}
+th,td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--mute)}
+.q{border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:14px 0}
+.q p{margin:0 0 8px;font-weight:700}
+.q label{display:block;padding:5px 0;cursor:pointer}
+.q .fb{margin:8px 0 0;font-size:.92rem}
+.q.right{border-color:var(--ok)}.q.wrong{border-color:var(--bad)}
+.q.right .fb{color:var(--ok)}.q.wrong .fb{color:var(--bad)}
+.btn{font:inherit;font-weight:700;background:var(--accent);color:var(--on);border:0;border-radius:8px;padding:11px 22px;cursor:pointer}
+.btn.alt{background:none;color:var(--ink);border:2px solid var(--line)}
+.row{display:flex;gap:10px;margin-top:26px;flex-wrap:wrap;justify-content:space-between}
+.res{font-weight:800;font-size:1.1rem;margin:12px 0}
+@media (max-width:820px){.layout{grid-template-columns:1fr}.layout>nav{position:static}article{padding:20px 16px}}
+.viz{margin:18px 0;border:1px solid var(--line);border-radius:10px;padding:12px;background:var(--bg)}
+.viz canvas{width:100%;height:230px;display:block}
+.viz .cap{font-size:.86rem;color:var(--mute);margin:8px 0 0}
+.viz .ctl{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:10px;font-size:.92rem}
+.viz input[type=range]{flex:1;min-width:160px;accent-color:var(--accent)}
+.layout>nav{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px}
+
+.fm{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.92rem;background:var(--bg);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:6px;padding:10px 14px;line-height:1.75;overflow-x:auto;max-width:none}
+.meter{background:var(--line);border-radius:6px;height:18px;overflow:hidden;margin:4px 0 12px}
+.meter i{display:block;height:100%;background:var(--ok);transition:width .25s}
+.meter.bad i{background:var(--bad)}
+.lbl{display:flex;justify-content:space-between;gap:12px;font-size:.92rem}
+article details{margin:10px 0}
+
+header.mh p{margin:0;color:var(--mute);font-size:.88rem}
+header.mh a{color:var(--mute)}
+header.mh h1{margin:2px 0 0;font-size:1.4rem;line-height:1.2}
+.ns{padding:18px}
+.pipe{display:flex;flex-wrap:wrap;gap:10px}
+.pipe .b{flex:1 1 140px;display:flex;flex-direction:column;gap:2px;border:2px solid var(--line);border-radius:10px;padding:10px 12px;text-align:center;background:var(--card);transition:background .3s,border-color .3s}
+.pipe .b.on{border-color:var(--accent);background:var(--hi);color:var(--hiink)}
+.pipe .n{align-self:center;width:22px;height:22px;border-radius:50%;background:var(--accent);color:var(--on);font-size:.75rem;font-weight:800;display:grid;place-items:center}
+.pipe small{color:var(--mute)}
+.pipe .b.on small{color:var(--hiink)}
+.viz .btn{margin-right:8px}
+.viz .ctl:has(input[type=range]){display:grid;grid-template-columns:minmax(170px,36%) 1fr;align-items:center}
+.viz .ctl.btns{display:flex}
+@media (max-width:560px){.viz .ctl:has(input[type=range]){grid-template-columns:1fr}}
+.pipe .b{flex:1 1 118px;min-width:0}
+.pipe .b b,.pipe .b span,.pipe .b small{overflow-wrap:normal;word-break:normal;hyphens:none}
+.pipe .b b{font-size:.85rem}
+.pipe .b{padding:8px 4px}
+@media (max-width:820px){
+ .layout{grid-template-columns:minmax(0,1fr)}
+ .layout>*{min-width:0}
+ .layout>nav{padding:10px 10px 8px}
+ #nav{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px}
+ #nav button{flex:none;width:auto;padding:6px 10px;align-items:center}
+ #nav button .nm{display:none}
+ #nav button[aria-current="true"] .nm{display:inline;white-space:nowrap}
+ .pipe .b{flex:1 1 130px}
+}
+</style>
+<script>
+(()=>{const d=document.documentElement,K='carrow-theme';
+const SUN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
+const MOON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>';
+const sys=()=>matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+const get=()=>{try{return localStorage.getItem(K)}catch(e){return null}};
+const apply=t=>{d.dataset.theme=t;const b=document.getElementById('theme-toggle');
+ if(b){b.setAttribute('aria-label',t==='dark'?'Switch to light theme':'Switch to dark theme');b.setAttribute('aria-pressed',t==='dark'?'true':'false');b.innerHTML=t==='dark'?SUN:MOON}
+ const m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='dark'?'#0B1422':'#F4F7FB';
+ dispatchEvent(new Event('carrow-theme'))};
+apply(get()||sys());
+document.addEventListener('DOMContentLoaded',()=>{
+ let b=document.getElementById('theme-toggle');
+ if(!b){const bar=document.createElement('nav');bar.className='topbar';bar.setAttribute('aria-label','Site');
+  bar.innerHTML='<a class="brand" href="index.html">Carrow <span>Academy</span></a><div class="tn"><a href="index.html">Home</a><a href="index.html#courses">Courses</a><a href="toolkit.html">Toolkit</a></div><button id="theme-toggle" class="tt" type="button"></button>';
+  document.body.prepend(bar);b=bar.querySelector('#theme-toggle')}
+ b.onclick=()=>{const n=d.dataset.theme==='dark'?'light':'dark';try{localStorage.setItem(K,n)}catch(e){}apply(n)};
+ apply(d.dataset.theme)});
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',e=>{if(!get())apply(e.matches?'dark':'light')});
+})();
+</script>
+
+</head>
+<body>
+<nav class="topbar" aria-label="Site"><a class="brand" href="index.html">Carrow <span>Academy</span></a><div class="tn"><a href="index.html">Home</a><a href="index.html#courses">Courses</a><a href="toolkit.html">Toolkit</a></div><button id="theme-toggle" class="tt" type="button" aria-label="Switch theme"></button></nav>
+<header class="mh"><p id="crumb"></p><h1 id="h1"></h1></header>
+<main class="layout" id="main-content">
+  <nav aria-label="Module lessons"><p class="pl" id="pl"></p><div class="bar"><i id="pb"></i></div><div id="nav"></div></nav>
+  <article id="main" tabindex="-1" aria-live="polite"><noscript><p class="ns">This interactive lesson needs JavaScript. Please enable it to continue.</p></noscript></article>
+</main>
+<script>
+const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let cleanup=[];const V={};
+const col=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const mkc=(el,h)=>{el.innerHTML=h;const c=el.querySelector('canvas'),D=Math.min(devicePixelRatio||1,2);
+  const fit=()=>{const w=Math.round(c.clientWidth*D),hh=Math.round(c.clientHeight*D);if(c.width!==w||c.height!==hh){c.width=w;c.height=hh}};
+  fit();return{c,x:c.getContext('2d'),D,fit}};
+// Erlang C via the Erlang B recursion (numerically stable)
+const ec=(N,A)=>{if(N<=A)return 1;let B=1;for(let i=1;i<=N;i++)B=A*B/(i+A*B);return N*B/(N-A*(1-B))};
+const slv=(N,A,aht,T)=>N>A?1-ec(N,A)*Math.exp(-(N-A)*T/aht):0;
+const asaf=(N,A,aht)=>N>A?ec(N,A)*aht/(N-A):Infinity;
+const needN=(A,aht,T,tgt)=>{for(let N=Math.max(1,Math.ceil(A));N<5000;N++)if(N>A&&slv(N,A,aht,T)>=tgt)return N};
+const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const f1=(n,d=1)=>Number.isFinite(n)?n.toLocaleString(undefined,{maximumFractionDigits:d}):'n/a';
+
+</script>
+<script>const SITE={slug:"reporting",name:"WFM Reporting and Analytics",page:"reporting.html"};</script>
+<script>
+const M={n:1,t:"From Data to Decisions",lvl:"Level 1: Foundation",lab:"45 to 60 min",next:"Module 2, Data Sources and Data Quality"};
+const vz=(n,l)=>`<div class="viz" data-v="${n}" aria-live="off" role="group" aria-label="${l}"></div>`;
+const LS=[
+{t:"Why we report: inputs, outputs and outcomes",m:"25 min",h:`
+<div class="obj"><b>By the end of this lesson you can</b><ul><li>Sort metrics into inputs, outputs and outcomes</li><li>Trace a service level result back to its drivers</li></ul></div>
+<p>Good reporting turns data into a decision. It helps to group metrics by where they sit in the cause chain:</p>
+<div class="sc"><table><tr><th>Group</th><th>Meaning</th><th>Examples</th></tr><tr><td>Inputs (drivers)</td><td>What you can plan and influence</td><td>Volume, AHT, scheduled staff, shrinkage, adherence</td></tr><tr><td>Outputs</td><td>What the operation delivers</td><td>Service level, ASA, abandonment, occupancy</td></tr><tr><td>Outcomes</td><td>What the business cares about</td><td>Cost per contact, customer satisfaction, attrition</td></tr></table></div>
+<p>Change a driver below and watch the result move. Planned for 100 calls in 30 minutes, AHT 300 s, and 21 agents for 80/20.</p>
+${vz('drivers','Interactive driver tree from volume, AHT and staffing to service level')}
+<div class="key"><b>Key takeaways</b><ul><li>Report outputs, but explain them with inputs.</li><li>A miss usually has more than one cause, so look at all the drivers together.</li></ul></div>
+<div class="try"><b>Try it</b>Find a combination of volume, AHT and staffing changes that keeps service level at about 80%.</div>`},
+{t:"Report types and cadence",m:"20 min",h:`
+<div class="obj"><b>By the end of this lesson you can</b><ul><li>Match a report to its audience and decision</li><li>Choose a sensible cadence</li></ul></div>
+<div class="sc"><table><tr><th>Report</th><th>Cadence</th><th>Audience</th><th>Decision it supports</th></tr>
+<tr><td>Intraday snapshot</td><td>Every 30 to 60 minutes</td><td>Real-time team, operations</td><td>Move people now</td></tr>
+<tr><td>Daily summary</td><td>Each morning</td><td>Operations managers</td><td>What happened and what to fix today</td></tr>
+<tr><td>Weekly performance</td><td>Weekly</td><td>Managers and WFM</td><td>Adjust schedules, coaching, forecast</td></tr>
+<tr><td>Monthly review</td><td>Monthly</td><td>Senior leaders</td><td>Hiring, budget, targets</td></tr>
+<tr><td>Incident report</td><td>After an event</td><td>Everyone affected</td><td>Prevent a repeat</td></tr></table></div>
+<h3>Design rules</h3>
+<ul><li>One report, one audience, one main question.</li><li>Lead with the headline, then the numbers, then the actions.</li><li>Use the same definitions in every report.</li><li>If a report never changes a decision, change it or retire it.</li></ul>
+<div class="key"><b>Key takeaways</b><ul><li>Cadence follows how fast a decision can be taken.</li><li>Different audiences need different detail from the same data.</li></ul></div>
+<div class="try"><b>Try it</b>List the reports your center produces. For each, name the decision it supports.</div>`},
+{t:"Variance analysis: forecast versus actual",m:"30 min",h:`
+<div class="obj"><b>By the end of this lesson you can</b><ul><li>Split a workload variance into volume and AHT effects</li><li>Explain a missed interval in numbers</li></ul></div>
+<p>Workload depends on volume and AHT, so a gap between forecast and actual has two sources. Splitting them tells you whether to challenge the volume forecast or the AHT assumption.</p>
+<p class="fm">Workload = Volume × AHT ÷ 3,600 (hours)<br>Volume effect = (Actual volume − Forecast volume) × Forecast AHT ÷ 3,600<br>AHT effect = Actual volume × (Actual AHT − Forecast AHT) ÷ 3,600<br>Volume effect + AHT effect = Actual workload − Forecast workload</p>
+<p>The AHT effect uses actual volume so the two effects add up exactly with nothing left over. Another convention assigns the combined term separately, so say which one you use.</p>
+${vz('waterfall','Interactive waterfall splitting a workload variance into volume and AHT effects')}
+<div class="key"><b>Key takeaways</b><ul><li>Volume and AHT misses call for different fixes.</li><li>Convert both to hours so they can be compared and added.</li></ul></div>
+<div class="try"><b>Try it</b>Keep total workload the same but make volume higher and AHT lower. What happens to the two effects?</div>`},
+{t:"Definitions: one metric, many numbers",m:"25 min",h:`
+<div class="obj"><b>By the end of this lesson you can</b><ul><li>Show how definitions change a reported number</li><li>Write a metric dictionary entry</li></ul></div>
+<p>Service level is often given as "calls answered within the threshold ÷ calls offered", but platforms and contracts differ in how abandoned calls are treated. Some count every abandon, some exclude very short abandons, some divide by answered calls only. The same day can give very different results:</p>
+<p class="fm">A: answered in threshold ÷ offered<br>B: answered in threshold ÷ (offered − short abandons)<br>C: answered in threshold ÷ answered<br>D: (answered in threshold + abandoned in threshold) ÷ (answered + abandoned)<br>Abandon rate (excluding short) = (Abandons − Short abandons) ÷ (Offered − Short abandons)</p>
+${vz('defs','Interactive comparison of service level definitions on the same day of data')}
+<h3>A metric dictionary entry</h3>
+<ul><li><b>Name:</b> Service level</li><li><b>Formula:</b> exact numerator and denominator</li><li><b>Inclusions and exclusions:</b> short abandons, callbacks, transfers, channels</li><li><b>Threshold:</b> for example 20 seconds</li><li><b>Source and owner:</b> system and team</li></ul>
+<div class="key"><b>Key takeaways</b><ul><li>Never compare numbers across systems or contracts without checking definitions.</li><li>Document every metric once and use it everywhere.</li></ul></div>
+<div class="try"><b>Try it</b>How many short abandons would it take for definition B to reach 85%?</div>`},
+{t:"Thresholds, alerts and dashboards",m:"25 min",h:`
+<div class="obj"><b>By the end of this lesson you can</b><ul><li>Set a traffic-light rule that flags what matters</li><li>Explain alert fatigue</li></ul></div>
+<p>A dashboard should show what is wrong and how wrong, quickly. A common approach is green (on target), amber (slightly below) and red (well below). If thresholds are too tight, everything is flagged and people stop looking. If they are too loose, real problems hide. The strip below shows service level for each interval of a day.</p>
+${vz('rag','Interactive traffic-light strip of service level by interval with adjustable thresholds')}
+<h3>Dashboard principles</h3>
+<ul><li>Put the most important number first and make it large.</li><li>Use colour for status, not decoration, and never rely on colour alone.</li><li>Show the target next to the actual.</li><li>Allow drill-down from summary to interval.</li></ul>
+<div class="key"><b>Key takeaways</b><ul><li>Thresholds are decisions: set them from the cost of being wrong, not from habit.</li><li>Fewer, clearer alerts beat many noisy ones.</li></ul></div>
+<div class="try"><b>Try it</b>Set the amber band to 2 points. How many intervals are red, and does that match what you would act on?</div>`}
+];
+const QZ=[
+["Which of these is an input (driver) rather than an output?",["Service level","ASA","Shrinkage","Abandon rate"],2,"Shrinkage is something planned and influenced. Service level, ASA and abandon rate are results."],
+["Forecast 1,000 calls at 300 s and actual 1,100 at 330 s. What is the volume effect in hours?",["8.33","9.17","17.5","83.3"],0,"(1,100 − 1,000) × 300 ÷ 3,600 = 8.33 hours."],
+["Using the same data, what is the AHT effect in hours?",["8.33","9.17","17.5","100.8"],1,"1,100 × (330 − 300) ÷ 3,600 = 9.17 hours."],
+["The forecast workload is 83.33 hours. What is the actual workload?",["91.67","100.83","110.0","83.33"],1,"83.33 + 8.33 + 9.17 = 100.83, which equals 1,100 × 330 ÷ 3,600."],
+["Offered 1,000, answered within 20 s 780, answered later 150. What is service level using answered within threshold ÷ offered?",["78%","83.9%","85%","93%"],0,"780 ÷ 1,000 = 78%."],
+["Using the same data and dividing by answered calls only gives about...",["78%","80%","83.9%","93%"],2,"780 ÷ (780 + 150) = 83.9%."],
+["Why can two systems report different service level for the same day?",["They count abandons and short abandons differently","They use different clocks only","Service level is random","It never differs"],0,"Definitions differ in how abandons, short abandons and flow-outs are treated."],
+["Which is the best reason to document metrics in a dictionary?",["It looks professional","It ensures everyone calculates and reads numbers the same way","It reduces calls","It replaces dashboards"],1,"A shared definition prevents mismatched numbers."],
+["What is a risk of very tight alert thresholds?",["Alert fatigue, because too many intervals are flagged","Missing every problem","Higher volume","Lower AHT"],0,"If everything is flagged, people stop paying attention."],
+["Which report supports a decision to move people within the hour?",["Monthly review","Intraday snapshot","Annual summary","Budget report"],1,"Cadence follows how fast a decision can be made."]
+];
+const LAB=`<h3>Lab: Explain a miss</h3>
+<ol><li>In Lesson 1, set volume +10%, AHT +10% and staffing −5%. Record service level and ASA. Which single change hurts most when applied alone?</li><li>In Lesson 3, use forecast 1,000 calls at 300 s and actual 1,200 calls at 285 s. Calculate the volume effect, AHT effect and total variance in hours.</li><li>In Lesson 4, find the number of short abandons that makes definition A and definition B differ by at least 3 points.</li><li>Write a five-line daily summary for operations: headline, two causes with numbers, and one action.</li></ol>
+<details><summary><b>Check your numbers</b></summary><p>Step 2: forecast workload 83.33 h; actual 1,200 × 285 ÷ 3,600 = 95.0 h. Volume effect = 200 × 300 ÷ 3,600 = 16.67 h. AHT effect = 1,200 × (−15) ÷ 3,600 = −5.0 h. Total variance = +11.67 h (16.67 − 5.0). Steps 1 and 3 depend on your slider settings.</p></details>
+<div class="key"><b>Submit</b>Your numbers and the five-line summary.</div>
+<h3>What you learned</h3><ul><li>Inputs, outputs and outcomes, and how drivers affect service level.</li><li>Report types, cadence and audience.</li><li>Splitting a workload variance into volume and AHT effects.</li><li>Why definitions matter and how to document them.</li><li>Thresholds, alert fatigue and dashboard principles.</li></ul>`;
+
+V.drivers=el=>{
+ el.innerHTML='<div class="ctl"><label for="dv">Volume vs forecast: <b id="dvv">0</b>%</label><input id="dv" type="range" min="-20" max="30" value="0"></div><div class="ctl"><label for="da">AHT vs forecast: <b id="dav">0</b>%</label><input id="da" type="range" min="-20" max="30" value="0"></div><div class="ctl"><label for="ds">Staff available vs plan: <b id="dsv">0</b>%</label><input id="ds" type="range" min="-30" max="20" value="0"></div><div id="dt" class="pipe"></div><p class="cap" id="dx"></p>';
+ const g=id=>el.querySelector(id),R=['#dv','#da','#ds'].map(g),Af=100*300/1800,N0=needN(Af,300,20,.8);
+ const run=()=>{const [v,a,s]=R.map(r=>+r.value);['v','a','s'].forEach((k,i)=>g('#d'+k+'v').textContent=(R[i].value>0?'+':'')+R[i].value);
+  const A=Af*(1+v/100)*(1+a/100),N=Math.max(1,Math.round(N0*(1+s/100))),sl=slv(N,A,300,20)*100,asa=asaf(N,A,300),oc=Math.min(1,A/N)*100;
+  const B=[['Volume',f1(100*(1+v/100),0)+' calls','forecast 100'],['AHT',f1(300*(1+a/100),0)+' s','forecast 300 s'],['Workload',f1(A,1)+' Erlangs','forecast 16.7'],['Agents',N,`plan ${N0}`],['Service level',f1(sl,1)+'%','target 80%'],['Occupancy',f1(oc,0)+'%',Number.isFinite(asa)?`ASA ${f1(asa,0)} s`:'queue keeps growing']];
+  g('#dt').innerHTML=B.map((b,k)=>`<div class="b ${k===4?(sl>=80?'on':''):''}" ${k===4&&sl<80?'style="border-color:var(--bad)"':''}><span class="n">${k+1}</span><b>${b[0]}</b><span>${b[1]}</span><small>${b[2]}</small></div>`).join('');
+  g('#dx').textContent=A>=N?'Workload is at or above the number of agents, so the queue grows and service level collapses.':`Service level ${f1(sl,1)}% against a target of 80%. Planned for ${N0} agents.`};
+ R.forEach(r=>r.oninput=run);run();return()=>{}};
+
+V.waterfall=el=>{
+ const{c,x,D,fit}=mkc(el,'<canvas></canvas><div class="ctl"><label for="wv0">Forecast volume: <b id="wv0v">1000</b></label><input id="wv0" type="range" min="200" max="3000" step="50" value="1000"></div><div class="ctl"><label for="wv1">Actual volume: <b id="wv1v">1100</b></label><input id="wv1" type="range" min="200" max="3000" step="50" value="1100"></div><div class="ctl"><label for="wa0">Forecast AHT (s): <b id="wa0v">300</b></label><input id="wa0" type="range" min="120" max="600" step="10" value="300"></div><div class="ctl"><label for="wa1">Actual AHT (s): <b id="wa1v">330</b></label><input id="wa1" type="range" min="120" max="600" step="10" value="330"></div><p class="cap" id="wt"></p>');
+ const g=id=>el.querySelector(id),R=['#wv0','#wv1','#wa0','#wa1'].map(g);
+ const draw=()=>{fit();const [v0,v1,a0,a1]=R.map(r=>+r.value);['wv0','wv1','wa0','wa1'].forEach((k,i)=>g('#'+k+'v').textContent=R[i].value);
+  const W0=v0*a0/3600,W1=v1*a1/3600,ve=(v1-v0)*a0/3600,ae=v1*(a1-a0)/3600,w=c.width,h=c.height,mx=Math.max(W0,W1,W0+ve,W1-ae)*1.2,y=v=>h-24*D-v/mx*(h-40*D),bw=w/4,ok=col('--ok'),bad=col('--bad'),ac=col('--accent'),ink=col('--ink'),mute=col('--mute');
+  x.clearRect(0,0,w,h);x.font=`${12*D}px system-ui,sans-serif`;x.textAlign='center';
+  const bar=(i,from,to,cl,lb,val)=>{const t=Math.min(y(from),y(to)),hh=Math.max(2*D,Math.abs(y(from)-y(to)));x.fillStyle=cl;x.globalAlpha=.85;x.fillRect(i*bw+bw*.15,t,bw*.7,hh);x.globalAlpha=1;x.fillStyle=ink;x.fillText(val,i*bw+bw/2,t-5*D);x.fillStyle=mute;x.fillText(lb,i*bw+bw/2,h-6*D)};
+  bar(0,0,W0,ac,'Forecast',f1(W0,1)+' h');bar(1,W0,W0+ve,ve>=0?bad:ok,'Volume effect',(ve>=0?'+':'')+f1(ve,1)+' h');bar(2,W0+ve,W0+ve+ae,ae>=0?bad:ok,'AHT effect',(ae>=0?'+':'')+f1(ae,1)+' h');bar(3,0,W1,ac,'Actual',f1(W1,1)+' h');
+  g('#wt').textContent=`Forecast workload ${f1(W0,2)} h. Volume effect ${f1(ve,2)} h = (${v1} − ${v0}) × ${a0} ÷ 3,600. AHT effect ${f1(ae,2)} h = ${v1} × (${a1} − ${a0}) ÷ 3,600. Actual workload ${f1(W1,2)} h. Check: ${f1(W0,2)} + ${f1(ve,2)} + ${f1(ae,2)} = ${f1(W0+ve+ae,2)}.`};
+ R.forEach(r=>r.oninput=draw);draw();return()=>{}};
+
+V.defs=el=>{
+ el.innerHTML='<div class="ctl"><label for="fo">Calls offered: <b id="fov">1000</b></label><input id="fo" type="range" min="500" max="2000" step="50" value="1000"></div><div class="ctl"><label for="fa">Answered within 20 s: <b id="fav">780</b></label><input id="fa" type="range" min="300" max="1500" step="10" value="780"></div><div class="ctl"><label for="fl">Answered after 20 s: <b id="flv">150</b></label><input id="fl" type="range" min="0" max="500" step="10" value="150"></div><div class="ctl"><label for="fs">Short abandons (under 5 s): <b id="fsv">25</b></label><input id="fs" type="range" min="0" max="100" step="5" value="25"></div><div class="ctl"><label for="fw">Abandons within 20 s (including short): <b id="fwv">40</b></label><input id="fw" type="range" min="0" max="150" step="5" value="40"></div><div id="ft"></div><p class="cap" id="fx"></p>';
+ const g=id=>el.querySelector(id),R=['#fo','#fa','#fl','#fs','#fw'].map(g);
+ const run=()=>{let [o,a,l,s,w]=R.map(r=>+r.value);['o','a','l','s','w'].forEach((k,i)=>g('#f'+k+'v').textContent=R[i].value);
+  const ab=Math.max(0,o-a-l),sh=Math.min(s,ab),aw=Math.min(Math.max(w,sh),ab);
+  const rows=[['A: answered in 20 s ÷ offered',a/o*100],['B: ÷ (offered − short abandons)',o-sh>0?a/(o-sh)*100:0],['C: ÷ answered only',a+l>0?a/(a+l)*100:0],['D: (answered in 20 s + abandoned in 20 s) ÷ (answered + abandoned)',a+l+ab>0?(a+aw)/(a+l+ab)*100:0]];
+  g('#ft').innerHTML=rows.map(([l,v])=>`<div class="lbl"><span>${l}</span><b>${f1(v,1)}%</b></div><div class="meter ${v<80?'bad':''}"><i style="width:${Math.min(100,v)}%"></i></div>`).join('');
+  g('#fx').textContent=`Abandoned calls: ${ab} (${f1(ab/o*100,1)}% of offered). Abandon rate including short abandons ${f1(ab/o*100,1)}%; excluding short abandons ${f1(o-sh>0?(ab-sh)/(o-sh)*100:0,1)}%. Same day, four service levels.${a+l+ab!==o?' Inputs do not add up to offered calls, so the remainder is treated as unanswered.':''}`};
+ R.forEach(r=>r.oninput=run);run();return()=>{}};
+
+V.rag=el=>{
+ const SL=[91,88,84,79,72,68,74,81,85,83,77,70,66,73,80,86,89,92,94,90,87,93,95,96];
+ const tl=i=>{const m=480+i*30;return String(Math.floor(m/60)).padStart(2,'0')+':'+(m%60?'30':'00')};
+ el.innerHTML='<div class="ctl"><label for="gt">Target: <b id="gtv">80</b>%</label><input id="gt" type="range" min="60" max="95" value="80"></div><div class="ctl"><label for="gb">Amber band below target: <b id="gbv">5</b> points</label><input id="gb" type="range" min="0" max="20" value="5"></div><div id="gs" style="display:grid;grid-template-columns:repeat(12,1fr);gap:4px;margin:10px 0"></div><p class="cap" id="gx"></p>';
+ const g=id=>el.querySelector(id),gt=g('#gt'),gb=g('#gb');
+ const run=()=>{const t=+gt.value,b=+gb.value;g('#gtv').textContent=t;g('#gbv').textContent=b;let G=0,A=0,Rd=0;
+  g('#gs').innerHTML=SL.map((v,i)=>{const s=v>=t?'g':v>=t-b?'a':'r';if(s==='g')G++;else if(s==='a')A++;else Rd++;const bg=s==='g'?'#0B6B5F':s==='a'?'#E0A21B':'#B3261E',fg=s==='a'?'#2A1D00':'#fff',lb=s==='g'?'On target':s==='a'?'Slightly below':'Well below';return `<div style="background:${bg};color:${fg};border-radius:6px;padding:6px 2px;text-align:center;font-size:.78rem;line-height:1.2"><div>${tl(i)}</div><b>${v}%</b><div>${lb}</div></div>`}).join('');
+  g('#gx').textContent=`Of 24 intervals: ${G} on target, ${A} slightly below (amber), ${Rd} well below (red). Each tile shows its status in words as well as colour. Flagged intervals (amber plus red): ${A+Rd}.${A+Rd>12?' More than half the day is flagged, which risks alert fatigue.':''}`};
+ gt.oninput=gb.oninput=run;run();return()=>{}};
+
+Object.assign(M,{cp:"reporting.html",course:"WFM Reporting and Analytics",k:"reporting",nh:null});
+</script>
+<script>
+document.title=`Module ${M.n}: ${M.t} | ${M.course} | Carrow Academy`;
+document.getElementById('h1').textContent=`Module ${M.n}: ${M.t}`;
+document.getElementById('crumb').innerHTML=`<a href="index.html">Carrow Academy</a> / <a href="${M.cp}">${M.course}</a> / ${M.lvl}`;
+const main=document.getElementById('main'),navEl=document.getElementById('nav');
+const KEY='carrow-'+(M.k||'rta')+'-m'+M.n;
+let cur=0,done=new Set(),total=LS.length+2;
+try{done=new Set(JSON.parse(localStorage.getItem(KEY)||'[]'))}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify([...done]))}catch(e){}};
+const names=[...LS.map((l,i)=>`${i+1}. ${l.t}`),"Knowledge check","Lab and wrap-up"];
+function nav(){
+  navEl.innerHTML=names.map((n,i)=>`<button data-i="${i}" class="${done.has(i)?'done':''}" ${i===cur?'aria-current="true"':''}><span class="dot">${done.has(i)?'&#10003;':i+1}</span><span class="nm">${n}</span></button>`).join('');
+  navEl.querySelectorAll('button').forEach(b=>b.onclick=()=>go(+b.dataset.i));
+  document.getElementById('pb').style.width=(done.size/total*100)+'%';
+  document.getElementById('pl').textContent=`${done.size} of ${total} complete`;
+}
+function foot(i){return `<div class="row"><button class="btn alt" ${i===0?'disabled':''} onclick="go(${i-1})">Previous</button><button class="btn" onclick="finish(${i})">${i===total-1?'Complete module':'Mark complete and continue'}</button></div>`}
+function finish(i){done.add(i);save();if(i<total-1)go(i+1);else{nav();if(!main.querySelector('.res.fin'))main.insertAdjacentHTML('beforeend',`<p class="res fin">Module ${M.n} complete. Next: ${M.nh?`<a href="${M.nh}">${M.next}</a>`:`${M.next} (coming soon)`}. <a href="${M.cp}">Back to the course outline</a></p>`)}}
+function go(i,quiet){
+  cur=i;cleanup.forEach(f=>f());cleanup=[];
+  if(i<LS.length){const l=LS[i];main.innerHTML=`<p class="pl">Lesson ${i+1} of ${LS.length}</p><h2>${l.t}</h2><p class="meta">${l.m} read</p>${l.h}${foot(i)}`}
+  else if(i===LS.length){
+    main.innerHTML=`<h2>Knowledge check</h2><p class="meta">${QZ.length} questions. Pass mark 70%.</p>`+QZ.map((q,n)=>`<div class="q" id="q${n}"><p>${n+1}. ${q[0]}</p>${shuf(q[1].map((o,k)=>[o,k])).map(([o,k])=>`<label><input type="radio" name="q${n}" value="${k}"> ${o}</label>`).join('')}<div class="fb"></div></div>`).join('')+`<button class="btn" id="chk">Check answers</button><div class="res" id="sc" role="status"></div>`+foot(i).replace('Mark complete and continue','Continue');
+    document.getElementById('chk').onclick=()=>{let s=0;QZ.forEach((q,n)=>{const v=document.querySelector(`input[name=q${n}]:checked`),b=document.getElementById('q'+n),ok=v&&+v.value===q[2];if(ok)s++;b.className='q '+(ok?'right':'wrong');b.querySelector('.fb').textContent=(ok?'Correct. ':v?'Not quite. ':'Unanswered. ')+q[3]});const p=Math.round(s/QZ.length*100);document.getElementById('sc').textContent=`Score: ${s}/${QZ.length} (${p}%). ${p>=70?'Passed.':'Review the lessons and try again.'}`;if(p>=70){done.add(i);save();nav()}};
+  } else main.innerHTML=`<h2>Lab and wrap-up</h2><p class="meta">${M.lab}</p>${LAB}${foot(i)}`;
+  main.querySelectorAll('.viz').forEach(e=>cleanup.push(V[e.dataset.v](e)));
+  nav();if(!quiet)main.scrollIntoView({behavior:rm?'auto':'smooth',block:'start'});
+}
+addEventListener('carrow-theme',()=>{cleanup.forEach(f=>f());cleanup=[];main.querySelectorAll('.viz').forEach(e=>cleanup.push(V[e.dataset.v](e)))});
+go(0,true);
+</script>
+<script>
+/* Carrow Academy: animated data background. Include once per page, before </body>.
+   Uses the page's --accent color. Respects reduced motion, pauses in hidden tabs. */
+(()=>{
+const lite=!!(navigator.connection&&navigator.connection.saveData)||(navigator.deviceMemory&&navigator.deviceMemory<=1);
+const rm=matchMedia('(prefers-reduced-motion: reduce)').matches||lite;
+const c=document.createElement('canvas');
+c.setAttribute('aria-hidden','true');
+c.style.cssText='position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none';
+document.body.prepend(c);
+const x=c.getContext('2d');
+let W,H,D,t=0,last=0,pts=[];
+function size(){
+  D=Math.min(devicePixelRatio||1,2);W=c.width=Math.round(innerWidth*D);H=c.height=Math.round(innerHeight*D);
+  pts=Array.from({length:36},()=>({x:Math.random()*W,y:Math.random()*H,r:(1+Math.random()*2)*D,v:(.15+Math.random()*.35)*D}));
+}
+function draw(){
+  const ac=getComputedStyle(document.documentElement).getPropertyValue('--accent').trim()||'#0F6E64';
+  x.clearRect(0,0,W,H);x.strokeStyle=ac;x.fillStyle=ac;
+  // data grid
+  x.globalAlpha=.05;x.lineWidth=D;const g=80*D;
+  for(let i=0;i<W;i+=g){x.beginPath();x.moveTo(i,0);x.lineTo(i,H);x.stroke()}
+  for(let j=0;j<H;j+=g){x.beginPath();x.moveTo(0,j);x.lineTo(W,j);x.stroke()}
+  // flowing trend lines
+  [[.28,.05,1,.5],[.42,.07,1.5,.8],[.58,.04,2.2,.35]].forEach(([b,a,f,s],k)=>{
+    x.globalAlpha=.13-k*.03;x.lineWidth=2*D;x.beginPath();
+    for(let i=0;i<=W;i+=8*D){
+      const u=i/W,y=H*(b+a*Math.sin(u*6*f+t*s)+a*.5*Math.sin(u*13+t*s*1.7+k));
+      i?x.lineTo(i,y):x.moveTo(i,y);
+    }
+    x.stroke();
+  });
+  // rising and falling interval bars
+  x.globalAlpha=.06;const bw=26*D,n=Math.ceil(W/bw);
+  for(let i=0;i<n;i++){
+    const h=H*.13*(.5+.5*Math.sin(i*.45+t*.7))*(.6+.4*Math.sin(i*.17+t*.2));
+    x.fillRect(i*bw,H-h,18*D,h);
+  }
+  // drifting data points
+  x.globalAlpha=.15;
+  pts.forEach(p=>{if(!rm){p.y-=p.v;if(p.y<-10)p.y=H+10}x.beginPath();x.arc(p.x,p.y,p.r,0,6.3);x.fill()});
+  x.globalAlpha=1;
+}
+function loop(ts){
+  if(!last)last=ts;
+  if(!document.hidden&&ts-last>33){t+=Math.min((ts-last)/1000,.1);last=ts;draw()}
+  requestAnimationFrame(loop);
+}
+size();draw();
+document.addEventListener('carrow-theme',draw);
+addEventListener('resize',()=>{size();draw()});
+addEventListener('carrow-theme',draw);
+if(!rm)requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

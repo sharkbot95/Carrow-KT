@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Module 2: Contact Center Operations Fundamentals | WFM Real-Time Analyst | Carrow Academy</title>
+<meta name="description" content="Contact center fundamentals: channels, technology, queues, skills, agent states and KPIs.">
+<meta name="robots" content="noindex,follow"><link rel="canonical" href="https://carrowacademy.space/rta-module-2.html">
+<meta name="theme-color" content="#F4F7FB">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Carrow Academy"><meta property="og:title" content="Module 2: Contact Center Operations Fundamentals | WFM Real-Time Analyst | Carrow Academy"><meta property="og:description" content="Contact center fundamentals: channels, technology, queues, skills, agent states and KPIs."><meta property="og:url" content="https://carrowacademy.space/rta-module-2.html"><meta name="twitter:card" content="summary">
+<style>/* Carrow Academy theme. Light and dark palettes. WCAG AA contrast checked. */
+:root{--bg:#F4F7FB;--card:#FFFFFF;--ink:#0F1E2E;--mute:#46596D;--line:#D3DDE8;--accent:#0B6B5F;--accent-ink:#FFFFFF;--on:#FFFFFF;--hi:#FFF1CC;--hiink:#6B4A00;--ok:#0B6B5F;--bad:#B3261E;--hero:#0F2236;--heroink:#E8EFF7;--bar:#4FD1BD;--bar2:#F0B429;color-scheme:light}
+:root[data-theme="dark"]{--bg:#0B1422;--card:#142238;--ink:#E8EFF7;--mute:#A3B4C6;--line:#26384D;--accent:#4FD1BD;--accent-ink:#0B1422;--on:#0B1422;--hi:#3A3016;--hiink:#F5D98A;--ok:#4FD1BD;--bad:#FF8A80;--hero:#08101B;--heroink:#E8EFF7;color-scheme:dark}
+@media (prefers-color-scheme:dark){:root:not([data-theme]){--bg:#0B1422;--card:#142238;--ink:#E8EFF7;--mute:#A3B4C6;--line:#26384D;--accent:#4FD1BD;--accent-ink:#0B1422;--on:#0B1422;--hi:#3A3016;--hiink:#F5D98A;--ok:#4FD1BD;--bad:#FF8A80;--hero:#08101B;color-scheme:dark}}
+html{box-sizing:border-box;scroll-padding-top:76px}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;-webkit-text-size-adjust:100%}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.topbar{display:flex;align-items:center;gap:18px;padding:10px 18px;padding-top:calc(10px + env(safe-area-inset-top,0px));background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
+.brand{font-weight:800;color:var(--ink);text-decoration:none;letter-spacing:-.01em;font-size:1.05rem}
+.brand span{color:var(--accent)}
+.tn{display:flex;gap:18px;margin-left:auto;font-size:.95rem}
+.tn a{color:var(--mute);text-decoration:none;font-weight:600}
+.tn a:hover{color:var(--ink)}
+.tt{flex:none;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--bg);color:var(--ink);display:grid;place-items:center;cursor:pointer}
+.tt svg{width:20px;height:20px}
+.brand{white-space:nowrap}
+@media (max-width:560px){.topbar{flex-wrap:wrap;gap:4px 12px;padding-left:12px;padding-right:12px}.tn{order:3;flex:1 0 100%;justify-content:space-between;margin-left:0;gap:8px;font-size:.92rem;border-top:1px solid var(--line);padding-top:6px}.tt{margin-left:auto;width:36px;height:36px}html{scroll-padding-top:110px}}
+.skip{position:absolute;left:-999px}.skip:focus{left:8px;top:8px;background:var(--card);padding:8px;z-index:50}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style><style>
+:root{box-sizing:border-box}
+header.mh{padding:18px;border-bottom:1px solid var(--line);background:var(--card)}
+header p{margin:0;color:var(--mute);font-size:.88rem}
+header h1{margin:2px 0 0;font-size:1.4rem;line-height:1.2}
+.layout{max-width:1040px;margin:0 auto;padding:22px 18px 60px;display:grid;gap:24px;grid-template-columns:260px 1fr}
+.layout>nav{align-self:start;position:sticky;top:76px}
+.layout>nav button{display:flex;gap:10px;width:100%;text-align:left;font:inherit;font-size:.95rem;background:none;border:1px solid transparent;border-radius:8px;padding:9px 10px;color:var(--ink);cursor:pointer}
+.layout>nav button[aria-current="true"]{background:var(--card);border-color:var(--line);font-weight:700}
+.layout>nav .dot{flex:none;width:20px;height:20px;border-radius:50%;border:2px solid var(--line);margin-top:2px;font-size:.7rem;display:grid;place-items:center}
+.layout>nav .done .dot{background:var(--ok);border-color:var(--ok);color:var(--on)}
+.bar{height:8px;background:var(--line);border-radius:4px;margin:0 0 14px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+.pl{font-size:.82rem;color:var(--mute);margin:0 0 4px}
+article{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:26px 28px;min-width:0}
+article h2{margin:0 0 4px;font-size:1.7rem;line-height:1.2}
+.meta{color:var(--mute);font-size:.9rem;margin:0 0 18px}
+article h3{margin:24px 0 6px;font-size:1.1rem}
+article p,article li{max-width:68ch}
+.obj,.key,.try{border-radius:8px;padding:12px 16px;margin:16px 0}
+.obj{background:var(--bg);border:1px solid var(--line)}
+.key{background:var(--hi);color:var(--hiink)}
+.try{border:2px dashed var(--accent)}
+.obj b,.key b,.try b{display:block;margin-bottom:2px}
+.obj ul,.key ul{margin:4px 0 0;padding-left:20px}
+.sc{overflow-x:auto}
+table{width:100%;border-collapse:collapse;margin:10px 0;font-size:.94rem}
+th,td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--mute)}
+.q{border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:14px 0}
+.q p{margin:0 0 8px;font-weight:700}
+.q label{display:block;padding:5px 0;cursor:pointer}
+.q .fb{margin:8px 0 0;font-size:.92rem}
+.q.right{border-color:var(--ok)}.q.wrong{border-color:var(--bad)}
+.q.right .fb{color:var(--ok)}.q.wrong .fb{color:var(--bad)}
+.btn{font:inherit;font-weight:700;background:var(--accent);color:var(--on);border:0;border-radius:8px;padding:11px 22px;cursor:pointer}
+.btn.alt{background:none;color:var(--ink);border:2px solid var(--line)}
+.row{display:flex;gap:10px;margin-top:26px;flex-wrap:wrap;justify-content:space-between}
+.res{font-weight:800;font-size:1.1rem;margin:12px 0}
+@media (max-width:820px){.layout{grid-template-columns:1fr}.layout>nav{position:static}article{padding:20px 16px}}
+.viz{margin:18px 0;border:1px solid var(--line);border-radius:10px;padding:12px;background:var(--bg)}
+.viz canvas{width:100%;height:230px;display:block}
+.viz .cap{font-size:.86rem;color:var(--mute);margin:8px 0 0}
+.viz .ctl{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:10px;font-size:.92rem}
+.viz input[type=range]{flex:1;min-width:160px;accent-color:var(--accent)}
+.layout>nav{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px}
+
+.fm{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.92rem;background:var(--bg);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:6px;padding:10px 14px;line-height:1.75;overflow-x:auto;max-width:none}
+.meter{background:var(--line);border-radius:6px;height:18px;overflow:hidden;margin:4px 0 12px}
+.meter i{display:block;height:100%;background:var(--ok);transition:width .25s}
+.meter.bad i{background:var(--bad)}
+.lbl{display:flex;justify-content:space-between;gap:12px;font-size:.92rem}
+article details{margin:10px 0}
+
+header.mh p{margin:0;color:var(--mute);font-size:.88rem}
+header.mh a{color:var(--mute)}
+header.mh h1{margin:2px 0 0;font-size:1.4rem;line-height:1.2}
+.ns{padding:18px}
+.pipe{display:flex;flex-wrap:wrap;gap:10px}
+.pipe .b{flex:1 1 140px;display:flex;flex-direction:column;gap:2px;border:2px solid var(--line);border-radius:10px;padding:10px 12px;text-align:center;background:var(--card);transition:background .3s,border-color .3s}
+.pipe .b.on{border-color:var(--accent);background:var(--hi);color:var(--hiink)}
+.pipe .n{align-self:center;width:22px;height:22px;border-radius:50%;background:var(--accent);color:var(--on);font-size:.75rem;font-weight:800;display:grid;place-items:center}
+.pipe small{color:var(--mute)}
+.pipe .b.on small{color:var(--hiink)}
+.viz .btn{margin-right:8px}
+.viz .ctl:has(input[type=range]){display:grid;grid-template-columns:minmax(170px,36%) 1fr;align-items:center}
+.viz .ctl.btns{display:flex}
+@media (max-width:560px){.viz .ctl:has(input[type=range]){grid-template-columns:1fr}}
+.pipe .b{flex:1 1 118px;min-width:0}
+.pipe .b b,.pipe .b span,.pipe .b small{overflow-wrap:normal;word-break:normal;hyphens:none}
+.pipe .b b{font-size:.85rem}
+.pipe .b{padding:8px 4px}
+@media (max-width:820px){
+ .layout{grid-template-columns:minmax(0,1fr)}
+ .layout>*{min-width:0}
+ .layout>nav{padding:10px 10px 8px}
+ #nav{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px}
+ #nav button{flex:none;width:auto;padding:6px 10px;align-items:center}
+ #nav button .nm{display:none}
+ #nav button[aria-current="true"] .nm{display:inline;white-space:nowrap}
+ .pipe .b{flex:1 1 130px}
+}
+</style>
+<script>
+(()=>{const d=document.documentElement,K='carrow-theme';
+const SUN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
+const MOON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>';
+const sys=()=>matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+const get=()=>{try{return localStorage.getItem(K)}catch(e){return null}};
+const apply=t=>{d.dataset.theme=t;const b=document.getElementById('theme-toggle');
+ if(b){b.setAttribute('aria-label',t==='dark'?'Switch to light theme':'Switch to dark theme');b.setAttribute('aria-pressed',t==='dark'?'true':'false');b.innerHTML=t==='dark'?SUN:MOON}
+ const m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='dark'?'#0B1422':'#F4F7FB';
+ dispatchEvent(new Event('carrow-theme'))};
+apply(get()||sys());
+document.addEventListener('DOMContentLoaded',()=>{
+ let b=document.getElementById('theme-toggle');
+ if(!b){const bar=document.createElement('nav');bar.className='topbar';bar.setAttribute('aria-label','Site');
+  bar.innerHTML='<a class="brand" href="index.html">Carrow <span>Academy</span></a><div class="tn"><a href="index.html">Home</a><a href="index.html#courses">Courses</a><a href="toolkit.html">Toolkit</a></div><button id="theme-toggle" class="tt" type="button"></button>';
+  document.body.prepend(bar);b=bar.querySelector('#theme-toggle')}
+ b.onclick=()=>{const n=d.dataset.theme==='dark'?'light':'dark';try{localStorage.setItem(K,n)}catch(e){}apply(n)};
+ apply(d.dataset.theme)});
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',e=>{if(!get())apply(e.matches?'dark':'light')});
+})();
+</script>
+
+</head>
+<body>
+<nav class="topbar" aria-label="Site"><a class="brand" href="index.html">Carrow <span>Academy</span></a><div class="tn"><a href="index.html">Home</a><a href="index.html#courses">Courses</a><a href="toolkit.html">Toolkit</a></div><button id="theme-toggle" class="tt" type="button" aria-label="Switch theme"></button></nav>
+<header class="mh"><p id="crumb"></p><h1 id="h1"></h1></header>
+<main class="layout" id="main-content">
+  <nav aria-label="Module lessons"><p class="pl" id="pl"></p><div class="bar"><i id="pb"></i></div><div id="nav"></div></nav>
+  <article id="main" tabindex="-1" aria-live="polite"><noscript><p class="ns">This interactive lesson needs JavaScript. Please enable it to continue.</p></noscript></article>
+</main>
+<script>
+const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let cleanup=[];const V={};
+const col=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const mkc=(el,h)=>{el.innerHTML=h;const c=el.querySelector('canvas'),D=Math.min(devicePixelRatio||1,2);
+  const fit=()=>{const w=Math.round(c.clientWidth*D),hh=Math.round(c.clientHeight*D);if(c.width!==w||c.height!==hh){c.width=w;c.height=hh}};
+  fit();return{c,x:c.getContext('2d'),D,fit}};
+// Erlang C via the Erlang B recursion (numerically stable)
+const ec=(N,A)=>{if(N<=A)return 1;let B=1;for(let i=1;i<=N;i++)B=A*B/(i+A*B);return N*B/(N-A*(1-B))};
+const slv=(N,A,aht,T)=>N>A?1-ec(N,A)*Math.exp(-(N-A)*T/aht):0;
+const asaf=(N,A,aht)=>N>A?ec(N,A)*aht/(N-A):Infinity;
+const needN=(A,aht,T,tgt)=>{for(let N=Math.max(1,Math.ceil(A));N<5000;N++)if(N>A&&slv(N,A,aht,T)>=tgt)return N};
+const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const f1=(n,d=1)=>Number.isFinite(n)?n.toLocaleString(undefined,{maximumFractionDigits:d}):'n/a';
+
+</script>
+<script>const SITE={slug:"rta",name:"WFM Real-Time Analyst",page:"rta.html"};</script>
+<script>
+const M={cp:"carrow-wfm-rta-course-page.html",course:"WFM Real-Time Analyst",k:"rta",nh:"carrow-rta-module-3.html",n:2,t:"Contact Center Operations Fundamentals",lvl:"Level 1: Foundation",lab:"30 to 45 min",next:"Module 3, Core Metrics and WFM Math"};
+const LS=[
+{t:"Operating models and channels",m:"20 min",h:`
+<div class="obj"><b>By the end of this lesson you can</b><ul><li>Describe the main contact center operating models</li><li>Explain how voice, chat, email and social differ for workforce planning</li></ul></div>
+<h3>Operating models</h3>
+<div class="sc"><table><tr><th>Model</th><th>What it means</th><th>What the RTA should know</th></tr>
+<tr><td>In-house</td><td>Employees of the company, usually on site</td><td>Direct access to team leads and operations</td></tr>
+<tr><td>Outsourced (BPO)</td><td>A vendor runs the work under a contract</td><td>Service targets are contractual and can carry financial credits or penalties</td></tr>
+<tr><td>Remote / work from home</td><td>Agents work from home</td><td>Connectivity incidents and "invisible" breaks need clear processes</td></tr>
+<tr><td>Hybrid / multi-site</td><td>A mix of locations, vendors or time zones</td><td>Queues are shared, so reports and rules must be consistent across sites</td></tr></table></div>
+<h3>Channels</h3>
+<div class="viz" data-v="channels" aria-live="off" role="group" aria-label="Illustrative chart of response expectations by channel"></div>
+<div class="sc"><table><tr><th>Channel</th><th>Pace</th><th>Planning implication</th></tr>
+<tr><td>Voice</td><td>Immediate, one contact at a time</td><td>Staffed interval by interval, usually with Erlang C</td></tr>
+<tr><td>Chat</td><td>Near real-time, agents often handle several chats at once (concurrency)</td><td>Plain Erlang C assumes one contact at a time, so chat needs concurrency adjustments</td></tr>
+<tr><td>Email</td><td>Deferred, with an SLA measured in hours</td><td>Work can be moved between intervals as long as the SLA is met, so backlog and throughput matter</td></tr>
+<tr><td>Social / messaging</td><td>Asynchronous, sometimes public</td><td>Expectations vary, and public posts can spike quickly</td></tr>
+<tr><td>Back office</td><td>No customer waiting</td><td>Flexible work that can fill idle time or be paused during peaks</td></tr></table></div>
+<div class="key"><b>Key takeaways</b><ul><li>The more immediate the channel, the more tightly staffing must follow the interval.</li><li>Deferred work gives the RTA room to flex. Voice gives almost none.</li></ul></div>
+<div class="try"><b>Try it</b>List the channels your center handles. For each, write who is waiting (a person on the line, or a queue of items) and how long they can reasonably wait.</div>`},
+{t:"Technology stack and the call flow",m:"20 min",h:`
+<div class="obj"><b>By the end of this lesson you can</b><ul><li>Name the main systems in a contact center and what each does</li><li>Follow a call from the customer to the agent and mark where waiting and abandonment happen</li></ul></div>
+<div class="sc"><table><tr><th>System</th><th>Purpose</th></tr>
+<tr><td>ACD (automatic call distributor)</td><td>Queues contacts and routes them to the right available agent</td></tr>
+<tr><td>IVR (interactive voice response)</td><td>Menus and self-service before a customer reaches a queue</td></tr>
+<tr><td>CTI</td><td>Connects the phone system with agent screens, for example to pop up the customer record</td></tr>
+<tr><td>CRM / ticketing</td><td>Customer history and case records</td></tr>
+<tr><td>WFM platform</td><td>Forecasting, scheduling, adherence and intraday tools</td></tr>
+<tr><td>Quality and engagement tools</td><td>Evaluation, coaching and recordings</td></tr></table></div>
+<p>Many cloud platforms bundle these into one suite, but the functions stay the same.</p>
+<h3>The path of a call</h3>
+<p>Customer calls, passes the IVR, enters an ACD queue, waits for an agent, is <b>answered</b>, talks (and may be put on hold), then the agent does <b>after-call work (ACW)</b> before returning to Ready. A call that enters the queue is <b>offered</b>. If the caller hangs up before an agent answers, it is <b>abandoned</b>.</p>
+<h3>Try the simulator</h3>
+<p>This simulation sends random calls into one queue. Average handling is about 40 seconds and a call arrives about every 9 seconds, so the workload is roughly 4.4 Erlangs. Move the slider and watch the queue.</p>
+<div class="viz" data-v="callflow" aria-live="off" role="group" aria-label="Interactive call queue simulation"></div>
+<div class="key"><b>Key takeaways</b><ul><li>If the number of agents is not above the workload in Erlangs, the queue keeps growing.</li><li>Having just enough agents is fragile. A few extra agents shorten waits dramatically.</li></ul></div>
+<div class="try"><b>Try it</b>Set agents to 5, then 6, then 7. Note how the waiting count and average wait change. What happens at 9?</div>`},
+{t:"Queues, skills and routing",m:"20 min",h:`
+<div class="obj"><b>By the end of this lesson you can</b><ul><li>Explain queues, skills and skill-based routing</li><li>Describe why pooling agents improves service, and its limits</li></ul></div>
+<p>A <b>queue</b> holds contacts of one type waiting for an agent. A <b>skill</b> describes what an agent can handle, such as a language, a product or a channel. <b>Skill-based routing</b> sends each contact to an agent with the right skill, with rules for priority and overflow when the preferred agents are busy.</p>
+<h3>The pooling effect</h3>
+<p>Larger pools handle randomness better. Consider two separate teams that each face 8 Erlangs with 10 agents (AHT 300 s, 20 s threshold) versus one shared queue facing 16 Erlangs with 20 agents. Same total agents and the same 80% occupancy, but the model gives roughly 64% service level for each small team and about 80% for the pooled team. Try your own numbers.</p>
+<div class="viz" data-v="pool" aria-live="off" role="group" aria-label="Interactive comparison of separate teams and a pooled team"></div>
+<h3>Limits of pooling</h3>
+<ul><li>Specialist skills (a rare language, a regulated product) cannot always be pooled.</li><li>Multi-skilled agents cost more to train and can be pulled between queues, which risks starving a queue if over-used.</li><li>These figures come from an Erlang C model. Real results depend on routing rules and agent availability.</li></ul>
+<div class="key"><b>Key takeaways</b><ul><li>Skill moves are one of the RTA's fastest intraday levers.</li><li>Always check what a skill move does to the queue you take agents from.</li></ul></div>
+<div class="try"><b>Try it</b>Pick a queue in your center. Which other queues share agents with it? Draw the overflow paths.</div>`},
+{t:"Agent states and aux codes",m:"20 min",h:`
+<div class="obj"><b>By the end of this lesson you can</b><ul><li>Name the standard agent states and classify them</li><li>Connect states to occupancy, shrinkage and adherence</li></ul></div>
+<p>Every agent is always in one <b>state</b>. Names vary by platform, but the groups are consistent.</p>
+<div class="sc"><table><tr><th>State</th><th>Group</th><th>Counts toward</th></tr>
+<tr><td>On contact (talk) and hold</td><td>Handling</td><td>Handle time</td></tr>
+<tr><td>After-call work (ACW / wrap)</td><td>Handling</td><td>Handle time</td></tr>
+<tr><td>Ready / Available (waiting for a contact)</td><td>Available</td><td>Idle time in occupancy</td></tr>
+<tr><td>Not Ready with a reason (aux): break, lunch</td><td>Off the phone</td><td>Usually shrinkage; whether paid depends on policy</td></tr>
+<tr><td>Aux: training, coaching, meeting, offline work</td><td>Off the phone</td><td>Planned shrinkage or productive off-phone time, depending on your definitions</td></tr>
+<tr><td>Aux: system issue, unscheduled</td><td>Off the phone</td><td>Unplanned shrinkage</td></tr>
+<tr><td>Logged out</td><td>Not working</td><td>Absent or off shift</td></tr></table></div>
+<div class="viz" data-v="states" aria-live="off" role="group" aria-label="Animated timeline of one agent's day with live occupancy"></div>
+<h3>Why states matter to an RTA</h3>
+<ul><li><b>Occupancy</b> = handling time ÷ (handling time + Ready time).</li><li><b>Adherence</b> (Module 4) compares the state the agent is in with the activity on the schedule.</li><li>Wrong or missing aux codes make shrinkage and adherence reports unreliable.</li></ul>
+<h3>Common pitfalls</h3>
+<ul><li>Agents left in Ready while away, or in ACW for too long</li><li>Unclear aux code choices, so time lands in the wrong bucket</li><li>States that overlap or differ between systems</li></ul>
+<div class="key"><b>Key takeaways</b><ul><li>Good state data is the foundation of every real-time metric.</li><li>Policy decides how a state is counted, so always check your own definitions.</li></ul></div>
+<div class="try"><b>Try it</b>List every aux code your center uses and tag each as paid or unpaid, planned or unplanned, and handling, available or off-phone.</div>`},
+{t:"KPIs and the business context",m:"20 min",h:`
+<div class="obj"><b>By the end of this lesson you can</b><ul><li>Name the main contact center KPIs and what each tells you</li><li>Explain why KPIs pull against each other</li></ul></div>
+<div class="sc"><table><tr><th>KPI</th><th>What it tells you</th></tr>
+<tr><td>Service level</td><td>Share of contacts answered within a target time (for example 80% in 20 seconds)</td></tr>
+<tr><td>ASA</td><td>Average time customers wait for an answer</td></tr>
+<tr><td>Abandonment rate</td><td>Share of contacts where the customer gave up</td></tr>
+<tr><td>AHT</td><td>Average time to handle a contact</td></tr>
+<tr><td>Occupancy</td><td>How busy agents are while logged in</td></tr>
+<tr><td>Shrinkage</td><td>Paid time agents are not available to handle contacts</td></tr>
+<tr><td>Adherence</td><td>How closely agents follow the schedule</td></tr>
+<tr><td>FCR, CSAT, quality score</td><td>Customer outcome and conversation quality, usually owned by operations and quality teams</td></tr>
+<tr><td>Cost per contact</td><td>Total operating cost divided by contacts handled</td></tr></table></div>
+<h3>KPIs pull against each other</h3>
+<ul><li>Pushing AHT down can reduce first-contact resolution and satisfaction.</li><li>Pushing occupancy up lowers cost but raises burnout risk.</li><li>Pushing service level up costs more staff.</li></ul>
+<h3>Business context</h3>
+<p>Labor is the largest cost in most contact centers, commonly cited at roughly 60 to 70 percent of operating cost, which is why small staffing gaps matter. In outsourced operations, service targets sit inside contracts, so a missed interval can carry financial consequences. That is why an RTA keeps an accurate log of actions and reasons.</p>
+<div class="key"><b>Key takeaways</b><ul><li>No single KPI tells the whole story. Read them together.</li><li>Definitions differ between organizations, so confirm yours before comparing numbers.</li></ul></div>
+<div class="try"><b>Try it</b>Write down how your organization defines service level, abandonment and AHT. Where do the definitions differ from the ones above?</div>`}
+];
+const QZ=[
+["What is the main job of an ACD?",["Record calls for quality","Queue contacts and route them to suitable available agents","Forecast call volume","Calculate adherence"],1,"The ACD queues contacts and routes them to agents based on rules and skills."],
+["Why can't plain Erlang C be used directly to staff chat?",["Chat has no customers","Erlang C assumes one contact at a time, but chat agents often handle several","Chat has no waiting time","Erlang C only works for email"],1,"Concurrency breaks the one-contact-at-a-time assumption."],
+["Which channel lets work be moved between intervals as long as the SLA is met?",["Voice","Email","Live chat during a peak","Inbound phone"],1,"Email SLAs are measured in hours, so workload can shift between intervals."],
+["In the simulator the workload is about 4.4 Erlangs. What happens with only 4 agents?",["The queue empties","The queue keeps growing, because agents do not exceed the workload","Service level reaches 100%","Nothing, 4 agents is enough"],1,"When agents do not exceed the workload in Erlangs, work arrives faster than it can be handled."],
+["Two teams each have 8 Erlangs and 10 agents. Pooling them into one queue of 20 agents will usually...",["Worsen service level","Improve service level at the same occupancy","Change nothing","Double occupancy"],1,"Bigger pools absorb random variation better, so the same agents give better service."],
+["Which time counts as handle time in occupancy?",["Break and lunch","Talk, hold and after-call work","Training","Ready time"],1,"Occupancy = handle time ÷ (handle time + available time), and handle time is talk + hold + ACW."],
+["An agent is logged in and in Ready state with no contact waiting. This time is...",["Handle time","Available (idle) time","Shrinkage","Adherent break"],1,"Ready time with no contact is available or idle time, the denominator part of occupancy."],
+["Labor cost in a contact center is commonly cited at roughly...",["10 to 20% of cost","60 to 70% of cost","95 to 100% of cost","1 to 5% of cost"],1,"Several industry sources put labor at roughly 60 to 70 percent of operating cost."]
+];
+const LAB=`<h3>Lab: Build your center profile</h3>
+<ol><li>Draw the call flow for one queue in your center (IVR, queue, agents, wrap-up). Mark where customers wait and where they can abandon.</li><li>List 15 agent states or aux codes. Tag each as paid or unpaid, planned or unplanned, and handling, available or off-phone.</li><li>Write down your organization's definitions of service level, AHT, abandonment and occupancy.</li><li>Run the call-flow simulator with 5, 6 and 7 agents for a minute each. Record the waiting count and average wait you see.</li></ol>
+<div class="key"><b>Submit</b>One page with the call flow, the state table, the KPI definitions, and your three simulator readings with a two-sentence conclusion.</div>
+<h3>What you learned</h3><ul><li>Operating models and how channels differ for planning.</li><li>The systems behind a contact and the path a call takes.</li><li>Why pooled skills perform better, and where that stops working.</li><li>Agent states and how they feed occupancy, shrinkage and adherence.</li><li>The core KPIs and why they pull against each other.</li></ul>`;
+
+V.channels=el=>{
+ const R=[['Voice','seconds',6],['Chat','about a minute',16],['Social / messaging','minutes to hours',50],['Email','hours (often within a day)',88]];
+ el.innerHTML=`<svg viewBox="0 0 520 190" role="img" aria-label="Illustrative response expectations by channel" style="width:100%">`+R.map(([n,t,w],i)=>`<text x="0" y="${28+i*44}" font-size="13" font-weight="700" fill="var(--ink)">${n}</text><rect x="0" y="${34+i*44}" width="300" height="12" rx="6" fill="var(--line)"/><rect x="0" y="${34+i*44}" height="12" rx="6" fill="var(--accent)" width="${rm?w*3:0}">${rm?'':`<animate attributeName="width" from="0" to="${w*3}" dur="1.2s" begin="${i*.25}s" fill="freeze"/>`}</rect><text x="310" y="${44+i*44}" font-size="12" fill="var(--mute)">${t}</text>`).join('')+'</svg><p class="cap">Illustrative only: how long a customer is typically expected to wait for a first response. Your own SLAs may differ.</p>';
+ return()=>{}};
+
+V.callflow=el=>{
+ const{c,x,D,fit}=mkc(el,'<canvas></canvas><div class="ctl"><label for="ag">Agents on the phone: <b id="av">5</b></label><input id="ag" type="range" min="2" max="9" value="5"></div><p class="cap" id="st"></p>');
+ const ag=el.querySelector('#ag'),av=el.querySelector('#av'),st=el.querySelector('#st');
+ const lam=1/9,aht=40,pat=45,dt=.25;let q,busy,ans,abd,within,wsum,id=0,rec=[];
+ const reset=()=>{rec=[];q=[];busy=Array(+ag.value).fill(0);ans=abd=within=wsum=0};
+ const expo=m=>-m*Math.log(1-Math.random());
+ const step=()=>{
+  if(Math.random()<lam*dt){q.push({w:0,p:expo(pat)});rec.push(0)}rec=rec.map(a=>a+1).filter(a=>a<60);
+  for(let k=0;k<busy.length;k++)if(busy[k]>0)busy[k]=Math.max(0,busy[k]-dt);
+  q.forEach(o=>o.w+=dt);
+  q=q.filter(o=>{if(o.w>o.p){abd++;return false}return true});
+  for(let k=0;k<busy.length&&q.length;k++)if(busy[k]<=0){const o=q.shift();busy[k]=expo(aht);ans++;wsum+=o.w;if(o.w<=20)within++}
+ };
+ const draw=()=>{fit();const W=c.width,H=c.height,bad=col('--bad'),mute=col('--mute'),ac=col('--accent');const sz=28*D,agW=3*(sz+8*D);
+  x.clearRect(0,0,W,H);x.font=`${12*D}px Figtree,system-ui,sans-serif`;x.fillStyle=mute;
+  x.fillText('Customers',8*D,16*D);x.fillText('Queue (waiting)',W*.28,16*D);x.fillText('Agents',W-agW-4*D,16*D);
+  x.strokeStyle=mute;x.lineWidth=2*D;x.beginPath();x.moveTo(8*D,H/2);x.lineTo(W*.25,H/2);x.stroke();rec.forEach(a=>{x.fillStyle=ac;x.beginPath();x.arc(8*D+(W*.25-8*D)*a/60,H/2,5*D,0,6.3);x.fill()});
+  const r=7*D,qw=Math.max(r*3,Math.min(W*.4,W-agW-W*.28-12*D)),per=Math.max(1,Math.floor(qw/(r*2.6)));
+  q.slice(0,per*6).forEach((o,i)=>{const cx=W*.28+(i%per)*r*2.6+r,cy=H*.22+Math.floor(i/per)*r*2.6;x.fillStyle=o.w>20?bad:ac;x.beginPath();x.arc(cx,cy,r,0,6.3);x.fill()});
+  busy.forEach((b,k)=>{const gx=W-agW-4*D+(k%3)*(sz+8*D),gy=H*.22+Math.floor(k/3)*(sz+8*D);x.strokeStyle=ac;x.lineWidth=2*D;x.strokeRect(gx,gy,sz,sz);if(b>0){const fr=Math.min(1,b/aht);x.fillStyle=ac;x.globalAlpha=.85;x.fillRect(gx,gy+sz*(1-fr),sz,sz*fr);x.globalAlpha=1}});
+  const tot=ans+abd;
+  st.textContent=`Waiting now: ${q.length}. Answered: ${ans}, abandoned: ${abd}. Service level (20 s): ${tot?Math.round(within/tot*100)+'%':'n/a'}. Average wait: ${ans?f1(wsum/ans,0)+' s':'n/a'}. Red dots have waited over 20 seconds. Filled agent boxes are busy.`};
+ const warm=n=>{for(let s=0;s<n;s++)step()};
+ const loop=()=>{step();step();draw();id=requestAnimationFrame(loop)};
+ reset();
+ ag.oninput=()=>{av.textContent=ag.value;reset();if(rm){warm(2400);draw()}};
+ if(rm){warm(2400);draw()}else loop();
+ return()=>cancelAnimationFrame(id)};
+
+V.pool=el=>{
+ el.innerHTML='<div class="ctl"><label for="pa">Workload per team: <b id="pav">8</b> Erlangs</label><input id="pa" type="range" min="4" max="30" value="8"></div><div class="ctl"><label for="px">Extra agents per team above the workload: <b id="pxv">2</b></label><input id="px" type="range" min="1" max="6" value="2"></div><div id="po"></div><p class="cap">Erlang C model, AHT 300 s, 20 s threshold. Two separate teams versus the same agents in one shared queue.</p>';
+ const a=el.querySelector('#pa'),b=el.querySelector('#px'),o=el.querySelector('#po');
+ const run=()=>{const A=+a.value,N=Math.ceil(A)+ +b.value,s1=slv(N,A,300,20)*100,s2=slv(2*N,2*A,300,20)*100;
+  el.querySelector('#pav').textContent=A;el.querySelector('#pxv').textContent=b.value;
+  const bar=(l,s)=>`<div class="lbl"><span>${l}</span><b>${f1(s,1)}% in 20 s</b></div><div class="meter ${s<80?'bad':''}"><i style="width:${s}%"></i></div>`;
+  o.innerHTML=bar(`Two separate teams: ${N} agents each`,s1)+bar(`One pooled team: ${2*N} agents, ${2*A} Erlangs`,s2)+`<p class="cap">Occupancy is ${f1(A/N*100,0)}% in both cases. Pooling adds ${f1(s2-s1,1)} points of service level.</p>`};
+ a.oninput=b.oninput=run;run();return()=>{}};
+
+V.states=el=>{
+ const RAW=[['R',10],['O',25],['W',5],['O',20],['W',5],['R',10],['O',30],['W',5],['B',15],['R',5],['O',25],['W',5],['O',20],['R',10],['T',30],['O',25],['W',5],['R',10],['O',30],['W',5],['L',30],['R',10],['O',25],['W',5],['O',20],['W',5],['R',5],['M',20],['O',25],['W',5],['R',10],['O',30],['W',5],['B',15],['O',20],['W',5],['R',5]];
+ let acc=0;const SEG=[];for(const[s,m]of RAW){if(acc>=480)break;const k=Math.min(m,480-acc);SEG.push([s,k]);acc+=k}
+ const COL={O:'#0F8F80',W:'#3B82C4',R:'#E0A21B',B:'#8A99A8',L:'#667788',T:'#8E5BC9',M:'#A8643C'},NM={O:'On contact',W:'After-call work',R:'Ready (idle)',B:'Break',L:'Lunch',T:'Training',M:'Meeting'};
+ const tot=SEG.reduce((s,g)=>s+g[1],0);
+ const{c,x,D,fit}=mkc(el,'<canvas style="height:120px"></canvas><div class="ctl">'+Object.keys(NM).map(k=>`<span><i style="display:inline-block;width:12px;height:12px;background:${COL[k]};border-radius:3px;margin-right:4px"></i>${NM[k]}</span>`).join('')+'</div><p class="cap" id="sx"></p>');
+ const sx=el.querySelector('#sx');let p=0,id=0;
+ const draw=()=>{fit();const W=c.width,H=c.height;x.clearRect(0,0,W,H);let pos=0;const T={};
+  SEG.forEach(([s,m])=>{const x0=pos/tot*W,w=m/tot*W,shown=Math.max(0,Math.min(m,p-pos));x.fillStyle=COL[s];x.globalAlpha=.2;x.fillRect(x0,H*.2,w,H*.6);x.globalAlpha=1;if(shown>0){x.fillRect(x0,H*.2,shown/tot*W,H*.6);T[s]=(T[s]||0)+shown}pos+=m});
+  x.fillStyle=col('--ink');x.fillRect(p/tot*W-D,H*.1,2*D,H*.8);
+  const g=k=>T[k]||0,h=g('O')+g('W'),r=g('R'),off=g('B')+g('L')+g('T')+g('M'),all=h+r+off||1;
+  sx.textContent=`Logged in so far: ${Math.round(p)} min. Handling: ${Math.round(h/all*100)}%. Ready (idle): ${Math.round(r/all*100)}%. Off the phone: ${Math.round(off/all*100)}%. Occupancy = handling ÷ (handling + ready) = ${h+r?Math.round(h/(h+r)*100):0}%.`};
+ const loop=()=>{p+=tot/700;if(p>tot+40)p=0;draw();id=requestAnimationFrame(loop)};
+ if(rm){p=tot;draw()}else loop();
+ return()=>cancelAnimationFrame(id)};
+
+Object.assign(M,{cp:"rta.html",course:"WFM Real-Time Analyst",k:"rta",nh:"rta-module-3.html"});
+</script>
+<script>
+document.title=`Module ${M.n}: ${M.t} | ${M.course} | Carrow Academy`;
+document.getElementById('h1').textContent=`Module ${M.n}: ${M.t}`;
+document.getElementById('crumb').innerHTML=`<a href="index.html">Carrow Academy</a> / <a href="${M.cp}">${M.course}</a> / ${M.lvl}`;
+const main=document.getElementById('main'),navEl=document.getElementById('nav');
+const KEY='carrow-'+(M.k||'rta')+'-m'+M.n;
+let cur=0,done=new Set(),total=LS.length+2;
+try{done=new Set(JSON.parse(localStorage.getItem(KEY)||'[]'))}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify([...done]))}catch(e){}};
+const names=[...LS.map((l,i)=>`${i+1}. ${l.t}`),"Knowledge check","Lab and wrap-up"];
+function nav(){
+  navEl.innerHTML=names.map((n,i)=>`<button data-i="${i}" class="${done.has(i)?'done':''}" ${i===cur?'aria-current="true"':''}><span class="dot">${done.has(i)?'&#10003;':i+1}</span><span class="nm">${n}</span></button>`).join('');
+  navEl.querySelectorAll('button').forEach(b=>b.onclick=()=>go(+b.dataset.i));
+  document.getElementById('pb').style.width=(done.size/total*100)+'%';
+  document.getElementById('pl').textContent=`${done.size} of ${total} complete`;
+}
+function foot(i){return `<div class="row"><button class="btn alt" ${i===0?'disabled':''} onclick="go(${i-1})">Previous</button><button class="btn" onclick="finish(${i})">${i===total-1?'Complete module':'Mark complete and continue'}</button></div>`}
+function finish(i){done.add(i);save();if(i<total-1)go(i+1);else{nav();if(!main.querySelector('.res.fin'))main.insertAdjacentHTML('beforeend',`<p class="res fin">Module ${M.n} complete. Next: ${M.nh?`<a href="${M.nh}">${M.next}</a>`:`${M.next} (coming soon)`}. <a href="${M.cp}">Back to the course outline</a></p>`)}}
+function go(i,quiet){
+  cur=i;cleanup.forEach(f=>f());cleanup=[];
+  if(i<LS.length){const l=LS[i];main.innerHTML=`<p class="pl">Lesson ${i+1} of ${LS.length}</p><h2>${l.t}</h2><p class="meta">${l.m} read</p>${l.h}${foot(i)}`}
+  else if(i===LS.length){
+    main.innerHTML=`<h2>Knowledge check</h2><p class="meta">${QZ.length} questions. Pass mark 70%.</p>`+QZ.map((q,n)=>`<div class="q" id="q${n}"><p>${n+1}. ${q[0]}</p>${shuf(q[1].map((o,k)=>[o,k])).map(([o,k])=>`<label><input type="radio" name="q${n}" value="${k}"> ${o}</label>`).join('')}<div class="fb"></div></div>`).join('')+`<button class="btn" id="chk">Check answers</button><div class="res" id="sc" role="status"></div>`+foot(i).replace('Mark complete and continue','Continue');
+    document.getElementById('chk').onclick=()=>{let s=0;QZ.forEach((q,n)=>{const v=document.querySelector(`input[name=q${n}]:checked`),b=document.getElementById('q'+n),ok=v&&+v.value===q[2];if(ok)s++;b.className='q '+(ok?'right':'wrong');b.querySelector('.fb').textContent=(ok?'Correct. ':v?'Not quite. ':'Unanswered. ')+q[3]});const p=Math.round(s/QZ.length*100);document.getElementById('sc').textContent=`Score: ${s}/${QZ.length} (${p}%). ${p>=70?'Passed.':'Review the lessons and try again.'}`;if(p>=70){done.add(i);save();nav()}};
+  } else main.innerHTML=`<h2>Lab and wrap-up</h2><p class="meta">${M.lab}</p>${LAB}${foot(i)}`;
+  main.querySelectorAll('.viz').forEach(e=>cleanup.push(V[e.dataset.v](e)));
+  nav();if(!quiet)main.scrollIntoView({behavior:rm?'auto':'smooth',block:'start'});
+}
+addEventListener('carrow-theme',()=>{cleanup.forEach(f=>f());cleanup=[];main.querySelectorAll('.viz').forEach(e=>cleanup.push(V[e.dataset.v](e)))});
+go(0,true);
+</script>
+<script>
+/* Carrow Academy: animated data background. Include once per page, before </body>.
+   Uses the page's --accent color. Respects reduced motion, pauses in hidden tabs. */
+(()=>{
+const lite=!!(navigator.connection&&navigator.connection.saveData)||(navigator.deviceMemory&&navigator.deviceMemory<=1);
+const rm=matchMedia('(prefers-reduced-motion: reduce)').matches||lite;
+const c=document.createElement('canvas');
+c.setAttribute('aria-hidden','true');
+c.style.cssText='position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none';
+document.body.prepend(c);
+const x=c.getContext('2d');
+let W,H,D,t=0,last=0,pts=[];
+function size(){
+  D=Math.min(devicePixelRatio||1,2);W=c.width=Math.round(innerWidth*D);H=c.height=Math.round(innerHeight*D);
+  pts=Array.from({length:36},()=>({x:Math.random()*W,y:Math.random()*H,r:(1+Math.random()*2)*D,v:(.15+Math.random()*.35)*D}));
+}
+function draw(){
+  const ac=getComputedStyle(document.documentElement).getPropertyValue('--accent').trim()||'#0F6E64';
+  x.clearRect(0,0,W,H);x.strokeStyle=ac;x.fillStyle=ac;
+  // data grid
+  x.globalAlpha=.05;x.lineWidth=D;const g=80*D;
+  for(let i=0;i<W;i+=g){x.beginPath();x.moveTo(i,0);x.lineTo(i,H);x.stroke()}
+  for(let j=0;j<H;j+=g){x.beginPath();x.moveTo(0,j);x.lineTo(W,j);x.stroke()}
+  // flowing trend lines
+  [[.28,.05,1,.5],[.42,.07,1.5,.8],[.58,.04,2.2,.35]].forEach(([b,a,f,s],k)=>{
+    x.globalAlpha=.13-k*.03;x.lineWidth=2*D;x.beginPath();
+    for(let i=0;i<=W;i+=8*D){
+      const u=i/W,y=H*(b+a*Math.sin(u*6*f+t*s)+a*.5*Math.sin(u*13+t*s*1.7+k));
+      i?x.lineTo(i,y):x.moveTo(i,y);
+    }
+    x.stroke();
+  });
+  // rising and falling interval bars
+  x.globalAlpha=.06;const bw=26*D,n=Math.ceil(W/bw);
+  for(let i=0;i<n;i++){
+    const h=H*.13*(.5+.5*Math.sin(i*.45+t*.7))*(.6+.4*Math.sin(i*.17+t*.2));
+    x.fillRect(i*bw,H-h,18*D,h);
+  }
+  // drifting data points
+  x.globalAlpha=.15;
+  pts.forEach(p=>{if(!rm){p.y-=p.v;if(p.y<-10)p.y=H+10}x.beginPath();x.arc(p.x,p.y,p.r,0,6.3);x.fill()});
+  x.globalAlpha=1;
+}
+function loop(ts){
+  if(!last)last=ts;
+  if(!document.hidden&&ts-last>33){t+=Math.min((ts-last)/1000,.1);last=ts;draw()}
+  requestAnimationFrame(loop);
+}
+size();draw();
+document.addEventListener('carrow-theme',draw);
+addEventListener('resize',()=>{size();draw()});
+addEventListener('carrow-theme',draw);
+if(!rm)requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

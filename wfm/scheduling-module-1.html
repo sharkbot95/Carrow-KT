@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Module 1: From Requirement to Roster | WFM Scheduling | Carrow Academy</title>
+<meta name="description" content="From staffing requirement to roster: requirement curves, shift types, coverage maths, a shift builder and schedule quality measures.">
+<meta name="robots" content="noindex,follow"><link rel="canonical" href="https://carrowacademy.space/scheduling-module-1.html">
+<meta name="theme-color" content="#F4F7FB">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Carrow Academy"><meta property="og:title" content="Module 1: From Requirement to Roster | WFM Scheduling | Carrow Academy"><meta property="og:description" content="From staffing requirement to roster: requirement curves, shift types, coverage maths, a shift builder and schedule quality measures."><meta property="og:url" content="https://carrowacademy.space/scheduling-module-1.html"><meta name="twitter:card" content="summary">
+<style>/* Carrow Academy theme. Light and dark palettes. WCAG AA contrast checked. */
+:root{--bg:#F4F7FB;--card:#FFFFFF;--ink:#0F1E2E;--mute:#46596D;--line:#D3DDE8;--accent:#0B6B5F;--accent-ink:#FFFFFF;--on:#FFFFFF;--hi:#FFF1CC;--hiink:#6B4A00;--ok:#0B6B5F;--bad:#B3261E;--hero:#0F2236;--heroink:#E8EFF7;--bar:#4FD1BD;--bar2:#F0B429;color-scheme:light}
+:root[data-theme="dark"]{--bg:#0B1422;--card:#142238;--ink:#E8EFF7;--mute:#A3B4C6;--line:#26384D;--accent:#4FD1BD;--accent-ink:#0B1422;--on:#0B1422;--hi:#3A3016;--hiink:#F5D98A;--ok:#4FD1BD;--bad:#FF8A80;--hero:#08101B;--heroink:#E8EFF7;color-scheme:dark}
+@media (prefers-color-scheme:dark){:root:not([data-theme]){--bg:#0B1422;--card:#142238;--ink:#E8EFF7;--mute:#A3B4C6;--line:#26384D;--accent:#4FD1BD;--accent-ink:#0B1422;--on:#0B1422;--hi:#3A3016;--hiink:#F5D98A;--ok:#4FD1BD;--bad:#FF8A80;--hero:#08101B;color-scheme:dark}}
+html{box-sizing:border-box;scroll-padding-top:76px}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;-webkit-text-size-adjust:100%}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.topbar{display:flex;align-items:center;gap:18px;padding:10px 18px;padding-top:calc(10px + env(safe-area-inset-top,0px));background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
+.brand{font-weight:800;color:var(--ink);text-decoration:none;letter-spacing:-.01em;font-size:1.05rem}
+.brand span{color:var(--accent)}
+.tn{display:flex;gap:18px;margin-left:auto;font-size:.95rem}
+.tn a{color:var(--mute);text-decoration:none;font-weight:600}
+.tn a:hover{color:var(--ink)}
+.tt{flex:none;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--bg);color:var(--ink);display:grid;place-items:center;cursor:pointer}
+.tt svg{width:20px;height:20px}
+.brand{white-space:nowrap}
+@media (max-width:560px){.topbar{flex-wrap:wrap;gap:4px 12px;padding-left:12px;padding-right:12px}.tn{order:3;flex:1 0 100%;justify-content:space-between;margin-left:0;gap:8px;font-size:.92rem;border-top:1px solid var(--line);padding-top:6px}.tt{margin-left:auto;width:36px;height:36px}html{scroll-padding-top:110px}}
+.skip{position:absolute;left:-999px}.skip:focus{left:8px;top:8px;background:var(--card);padding:8px;z-index:50}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style><style>
+:root{box-sizing:border-box}
+header.mh{padding:18px;border-bottom:1px solid var(--line);background:var(--card)}
+header p{margin:0;color:var(--mute);font-size:.88rem}
+header h1{margin:2px 0 0;font-size:1.4rem;line-height:1.2}
+.layout{max-width:1040px;margin:0 auto;padding:22px 18px 60px;display:grid;gap:24px;grid-template-columns:260px 1fr}
+.layout>nav{align-self:start;position:sticky;top:76px}
+.layout>nav button{display:flex;gap:10px;width:100%;text-align:left;font:inherit;font-size:.95rem;background:none;border:1px solid transparent;border-radius:8px;padding:9px 10px;color:var(--ink);cursor:pointer}
+.layout>nav button[aria-current="true"]{background:var(--card);border-color:var(--line);font-weight:700}
+.layout>nav .dot{flex:none;width:20px;height:20px;border-radius:50%;border:2px solid var(--line);margin-top:2px;font-size:.7rem;display:grid;place-items:center}
+.layout>nav .done .dot{background:var(--ok);border-color:var(--ok);color:var(--on)}
+.bar{height:8px;background:var(--line);border-radius:4px;margin:0 0 14px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+.pl{font-size:.82rem;color:var(--mute);margin:0 0 4px}
+article{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:26px 28px;min-width:0}
+article h2{margin:0 0 4px;font-size:1.7rem;line-height:1.2}
+.meta{color:var(--mute);font-size:.9rem;margin:0 0 18px}
+article h3{margin:24px 0 6px;font-size:1.1rem}
+article p,article li{max-width:68ch}
+.obj,.key,.try{border-radius:8px;padding:12px 16px;margin:16px 0}
+.obj{background:var(--bg);border:1px solid var(--line)}
+.key{background:var(--hi);color:var(--hiink)}
+.try{border:2px dashed var(--accent)}
+.obj b,.key b,.try b{display:block;margin-bottom:2px}
+.obj ul,.key ul{margin:4px 0 0;padding-left:20px}
+.sc{overflow-x:auto}
+table{width:100%;border-collapse:collapse;margin:10px 0;font-size:.94rem}
+th,td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--mute)}
+.q{border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:14px 0}
+.q p{margin:0 0 8px;font-weight:700}
+.q label{display:block;padding:5px 0;cursor:pointer}
+.q .fb{margin:8px 0 0;font-size:.92rem}
+.q.right{border-color:var(--ok)}.q.wrong{border-color:var(--bad)}
+.q.right .fb{color:var(--ok)}.q.wrong .fb{color:var(--bad)}
+.btn{font:inherit;font-weight:700;background:var(--accent);color:var(--on);border:0;border-radius:8px;padding:11px 22px;cursor:pointer}
+.btn.alt{background:none;color:var(--ink);border:2px solid var(--line)}
+.row{display:flex;gap:10px;margin-top:26px;flex-wrap:wrap;justify-content:space-between}
+.res{font-weight:800;font-size:1.1rem;margin:12px 0}
+@media (max-width:820px){.layout{grid-template-columns:1fr}.layout>nav{position:static}article{padding:20px 16px}}
+.viz{margin:18px 0;border:1px solid var(--line);border-radius:10px;padding:12px;background:var(--bg)}
+.viz canvas{width:100%;height:230px;display:block}
+.viz .cap{font-size:.86rem;color:var(--mute);margin:8px 0 0}
+.viz .ctl{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:10px;font-size:.92rem}
+.viz input[type=range]{flex:1;min-width:160px;accent-color:var(--accent)}
+.layout>nav{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px}
+
+.fm{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.92rem;background:var(--bg);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:6px;padding:10px 14px;line-height:1.75;overflow-x:auto;max-width:none}
+.meter{background:var(--line);border-radius:6px;height:18px;overflow:hidden;margin:4px 0 12px}
+.meter i{display:block;height:100%;background:var(--ok);transition:width .25s}
+.meter.bad i{background:var(--bad)}
+.lbl{display:flex;justify-content:space-between;gap:12px;font-size:.92rem}
+article details{margin:10px 0}
+
+header.mh p{margin:0;color:var(--mute);font-size:.88rem}
+header.mh a{color:var(--mute)}
+header.mh h1{margin:2px 0 0;font-size:1.4rem;line-height:1.2}
+.ns{padding:18px}
+.pipe{display:flex;flex-wrap:wrap;gap:10px}
+.pipe .b{flex:1 1 140px;display:flex;flex-direction:column;gap:2px;border:2px solid var(--line);border-radius:10px;padding:10px 12px;text-align:center;background:var(--card);transition:background .3s,border-color .3s}
+.pipe .b.on{border-color:var(--accent);background:var(--hi);color:var(--hiink)}
+.pipe .n{align-self:center;width:22px;height:22px;border-radius:50%;background:var(--accent);color:var(--on);font-size:.75rem;font-weight:800;display:grid;place-items:center}
+.pipe small{color:var(--mute)}
+.pipe .b.on small{color:var(--hiink)}
+.viz .btn{margin-right:8px}
+.viz .ctl:has(input[type=range]){display:grid;grid-template-columns:minmax(170px,36%) 1fr;align-items:center}
+.viz .ctl.btns{display:flex}
+@media (max-width:560px){.viz .ctl:has(input[type=range]){grid-template-columns:1fr}}
+.pipe .b{flex:1 1 118px;min-width:0}
+.pipe .b b,.pipe .b span,.pipe .b small{overflow-wrap:normal;word-break:normal;hyphens:none}
+.pipe .b b{font-size:.85rem}
+.pipe .b{padding:8px 4px}
+@media (max-width:820px){
+ .layout{grid-template-columns:minmax(0,1fr)}
+ .layout>*{min-width:0}
+ .layout>nav{padding:10px 10px 8px}
+ #nav{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px}
+ #nav button{flex:none;width:auto;padding:6px 10px;align-items:center}
+ #nav button .nm{display:none}
+ #nav button[aria-current="true"] .nm{display:inline;white-space:nowrap}
+ .pipe .b{flex:1 1 130px}
+}
+</style>
+<script>
+(()=>{const d=document.documentElement,K='carrow-theme';
+const SUN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
+const MOON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>';
+const sys=()=>matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+const get=()=>{try{return localStorage.getItem(K)}catch(e){return null}};
+const apply=t=>{d.dataset.theme=t;const b=document.getElementById('theme-toggle');
+ if(b){b.setAttribute('aria-label',t==='dark'?'Switch to light theme':'Switch to dark theme');b.setAttribute('aria-pressed',t==='dark'?'true':'false');b.innerHTML=t==='dark'?SUN:MOON}
+ const m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='dark'?'#0B1422':'#F4F7FB';
+ dispatchEvent(new Event('carrow-theme'))};
+apply(get()||sys());
+document.addEventListener('DOMContentLoaded',()=>{
+ let b=document.getElementById('theme-toggle');
+ if(!b){const bar=document.createElement('nav');bar.className='topbar';bar.setAttribute('aria-label','Site');
+  bar.innerHTML='<a class="brand" href="index.html">Carrow <span>Academy</span></a><div class="tn"><a href="index.html">Home</a><a href="index.html#courses">Courses</a><a href="toolkit.html">Toolkit</a></div><button id="theme-toggle" class="tt" type="button"></button>';
+  document.body.prepend(bar);b=bar.querySelector('#theme-toggle')}
+ b.onclick=()=>{const n=d.dataset.theme==='dark'?'light':'dark';try{localStorage.setItem(K,n)}catch(e){}apply(n)};
+ apply(d.dataset.theme)});
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',e=>{if(!get())apply(e.matches?'dark':'light')});
+})();
+</script>
+
+</head>
+<body>
+<nav class="topbar" aria-label="Site"><a class="brand" href="index.html">Carrow <span>Academy</span></a><div class="tn"><a href="index.html">Home</a><a href="index.html#courses">Courses</a><a href="toolkit.html">Toolkit</a></div><button id="theme-toggle" class="tt" type="button" aria-label="Switch theme"></button></nav>
+<header class="mh"><p id="crumb"></p><h1 id="h1"></h1></header>
+<main class="layout" id="main-content">
+  <nav aria-label="Module lessons"><p class="pl" id="pl"></p><div class="bar"><i id="pb"></i></div><div id="nav"></div></nav>
+  <article id="main" tabindex="-1" aria-live="polite"><noscript><p class="ns">This interactive lesson needs JavaScript. Please enable it to continue.</p></noscript></article>
+</main>
+<script>
+const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let cleanup=[];const V={};
+const col=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const mkc=(el,h)=>{el.innerHTML=h;const c=el.querySelector('canvas'),D=Math.min(devicePixelRatio||1,2);
+  const fit=()=>{const w=Math.round(c.clientWidth*D),hh=Math.round(c.clientHeight*D);if(c.width!==w||c.height!==hh){c.width=w;c.height=hh}};
+  fit();return{c,x:c.getContext('2d'),D,fit}};
+// Erlang C via the Erlang B recursion (numerically stable)
+const ec=(N,A)=>{if(N<=A)return 1;let B=1;for(let i=1;i<=N;i++)B=A*B/(i+A*B);return N*B/(N-A*(1-B))};
+const slv=(N,A,aht,T)=>N>A?1-ec(N,A)*Math.exp(-(N-A)*T/aht):0;
+const asaf=(N,A,aht)=>N>A?ec(N,A)*aht/(N-A):Infinity;
+const needN=(A,aht,T,tgt)=>{for(let N=Math.max(1,Math.ceil(A));N<5000;N++)if(N>A&&slv(N,A,aht,T)>=tgt)return N};
+const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const f1=(n,d=1)=>Number.isFinite(n)?n.toLocaleString(undefined,{maximumFractionDigits:d}):'n/a';
+
+</script>
+<script>const SITE={slug:"scheduling",name:"WFM Scheduling",page:"scheduling.html"};</script>
+<script>
+const M={n:1,t:"From Requirement to Roster",lvl:"Level 1: Foundation",lab:"45 to 60 min",next:"Module 2, Shift Design and Patterns"};
+const vz=(n,l)=>`<div class="viz" data-v="${n}" aria-live="off" role="group" aria-label="${l}"></div>`;
+const VOL=[40,55,70,85,100,110,120,125,120,110,100,95,100,105,100,90,80,70,60,50,40,30,25,20];
+const tl=i=>{const m=480+i*30;return String(Math.floor(m/60)).padStart(2,'0')+':'+(m%60?'30':'00')};
+const reqAt=(aht,sl,thr)=>VOL.map(v=>needN(v*aht/1800,aht,thr,sl/100));
+const LS=[
+{t:"What scheduling does",m:"20 min",h:`
+<div class="obj"><b>By the end of this lesson you can</b><ul><li>Say where scheduling sits in the WFM cycle</li><li>List the inputs, constraints and outputs of a schedule</li><li>Follow one interval from forecast to agents to schedule</li></ul></div>
+<p><b>Scheduling</b> turns a staffing requirement into specific people working specific shifts, breaks and days off. It sits between <i>staffing requirements</i> and <i>real-time management</i>: the forecast and Erlang calculations say how many agents each interval needs, the schedule decides who is there, and the real-time team deals with whatever the day changes.</p>
+${vz('pipeline','Animated pipeline from forecast to roster with example numbers')}
+<h3>Inputs, constraints and outputs</h3>
+<div class="sc"><table><tr><th>Inputs</th><th>Constraints</th><th>Outputs</th></tr>
+<tr><td>Requirement by interval (from forecast, AHT, service target)<br>Shrinkage assumptions<br>Headcount and contract hours<br>Skills and channels</td><td>Labor law and contracts (rest, breaks, maximum hours)<br>Shift start and end rules<br>Agent availability, leave, preferences<br>Budget and overtime limits</td><td>Shifts and days off<br>Break, lunch and off-phone activity placement<br>A published schedule per agent<br>Coverage against requirement</td></tr></table></div>
+<div class="key"><b>Key takeaways</b><ul><li>The schedule is only as good as the requirement behind it, so forecast and AHT errors flow straight into it.</li><li>Constraints are part of the job. A schedule that breaks them is not a valid schedule.</li><li>Start from the current forecast, not from "what we ran last week".</li></ul></div>
+<div class="try"><b>Try it</b>Watch the pipeline. Then write down which numbers would change if AHT rose from 300 to 330 seconds.</div>`},
+{t:"Reading the requirement curve",m:"25 min",h:`
+<div class="obj"><b>By the end of this lesson you can</b><ul><li>Turn an interval volume curve into agents on the phone using Erlang C</li><li>Convert it to agents to schedule with shrinkage</li><li>Spot the peaks and valleys a schedule has to follow</li></ul></div>
+<p>Volume is not flat, so the requirement is not flat either. Below, a day of contact volume (08:00 to 20:00 in 30-minute intervals) is converted into a staffing requirement with the Erlang C model from the RTA course. Change the inputs and watch the requirement move.</p>
+<p class="fm">Agents on the phone = Erlang C result for the interval<br>Agents to schedule = Agents on the phone ÷ (1 − Shrinkage)</p>
+${vz('reqcurve','Interactive staffing requirement curve built from volume with Erlang C')}
+<h3>What to look for</h3>
+<ul><li><b>The peak.</b> The busiest intervals set how many people you need on at once.</li><li><b>The shape.</b> A ramp-up, a double peak or a long tail points to different shift patterns.</li><li><b>Sensitivity.</b> Small changes in AHT or the service target move the whole curve, and a higher shrinkage assumption raises every interval.</li></ul>
+<div class="key"><b>Key takeaways</b><ul><li>Requirement is calculated per interval, then summed into hours.</li><li>Shrinkage is applied by dividing, never by adding a percentage.</li></ul></div>
+<div class="try"><b>Try it</b>Set AHT to 330 s. How many more agents are needed at the peak, and how many extra hours across the day?</div>`},
+{t:"Shift building blocks",m:"25 min",h:`
+<div class="obj"><b>By the end of this lesson you can</b><ul><li>Describe the common shift types and what each is good for</li><li>Name the legal limits that shape shifts, and why they vary by country</li></ul></div>
+<div class="sc"><table><tr><th>Pattern</th><th>What it is</th><th>Good for</th><th>Watch out for</th></tr>
+<tr><td>Fixed</td><td>Same start, end and days every week</td><td>Predictability for agents and simple planning</td><td>Cannot follow a changing demand curve</td></tr>
+<tr><td>Rotating</td><td>Shifts and days change on a cycle</td><td>Sharing nights and weekends fairly</td><td>Agents often dislike the disruption</td></tr>
+<tr><td>Staggered starts</td><td>Start times spread across the morning or evening</td><td>Following the ramp up and down more closely</td><td>Break and meeting coordination across overlapping shifts</td></tr>
+<tr><td>Split</td><td>Two work blocks with a long unpaid gap</td><td>Two peaks in a day (for example morning and evening)</td><td>Unpopular with in-office teams and must be planned in advance</td></tr>
+<tr><td>Part-time</td><td>Fewer hours placed on a peak</td><td>Filling peak-hour gaps</td><td>Contract and benefit rules vary</td></tr>
+<tr><td>Micro shifts</td><td>Very short shifts, from a couple of hours down to 30 minutes</td><td>Short peaks, especially for remote agents</td><td>Needs agreement, tools and fair pay rules</td></tr></table></div>
+<h3>Legal limits shape every pattern</h3>
+<p>Rules differ widely between countries, states and contracts, so always check local law and agreements. As an illustration, the European Working Time Directive sets minimum standards in EU countries: at least <b>11 consecutive hours of daily rest</b> in every 24 hours, a <b>rest break</b> (national rules commonly set 20 minutes) when the working day is longer than <b>six hours</b>, at least <b>24 hours of weekly rest</b> in each seven-day period, and an average of no more than <b>48 hours a week</b> (normally averaged over 17 weeks, with opt-outs in some countries). Night workers have an average limit of 8 hours in 24. The UK applies similar rules through its own regulations. Other regions have different rules, so build checks into your tools rather than relying on memory.</p>
+<div class="key"><b>Key takeaways</b><ul><li>The more shapes you can use, the closer you can follow demand, at the price of complexity.</li><li>Rest and break rules are constraints on the roster, not preferences.</li></ul></div>
+<div class="try"><b>Try it</b>Pick a 12-hour opening day. Which of the patterns above would you combine, and why?</div>`},
+{t:"Coverage maths and the shift builder",m:"30 min",h:`
+<div class="obj"><b>By the end of this lesson you can</b><ul><li>Calculate over- and under-staffing, coverage and inefficiency by interval</li><li>See why fixed shift shapes leave unavoidable gaps</li></ul></div>
+<p class="fm">Net staffing = Scheduled − Required (per interval)<br>Understaffed = max(0, Required − Scheduled)<br>Overstaffed = max(0, Scheduled − Required)<br>Coverage % = 1 − (Σ Understaffed ÷ Σ Required)<br>Schedule inefficiency % = Σ |Scheduled − Required| ÷ Σ Required</p>
+<p>Definitions vary between tools and organizations, so always state which one you use. Below, build a roster using four shift shapes against the requirement from the previous lesson (80% in 20 seconds, AHT 300 s). Each slider is the number of scheduled agents on that shift. Only the share left after shrinkage is on the phone.</p>
+${vz('builder','Interactive shift builder showing coverage against the requirement')}
+<h3>What the builder teaches</h3>
+<ul><li>With only these four shapes, an exhaustive search I ran found no combination that reaches 95% coverage with inefficiency below about 23%. The gaps come from shape, not from a lack of effort.</li><li>Auto-fit is a simple one-step-at-a-time method. It reaches high coverage but leaves a lot of overstaffing, and a person can beat it.</li><li>To close the gap you need other shapes: staggered starts, splits or micro shifts. That is Module 2.</li></ul>
+<div class="key"><b>Key takeaways</b><ul><li>Zero inefficiency is not a realistic target, because demand changes faster than shifts can.</li><li>Coverage can look excellent while the roster is expensive. Always read both numbers.</li></ul></div>
+<div class="try"><b>Try it</b>Get coverage to at least 95% with inefficiency under 25%. Then press Auto-fit and compare.</div>`},
+{t:"Measuring schedule quality",m:"25 min",h:`
+<div class="obj"><b>By the end of this lesson you can</b><ul><li>Calculate coverage, net variance, absolute inefficiency and an hours ratio</li><li>Explain why net variance can hide a poor schedule</li><li>Say when to measure a schedule</li></ul></div>
+<p class="fm">Net variance % = (Σ Scheduled − Σ Required) ÷ Σ Required<br>Coverage % = 1 − (Σ Understaffed ÷ Σ Required)<br>Inefficiency % = Σ |Scheduled − Required| ÷ Σ Required<br>Hours ratio % = Required hours ÷ Scheduled hours</p>
+<h3>Worked example: eight 30-minute intervals</h3>
+<div class="sc"><table><tr><th>Interval</th><th>Required</th><th>Scheduled</th><th>Under</th><th>Over</th></tr>
+<tr><td>1</td><td>20</td><td>22</td><td>0</td><td>2</td></tr><tr><td>2</td><td>24</td><td>24</td><td>0</td><td>0</td></tr><tr><td>3</td><td>28</td><td>26</td><td>2</td><td>0</td></tr><tr><td>4</td><td>30</td><td>32</td><td>0</td><td>2</td></tr><tr><td>5</td><td>26</td><td>28</td><td>0</td><td>2</td></tr><tr><td>6</td><td>22</td><td>22</td><td>0</td><td>0</td></tr><tr><td>7</td><td>18</td><td>16</td><td>2</td><td>0</td></tr><tr><td>8</td><td>14</td><td>18</td><td>0</td><td>4</td></tr>
+<tr><td><b>Total</b></td><td><b>182</b></td><td><b>188</b></td><td><b>4</b></td><td><b>10</b></td></tr></table></div>
+<p>Net variance = +6 ÷ 182 = <b>+3.3%</b>. Coverage = 1 − 4 ÷ 182 = <b>97.8%</b>. Inefficiency = (4 + 10) ÷ 182 = <b>7.7%</b>. Hours ratio = 91 required hours ÷ 94 scheduled hours = <b>96.8%</b>.</p>
+<h3>Why net variance can mislead</h3>
+<p>Required 20 and 20, scheduled 25 and 15. The net variance is 0%, yet the schedule is 5 over in one interval and 5 under in the next: inefficiency is 25%. Always look at the absolute measure.</p>
+<h3>When to measure</h3>
+<ul><li>When the schedule is created.</li><li>A few days before it is worked, after leave, swaps and forecast changes.</li><li>After the day, using actual volume and AHT, to learn how resilient the plan was.</li></ul>
+<div class="key"><b>Key takeaways</b><ul><li>Understaffing hurts service, overstaffing costs money. Track both.</li><li>Part of the gap may sit with recruitment or capacity, not with the scheduler.</li></ul></div>
+<div class="try"><b>Try it</b>Change interval 8 to 14 scheduled. Recalculate the four measures.</div>`}
+];
+const QZ=[
+["Where does scheduling sit in the WFM cycle?",["Before forecasting","Between staffing requirements and real-time management","After reporting","It is separate from the cycle"],1,"Requirements say how many agents each interval needs, scheduling decides who is there, and real-time management handles the day."],
+["An interval needs 25 agents on the phone and shrinkage is 30%. How many should be scheduled?",["30","32","36","43"],2,"25 ÷ 0.70 = 35.7, so 36 agents."],
+["A required total of 40 agent-intervals has 6 understaffed and 4 overstaffed. What is the coverage?",["75%","85%","90%","96%"],1,"Coverage = 1 − 6 ÷ 40 = 85%."],
+["Using the same data, what is the absolute schedule inefficiency?",["10%","15%","25%","50%"],2,"(6 + 4) ÷ 40 = 25%."],
+["Required is 20 and 20, scheduled is 25 and 15. Which statement is true?",["Net variance is 0% and inefficiency is 25%","Net variance is 25% and inefficiency is 0%","Both are 0%","Both are 25%"],0,"The over and under cancel in net variance, but the absolute measure counts both."],
+["Which shift type best covers two peaks in one day?",["Fixed shift","Split shift","Rotating shift","Compressed week"],1,"A split shift has two work blocks with a long gap in between."],
+["Which is true of micro shifts?",["They are always full-time","They are very short shifts that suit short peaks","They replace breaks","They are illegal everywhere"],1,"Micro shifts can last from a couple of hours down to around 30 minutes, which suits short peaks."],
+["Under the EU Working Time Directive, what is the minimum daily rest?",["8 hours","10 hours","11 consecutive hours in every 24","12 hours"],2,"The Directive sets at least 11 consecutive hours of rest in each 24-hour period."],
+["Why should 30-minute meetings or coaching not usually start at the top of the hour?",["Agents prefer it","Contacts tend to arrive around the hour mark","It is against the law","The system cannot handle it"],1,"Contacts often arrive just before and after the hour, so quarter-past is a common recommendation."],
+["Why is zero schedule inefficiency not a realistic target?",["Schedulers are not skilled","Demand changes faster than whole shifts can follow","Erlang C is wrong","Shrinkage is always zero"],1,"People cannot work shifts that last only minutes, so some over- and under-staffing is built in."]
+];
+const LAB=`<h3>Lab: Beat Auto-fit</h3>
+<ol><li>Open the shift builder in Lesson 4 and set shrinkage to 30%.</li><li>Build a roster with coverage of at least 95% and the lowest inefficiency you can reach. Write down your four slider values, coverage, inefficiency and paid hours.</li><li>Press Auto-fit and record its result.</li><li>Write three sentences: what limits how low inefficiency can go with these four shapes, which new shift shape you would add first, and why.</li></ol>
+<details><summary><b>Benchmark</b></summary><p>Auto-fit reaches about 96% coverage with about 25% inefficiency and 348 paid hours. An exhaustive search found a better roster, 20 / 12 / 10 / 0 agents, with about 95% coverage, 23% inefficiency and 336 paid hours. These figures assume 30% shrinkage.</p></details>
+<div class="key"><b>Submit</b>Your two results and your three-sentence conclusion.</div>
+<h3>What you learned</h3><ul><li>Where scheduling fits in the WFM cycle, and its inputs and outputs.</li><li>How volume becomes a requirement curve, then agents to schedule.</li><li>The main shift types and the legal limits behind them.</li><li>How to measure coverage and inefficiency, and why net variance misleads.</li></ul>`;
+
+V.pipeline=el=>{
+ const B=[['Forecast','120 calls','AHT 300 s'],['Workload','20 Erlangs','120 × 300 ÷ 1,800'],['Requirement','25 agents on phone','80/20 target'],['Shrinkage 30%','36 to schedule','25 ÷ 0.70'],['Roster','Shifts, breaks','and days off']];
+ el.innerHTML='<div class="pipe">'+B.map((b,i)=>`<div class="b" data-i="${i}"><span class="n">${i+1}</span><b>${b[0]}</b><span>${b[1]}</span><small>${b[2]}</small></div>`).join('')+'</div><p class="cap">One 30-minute interval followed through the pipeline (Erlang C, AHT 300 s, 80% in 20 s).</p>';
+ const bs=[...el.querySelectorAll('.b')];let k=0,id=0;
+ const show=n=>bs.forEach((b,i)=>b.classList.toggle('on',i<=n));
+ if(rm){show(4)}else{show(0);id=setInterval(()=>{k=(k+1)%7;show(Math.min(k,4))},1100)}
+ return()=>clearInterval(id)};
+
+V.reqcurve=el=>{
+ const{c,x,D,fit}=mkc(el,'<canvas></canvas><div class="ctl"><label for="ra">AHT (s): <b id="rav">300</b></label><input id="ra" type="range" min="120" max="480" step="10" value="300"></div><div class="ctl"><label for="rs">Service level %: <b id="rsv">80</b></label><input id="rs" type="range" min="60" max="95" step="5" value="80"></div><div class="ctl"><label for="rh">Threshold (s): <b id="rhv">20</b></label><input id="rh" type="range" min="10" max="60" step="5" value="20"></div><div class="ctl"><label for="rk">Shrinkage %: <b id="rkv">30</b></label><input id="rk" type="range" min="10" max="45" step="1" value="30"></div><p class="cap" id="rt"></p>');
+ const g=id=>el.querySelector(id),ra=g('#ra'),rs=g('#rs'),rh=g('#rh'),rk=g('#rk');
+ const draw=()=>{fit();const aht=+ra.value,sl=+rs.value,thr=+rh.value,shr=+rk.value/100,w=c.width,h=c.height;
+  ['a','s','h','k'].forEach(k=>g('#r'+k+'v').textContent=g('#r'+k).value);
+  const R=reqAt(aht,sl,thr),S=R.map(n=>Math.ceil(n/(1-shr))),mx=Math.max(...S)*1.1,bw=w/R.length,sc=(h-22*D)/mx,ok=col('--ok'),ink=col('--ink'),mute=col('--mute');
+  x.clearRect(0,0,w,h);x.font=`${11*D}px system-ui,sans-serif`;x.textAlign='center';
+  R.forEach((n,i)=>{x.fillStyle=ok;x.globalAlpha=.75;x.fillRect(i*bw+2,h-22*D-n*sc,bw-4,n*sc);x.globalAlpha=1;x.strokeStyle=ink;x.lineWidth=D;x.strokeRect(i*bw+2,h-22*D-S[i]*sc,bw-4,S[i]*sc);if(i%(w/D<520?8:4)===0){x.fillStyle=mute;x.textAlign=i===0?'left':'center';x.fillText(tl(i),i===0?2*D:i*bw+bw/2,h-6*D);x.textAlign='center'}});
+  const pk=Math.max(...R),pi=R.indexOf(pk),ps=S[pi],tot=R.reduce((p,v)=>p+v,0)/2,ts=S.reduce((p,v)=>p+v,0)/2;
+  g('#rt').textContent=`Green bars = agents on the phone. Outlined bars = agents to schedule after ${Math.round(shr*100)}% shrinkage. Peak at ${tl(pi)}: ${pk} on the phone, ${ps} to schedule. Across the day: ${f1(tot,1)} required hours, ${f1(ts,1)} hours to schedule.`};
+ [ra,rs,rh,rk].forEach(r=>r.oninput=draw);draw();return()=>{}};
+
+V.builder=el=>{
+ const DEF=[16,12,8,0],REQ=reqAt(300,80,20),SH=[[0,16],[4,20],[8,24],[6,14]],HR=[8,8,8,4],NM=['08:00 to 16:00','10:00 to 18:00','12:00 to 20:00','11:00 to 15:00 (4 h)'],S=REQ.reduce((p,v)=>p+v,0);
+ const sl=NM.map((n,k)=>`<div class="ctl"><label for="b${k}">${n}: <b id="bv${k}">${DEF[k]}</b> agents</label><input id="b${k}" type="range" min="0" max="30" value="${DEF[k]}"></div>`).join('');
+ const{c,x,D,fit}=mkc(el,`<canvas></canvas>${sl}<div class="ctl"><label for="bs">Shrinkage %: <b id="bsv">30</b></label><input id="bs" type="range" min="10" max="45" value="30"></div><div class="ctl btns"><button class="btn" id="baf" type="button">Auto-fit</button><button class="btn alt" id="brs" type="button">Reset to start</button></div><p class="cap" id="bt"></p>`);
+ const g=id=>el.querySelector(id),R=[0,1,2,3].map(k=>g('#b'+k)),bs=g('#bs');
+ const cov=(n,shr)=>REQ.map((_,i)=>SH.reduce((s,[a,b],k)=>s+(i>=a&&i<b?n[k]:0),0)*(1-shr));
+ const met=(n,shr)=>{const cv=cov(n,shr);let u=0,o=0;REQ.forEach((r,i)=>{u+=Math.max(0,r-cv[i]);o+=Math.max(0,cv[i]-r)});return{cv,u,o}};
+ const draw=()=>{fit();const n=R.map(r=>+r.value),shr=+bs.value/100,{cv,u,o}=met(n,shr),w=c.width,h=c.height,bw=w/24,mx=Math.max(...REQ,...cv)*1.12,sc=(h-22*D)/mx;
+  const ok=col('--ok'),bad=col('--bad'),ink=col('--ink'),mute=col('--mute');x.clearRect(0,0,w,h);x.font=`${11*D}px system-ui,sans-serif`;x.textAlign='center';
+  cv.forEach((v,i)=>{const r=REQ[i];x.fillStyle=v<r-.05?bad:v>r*1.1?'#E0A21B':ok;x.globalAlpha=.8;x.fillRect(i*bw+2,h-22*D-v*sc,bw-4,v*sc);x.globalAlpha=1;if(i%(w/D<520?8:4)===0){x.fillStyle=mute;x.textAlign=i===0?'left':'center';x.fillText(tl(i),i===0?2*D:i*bw+bw/2,h-6*D);x.textAlign='center'}});
+  x.strokeStyle=ink;x.lineWidth=2*D;x.beginPath();REQ.forEach((r,i)=>{const px=(i+.5)*bw,py=h-22*D-r*sc;i?x.lineTo(px,py):x.moveTo(px,py)});x.stroke();
+  n.forEach((v,k)=>g('#bv'+k).textContent=v);g('#bsv').textContent=bs.value;
+  const paid=n.reduce((p,v,k)=>p+v*HR[k],0);
+  g('#bt').textContent=`Line = required on the phone, bars = scheduled on the phone (red short, amber over, green on target). Agents: ${n.reduce((p,v)=>p+v,0)}, paid hours: ${paid}. Coverage ${f1((1-u/S)*100,1)}%, inefficiency ${f1((u+o)/S*100,1)}%. Required ${f1(S/2,1)} h, scheduled on the phone ${f1(cv.reduce((p,v)=>p+v,0)/2,1)} h.`};
+ const obj=(n,shr)=>{const{u,o}=met(n,shr);return 3*u+o};
+ g('#baf').onclick=()=>{const shr=+bs.value/100;let n=[0,0,0,0];for(let t=0;t<300;t++){let bo=obj(n,shr),best=null;for(let k=0;k<4;k++){const m=n.slice();m[k]++;const v=obj(m,shr);if(v<bo){bo=v;best=m}}if(!best)break;n=best}n.forEach((v,k)=>R[k].value=Math.min(30,v));draw()};
+ g('#brs').onclick=()=>{R.forEach((r,k)=>r.value=DEF[k]);draw()};
+ R.forEach(r=>r.oninput=draw);bs.oninput=draw;draw();return()=>{}};
+
+Object.assign(M,{cp:"scheduling.html",course:"WFM Scheduling",k:"scheduling",nh:null});
+</script>
+<script>
+document.title=`Module ${M.n}: ${M.t} | ${M.course} | Carrow Academy`;
+document.getElementById('h1').textContent=`Module ${M.n}: ${M.t}`;
+document.getElementById('crumb').innerHTML=`<a href="index.html">Carrow Academy</a> / <a href="${M.cp}">${M.course}</a> / ${M.lvl}`;
+const main=document.getElementById('main'),navEl=document.getElementById('nav');
+const KEY='carrow-'+(M.k||'rta')+'-m'+M.n;
+let cur=0,done=new Set(),total=LS.length+2;
+try{done=new Set(JSON.parse(localStorage.getItem(KEY)||'[]'))}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify([...done]))}catch(e){}};
+const names=[...LS.map((l,i)=>`${i+1}. ${l.t}`),"Knowledge check","Lab and wrap-up"];
+function nav(){
+  navEl.innerHTML=names.map((n,i)=>`<button data-i="${i}" class="${done.has(i)?'done':''}" ${i===cur?'aria-current="true"':''}><span class="dot">${done.has(i)?'&#10003;':i+1}</span><span class="nm">${n}</span></button>`).join('');
+  navEl.querySelectorAll('button').forEach(b=>b.onclick=()=>go(+b.dataset.i));
+  document.getElementById('pb').style.width=(done.size/total*100)+'%';
+  document.getElementById('pl').textContent=`${done.size} of ${total} complete`;
+}
+function foot(i){return `<div class="row"><button class="btn alt" ${i===0?'disabled':''} onclick="go(${i-1})">Previous</button><button class="btn" onclick="finish(${i})">${i===total-1?'Complete module':'Mark complete and continue'}</button></div>`}
+function finish(i){done.add(i);save();if(i<total-1)go(i+1);else{nav();if(!main.querySelector('.res.fin'))main.insertAdjacentHTML('beforeend',`<p class="res fin">Module ${M.n} complete. Next: ${M.nh?`<a href="${M.nh}">${M.next}</a>`:`${M.next} (coming soon)`}. <a href="${M.cp}">Back to the course outline</a></p>`)}}
+function go(i,quiet){
+  cur=i;cleanup.forEach(f=>f());cleanup=[];
+  if(i<LS.length){const l=LS[i];main.innerHTML=`<p class="pl">Lesson ${i+1} of ${LS.length}</p><h2>${l.t}</h2><p class="meta">${l.m} read</p>${l.h}${foot(i)}`}
+  else if(i===LS.length){
+    main.innerHTML=`<h2>Knowledge check</h2><p class="meta">${QZ.length} questions. Pass mark 70%.</p>`+QZ.map((q,n)=>`<div class="q" id="q${n}"><p>${n+1}. ${q[0]}</p>${shuf(q[1].map((o,k)=>[o,k])).map(([o,k])=>`<label><input type="radio" name="q${n}" value="${k}"> ${o}</label>`).join('')}<div class="fb"></div></div>`).join('')+`<button class="btn" id="chk">Check answers</button><div class="res" id="sc" role="status"></div>`+foot(i).replace('Mark complete and continue','Continue');
+    document.getElementById('chk').onclick=()=>{let s=0;QZ.forEach((q,n)=>{const v=document.querySelector(`input[name=q${n}]:checked`),b=document.getElementById('q'+n),ok=v&&+v.value===q[2];if(ok)s++;b.className='q '+(ok?'right':'wrong');b.querySelector('.fb').textContent=(ok?'Correct. ':v?'Not quite. ':'Unanswered. ')+q[3]});const p=Math.round(s/QZ.length*100);document.getElementById('sc').textContent=`Score: ${s}/${QZ.length} (${p}%). ${p>=70?'Passed.':'Review the lessons and try again.'}`;if(p>=70){done.add(i);save();nav()}};
+  } else main.innerHTML=`<h2>Lab and wrap-up</h2><p class="meta">${M.lab}</p>${LAB}${foot(i)}`;
+  main.querySelectorAll('.viz').forEach(e=>cleanup.push(V[e.dataset.v](e)));
+  nav();if(!quiet)main.scrollIntoView({behavior:rm?'auto':'smooth',block:'start'});
+}
+addEventListener('carrow-theme',()=>{cleanup.forEach(f=>f());cleanup=[];main.querySelectorAll('.viz').forEach(e=>cleanup.push(V[e.dataset.v](e)))});
+go(0,true);
+</script>
+<script>
+/* Carrow Academy: animated data background. Include once per page, before </body>.
+   Uses the page's --accent color. Respects reduced motion, pauses in hidden tabs. */
+(()=>{
+const lite=!!(navigator.connection&&navigator.connection.saveData)||(navigator.deviceMemory&&navigator.deviceMemory<=1);
+const rm=matchMedia('(prefers-reduced-motion: reduce)').matches||lite;
+const c=document.createElement('canvas');
+c.setAttribute('aria-hidden','true');
+c.style.cssText='position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none';
+document.body.prepend(c);
+const x=c.getContext('2d');
+let W,H,D,t=0,last=0,pts=[];
+function size(){
+  D=Math.min(devicePixelRatio||1,2);W=c.width=Math.round(innerWidth*D);H=c.height=Math.round(innerHeight*D);
+  pts=Array.from({length:36},()=>({x:Math.random()*W,y:Math.random()*H,r:(1+Math.random()*2)*D,v:(.15+Math.random()*.35)*D}));
+}
+function draw(){
+  const ac=getComputedStyle(document.documentElement).getPropertyValue('--accent').trim()||'#0F6E64';
+  x.clearRect(0,0,W,H);x.strokeStyle=ac;x.fillStyle=ac;
+  // data grid
+  x.globalAlpha=.05;x.lineWidth=D;const g=80*D;
+  for(let i=0;i<W;i+=g){x.beginPath();x.moveTo(i,0);x.lineTo(i,H);x.stroke()}
+  for(let j=0;j<H;j+=g){x.beginPath();x.moveTo(0,j);x.lineTo(W,j);x.stroke()}
+  // flowing trend lines
+  [[.28,.05,1,.5],[.42,.07,1.5,.8],[.58,.04,2.2,.35]].forEach(([b,a,f,s],k)=>{
+    x.globalAlpha=.13-k*.03;x.lineWidth=2*D;x.beginPath();
+    for(let i=0;i<=W;i+=8*D){
+      const u=i/W,y=H*(b+a*Math.sin(u*6*f+t*s)+a*.5*Math.sin(u*13+t*s*1.7+k));
+      i?x.lineTo(i,y):x.moveTo(i,y);
+    }
+    x.stroke();
+  });
+  // rising and falling interval bars
+  x.globalAlpha=.06;const bw=26*D,n=Math.ceil(W/bw);
+  for(let i=0;i<n;i++){
+    const h=H*.13*(.5+.5*Math.sin(i*.45+t*.7))*(.6+.4*Math.sin(i*.17+t*.2));
+    x.fillRect(i*bw,H-h,18*D,h);
+  }
+  // drifting data points
+  x.globalAlpha=.15;
+  pts.forEach(p=>{if(!rm){p.y-=p.v;if(p.y<-10)p.y=H+10}x.beginPath();x.arc(p.x,p.y,p.r,0,6.3);x.fill()});
+  x.globalAlpha=1;
+}
+function loop(ts){
+  if(!last)last=ts;
+  if(!document.hidden&&ts-last>33){t+=Math.min((ts-last)/1000,.1);last=ts;draw()}
+  requestAnimationFrame(loop);
+}
+size();draw();
+document.addEventListener('carrow-theme',draw);
+addEventListener('resize',()=>{size();draw()});
+addEventListener('carrow-theme',draw);
+if(!rm)requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

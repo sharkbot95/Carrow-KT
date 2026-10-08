@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Module 3: Core Metrics and WFM Math | WFM Real-Time Analyst | Carrow Academy</title>
+<meta name="description" content="Core WFM metrics and formulas: AHT, Erlangs, service level, occupancy, shrinkage, Erlang C, adherence and forecast accuracy.">
+<meta name="robots" content="noindex,follow"><link rel="canonical" href="https://carrowacademy.space/rta-module-3.html">
+<meta name="theme-color" content="#F4F7FB">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Carrow Academy"><meta property="og:title" content="Module 3: Core Metrics and WFM Math | WFM Real-Time Analyst | Carrow Academy"><meta property="og:description" content="Core WFM metrics and formulas: AHT, Erlangs, service level, occupancy, shrinkage, Erlang C, adherence and forecast accuracy."><meta property="og:url" content="https://carrowacademy.space/rta-module-3.html"><meta name="twitter:card" content="summary">
+<style>/* Carrow Academy theme. Light and dark palettes. WCAG AA contrast checked. */
+:root{--bg:#F4F7FB;--card:#FFFFFF;--ink:#0F1E2E;--mute:#46596D;--line:#D3DDE8;--accent:#0B6B5F;--accent-ink:#FFFFFF;--on:#FFFFFF;--hi:#FFF1CC;--hiink:#6B4A00;--ok:#0B6B5F;--bad:#B3261E;--hero:#0F2236;--heroink:#E8EFF7;--bar:#4FD1BD;--bar2:#F0B429;color-scheme:light}
+:root[data-theme="dark"]{--bg:#0B1422;--card:#142238;--ink:#E8EFF7;--mute:#A3B4C6;--line:#26384D;--accent:#4FD1BD;--accent-ink:#0B1422;--on:#0B1422;--hi:#3A3016;--hiink:#F5D98A;--ok:#4FD1BD;--bad:#FF8A80;--hero:#08101B;--heroink:#E8EFF7;color-scheme:dark}
+@media (prefers-color-scheme:dark){:root:not([data-theme]){--bg:#0B1422;--card:#142238;--ink:#E8EFF7;--mute:#A3B4C6;--line:#26384D;--accent:#4FD1BD;--accent-ink:#0B1422;--on:#0B1422;--hi:#3A3016;--hiink:#F5D98A;--ok:#4FD1BD;--bad:#FF8A80;--hero:#08101B;color-scheme:dark}}
+html{box-sizing:border-box;scroll-padding-top:76px}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;-webkit-text-size-adjust:100%}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.topbar{display:flex;align-items:center;gap:18px;padding:10px 18px;padding-top:calc(10px + env(safe-area-inset-top,0px));background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
+.brand{font-weight:800;color:var(--ink);text-decoration:none;letter-spacing:-.01em;font-size:1.05rem}
+.brand span{color:var(--accent)}
+.tn{display:flex;gap:18px;margin-left:auto;font-size:.95rem}
+.tn a{color:var(--mute);text-decoration:none;font-weight:600}
+.tn a:hover{color:var(--ink)}
+.tt{flex:none;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--bg);color:var(--ink);display:grid;place-items:center;cursor:pointer}
+.tt svg{width:20px;height:20px}
+.brand{white-space:nowrap}
+@media (max-width:560px){.topbar{flex-wrap:wrap;gap:4px 12px;padding-left:12px;padding-right:12px}.tn{order:3;flex:1 0 100%;justify-content:space-between;margin-left:0;gap:8px;font-size:.92rem;border-top:1px solid var(--line);padding-top:6px}.tt{margin-left:auto;width:36px;height:36px}html{scroll-padding-top:110px}}
+.skip{position:absolute;left:-999px}.skip:focus{left:8px;top:8px;background:var(--card);padding:8px;z-index:50}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style><style>
+:root{box-sizing:border-box}
+header.mh{padding:18px;border-bottom:1px solid var(--line);background:var(--card)}
+header p{margin:0;color:var(--mute);font-size:.88rem}
+header h1{margin:2px 0 0;font-size:1.4rem;line-height:1.2}
+.layout{max-width:1040px;margin:0 auto;padding:22px 18px 60px;display:grid;gap:24px;grid-template-columns:260px 1fr}
+.layout>nav{align-self:start;position:sticky;top:76px}
+.layout>nav button{display:flex;gap:10px;width:100%;text-align:left;font:inherit;font-size:.95rem;background:none;border:1px solid transparent;border-radius:8px;padding:9px 10px;color:var(--ink);cursor:pointer}
+.layout>nav button[aria-current="true"]{background:var(--card);border-color:var(--line);font-weight:700}
+.layout>nav .dot{flex:none;width:20px;height:20px;border-radius:50%;border:2px solid var(--line);margin-top:2px;font-size:.7rem;display:grid;place-items:center}
+.layout>nav .done .dot{background:var(--ok);border-color:var(--ok);color:var(--on)}
+.bar{height:8px;background:var(--line);border-radius:4px;margin:0 0 14px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+.pl{font-size:.82rem;color:var(--mute);margin:0 0 4px}
+article{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:26px 28px;min-width:0}
+article h2{margin:0 0 4px;font-size:1.7rem;line-height:1.2}
+.meta{color:var(--mute);font-size:.9rem;margin:0 0 18px}
+article h3{margin:24px 0 6px;font-size:1.1rem}
+article p,article li{max-width:68ch}
+.obj,.key,.try{border-radius:8px;padding:12px 16px;margin:16px 0}
+.obj{background:var(--bg);border:1px solid var(--line)}
+.key{background:var(--hi);color:var(--hiink)}
+.try{border:2px dashed var(--accent)}
+.obj b,.key b,.try b{display:block;margin-bottom:2px}
+.obj ul,.key ul{margin:4px 0 0;padding-left:20px}
+.sc{overflow-x:auto}
+table{width:100%;border-collapse:collapse;margin:10px 0;font-size:.94rem}
+th,td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--mute)}
+.q{border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:14px 0}
+.q p{margin:0 0 8px;font-weight:700}
+.q label{display:block;padding:5px 0;cursor:pointer}
+.q .fb{margin:8px 0 0;font-size:.92rem}
+.q.right{border-color:var(--ok)}.q.wrong{border-color:var(--bad)}
+.q.right .fb{color:var(--ok)}.q.wrong .fb{color:var(--bad)}
+.btn{font:inherit;font-weight:700;background:var(--accent);color:var(--on);border:0;border-radius:8px;padding:11px 22px;cursor:pointer}
+.btn.alt{background:none;color:var(--ink);border:2px solid var(--line)}
+.row{display:flex;gap:10px;margin-top:26px;flex-wrap:wrap;justify-content:space-between}
+.res{font-weight:800;font-size:1.1rem;margin:12px 0}
+@media (max-width:820px){.layout{grid-template-columns:1fr}.layout>nav{position:static}article{padding:20px 16px}}
+.viz{margin:18px 0;border:1px solid var(--line);border-radius:10px;padding:12px;background:var(--bg)}
+.viz canvas{width:100%;height:230px;display:block}
+.viz .cap{font-size:.86rem;color:var(--mute);margin:8px 0 0}
+.viz .ctl{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:10px;font-size:.92rem}
+.viz input[type=range]{flex:1;min-width:160px;accent-color:var(--accent)}
+.layout>nav{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px}
+
+.fm{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.92rem;background:var(--bg);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:6px;padding:10px 14px;line-height:1.75;overflow-x:auto;max-width:none}
+.meter{background:var(--line);border-radius:6px;height:18px;overflow:hidden;margin:4px 0 12px}
+.meter i{display:block;height:100%;background:var(--ok);transition:width .25s}
+.meter.bad i{background:var(--bad)}
+.lbl{display:flex;justify-content:space-between;gap:12px;font-size:.92rem}
+article details{margin:10px 0}
+
+header.mh p{margin:0;color:var(--mute);font-size:.88rem}
+header.mh a{color:var(--mute)}
+header.mh h1{margin:2px 0 0;font-size:1.4rem;line-height:1.2}
+.ns{padding:18px}
+.pipe{display:flex;flex-wrap:wrap;gap:10px}
+.pipe .b{flex:1 1 140px;display:flex;flex-direction:column;gap:2px;border:2px solid var(--line);border-radius:10px;padding:10px 12px;text-align:center;background:var(--card);transition:background .3s,border-color .3s}
+.pipe .b.on{border-color:var(--accent);background:var(--hi);color:var(--hiink)}
+.pipe .n{align-self:center;width:22px;height:22px;border-radius:50%;background:var(--accent);color:var(--on);font-size:.75rem;font-weight:800;display:grid;place-items:center}
+.pipe small{color:var(--mute)}
+.pipe .b.on small{color:var(--hiink)}
+.viz .btn{margin-right:8px}
+.viz .ctl:has(input[type=range]){display:grid;grid-template-columns:minmax(170px,36%) 1fr;align-items:center}
+.viz .ctl.btns{display:flex}
+@media (max-width:560px){.viz .ctl:has(input[type=range]){grid-template-columns:1fr}}
+.pipe .b{flex:1 1 118px;min-width:0}
+.pipe .b b,.pipe .b span,.pipe .b small{overflow-wrap:normal;word-break:normal;hyphens:none}
+.pipe .b b{font-size:.85rem}
+.pipe .b{padding:8px 4px}
+@media (max-width:820px){
+ .layout{grid-template-columns:minmax(0,1fr)}
+ .layout>*{min-width:0}
+ .layout>nav{padding:10px 10px 8px}
+ #nav{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px}
+ #nav button{flex:none;width:auto;padding:6px 10px;align-items:center}
+ #nav button .nm{display:none}
+ #nav button[aria-current="true"] .nm{display:inline;white-space:nowrap}
+ .pipe .b{flex:1 1 130px}
+}
+</style>
+<script>
+(()=>{const d=document.documentElement,K='carrow-theme';
+const SUN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
+const MOON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>';
+const sys=()=>matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+const get=()=>{try{return localStorage.getItem(K)}catch(e){return null}};
+const apply=t=>{d.dataset.theme=t;const b=document.getElementById('theme-toggle');
+ if(b){b.setAttribute('aria-label',t==='dark'?'Switch to light theme':'Switch to dark theme');b.setAttribute('aria-pressed',t==='dark'?'true':'false');b.innerHTML=t==='dark'?SUN:MOON}
+ const m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='dark'?'#0B1422':'#F4F7FB';
+ dispatchEvent(new Event('carrow-theme'))};
+apply(get()||sys());
+document.addEventListener('DOMContentLoaded',()=>{
+ let b=document.getElementById('theme-toggle');
+ if(!b){const bar=document.createElement('nav');bar.className='topbar';bar.setAttribute('aria-label','Site');
+  bar.innerHTML='<a class="brand" href="index.html">Carrow <span>Academy</span></a><div class="tn"><a href="index.html">Home</a><a href="index.html#courses">Courses</a><a href="toolkit.html">Toolkit</a></div><button id="theme-toggle" class="tt" type="button"></button>';
+  document.body.prepend(bar);b=bar.querySelector('#theme-toggle')}
+ b.onclick=()=>{const n=d.dataset.theme==='dark'?'light':'dark';try{localStorage.setItem(K,n)}catch(e){}apply(n)};
+ apply(d.dataset.theme)});
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',e=>{if(!get())apply(e.matches?'dark':'light')});
+})();
+</script>
+
+</head>
+<body>
+<nav class="topbar" aria-label="Site"><a class="brand" href="index.html">Carrow <span>Academy</span></a><div class="tn"><a href="index.html">Home</a><a href="index.html#courses">Courses</a><a href="toolkit.html">Toolkit</a></div><button id="theme-toggle" class="tt" type="button" aria-label="Switch theme"></button></nav>
+<header class="mh"><p id="crumb"></p><h1 id="h1"></h1></header>
+<main class="layout" id="main-content">
+  <nav aria-label="Module lessons"><p class="pl" id="pl"></p><div class="bar"><i id="pb"></i></div><div id="nav"></div></nav>
+  <article id="main" tabindex="-1" aria-live="polite"><noscript><p class="ns">This interactive lesson needs JavaScript. Please enable it to continue.</p></noscript></article>
+</main>
+<script>
+const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let cleanup=[];const V={};
+const col=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const mkc=(el,h)=>{el.innerHTML=h;const c=el.querySelector('canvas'),D=Math.min(devicePixelRatio||1,2);
+  const fit=()=>{const w=Math.round(c.clientWidth*D),hh=Math.round(c.clientHeight*D);if(c.width!==w||c.height!==hh){c.width=w;c.height=hh}};
+  fit();return{c,x:c.getContext('2d'),D,fit}};
+// Erlang C via the Erlang B recursion (numerically stable)
+const ec=(N,A)=>{if(N<=A)return 1;let B=1;for(let i=1;i<=N;i++)B=A*B/(i+A*B);return N*B/(N-A*(1-B))};
+const slv=(N,A,aht,T)=>N>A?1-ec(N,A)*Math.exp(-(N-A)*T/aht):0;
+const asaf=(N,A,aht)=>N>A?ec(N,A)*aht/(N-A):Infinity;
+const needN=(A,aht,T,tgt)=>{for(let N=Math.max(1,Math.ceil(A));N<5000;N++)if(N>A&&slv(N,A,aht,T)>=tgt)return N};
+const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const f1=(n,d=1)=>Number.isFinite(n)?n.toLocaleString(undefined,{maximumFractionDigits:d}):'n/a';
+
+</script>
+<script>const SITE={slug:"rta",name:"WFM Real-Time Analyst",page:"rta.html"};</script>
+<script>
+const M={cp:"carrow-wfm-rta-course-page.html",course:"WFM Real-Time Analyst",k:"rta",n:3,t:"Core Metrics and WFM Math",lvl:"Level 1: Foundation",lab:"60 to 90 min",next:"Module 4, Schedules, Activities and Adherence Rules"};
+const vz=(n,l)=>`<div class="viz" data-v="${n}" aria-live="off" role="group" aria-label="${l}"></div>`;
+const LS=[
+{t:"AHT, workload and Erlangs",m:"25 min",h:`
+<div class="obj"><b>By the end of this lesson you can</b><ul><li>Calculate AHT, workload hours and Erlangs</li><li>Explain why you always need more agents than Erlangs</li></ul></div>
+<h3>Average handle time (AHT)</h3>
+<p class="fm">AHT = Talk time + Hold time + After-call work (ACW)</p>
+<p>Example: 240 + 30 + 45 = <b>315 seconds</b>. Across many contacts, AHT is total handle time divided by contacts handled. Some organizations include or exclude certain elements, so confirm your own definition.</p>
+<h3>Workload and traffic (Erlangs)</h3>
+<p class="fm">Workload hours = (Volume × AHT in seconds) ÷ 3,600<br>Erlangs (traffic intensity) = (Volume × AHT in seconds) ÷ Interval length in seconds</p>
+<p>Example: 1,200 calls × 300 s ÷ 3,600 = <b>100 workload hours</b>. In a 30-minute interval, 100 calls × 300 s ÷ 1,800 = <b>16.67 Erlangs</b>. One Erlang equals one agent busy for the entire interval, so Erlangs are simply workload hours arriving per hour.</p>
+${vz('workload','Interactive workload and Erlangs calculator')}
+<div class="key"><b>Key takeaways</b><ul><li>Erlangs tell you the minimum number of fully busy agents the work represents.</li><li>You need more agents than Erlangs. Occupancy at N agents is Erlangs ÷ N.</li><li>Always match units: seconds with seconds, and interval length with volume.</li></ul></div>
+<div class="try"><b>Try it</b>Calculate Erlangs for 150 calls in 30 minutes with AHT 240. Check it in the Carrow WFM Formula Toolkit.</div>`},
+{t:"Service level, ASA and abandonment",m:"20 min",h:`
+<div class="obj"><b>By the end of this lesson you can</b><ul><li>Calculate service level, ASA and abandonment rate</li><li>Explain why ASA alone can mislead</li></ul></div>
+<p class="fm">Service level % = Contacts answered within threshold ÷ Contacts offered × 100<br>ASA = Total wait time of answered contacts ÷ Contacts answered<br>Abandonment % = Abandoned contacts ÷ Contacts offered × 100</p>
+<p>Examples: 840 ÷ 1,000 = <b>84%</b> service level. 18,000 s ÷ 950 answered = <b>18.9 s</b> ASA. 60 ÷ 1,000 = <b>6%</b> abandonment.</p>
+<p><b>80/20</b> is shorthand for 80% of contacts answered within 20 seconds. Definitions vary between organizations and platforms, for example in how very short abandons are treated, so check how yours is calculated.</p>
+<h3>Why ASA can mislead</h3>
+<p>ASA is an average. Many instant answers can hide a minority of long waits. Move the threshold below and watch service level change while ASA stays fixed.</p>
+${vz('waits','Interactive chart of wait times with a movable service level threshold')}
+<div class="key"><b>Key takeaways</b><ul><li>Service level is a percentage of contacts. ASA is an average. They answer different questions.</li><li>Longer waits drive more abandonment, but abandonment makes waits look shorter than they really were.</li></ul></div>
+<div class="try"><b>Try it</b>With a 20-second threshold, what service level do you see? Move the threshold to 10 and 40 seconds. Does ASA change?</div>`},
+{t:"Occupancy, utilization, shrinkage and headcount",m:"25 min",h:`
+<div class="obj"><b>By the end of this lesson you can</b><ul><li>Distinguish occupancy, utilization and shrinkage</li><li>Convert agents on the phone into agents to schedule</li></ul></div>
+<p class="fm">Occupancy % = Handle time ÷ (Handle time + Available time) × 100<br>Utilization % = Productive time ÷ Paid time × 100<br>Shrinkage % = (Paid time − Productive time) ÷ Paid time × 100</p>
+<p>Examples: occupancy 5.5 ÷ (5.5 + 1.5) = <b>78.6%</b>. Utilization 6 ÷ 8 = <b>75%</b>. Shrinkage (160 − 112) ÷ 160 = <b>30%</b>.</p>
+<ul><li><b>Occupancy</b> measures how busy agents are while they are available. Targets are commonly 80 to 85%, and sustained levels above roughly 85 to 90% are widely treated as a burnout risk. Acceptable levels vary by team size and channel.</li><li><b>Utilization</b> is measured against all paid time, so it is always lower than occupancy. There is no single industry definition, so state yours.</li><li><b>Shrinkage</b> is paid time when agents cannot handle contacts, such as breaks, leave, training, meetings, absence and system downtime. Commonly quoted ranges are about 25 to 35%, but it varies a lot.</li></ul>
+<h3>Applying shrinkage</h3>
+<p class="fm">Agents to schedule = Agents required ÷ (1 − Shrinkage)</p>
+<p>If 70 agents are needed on the phones and shrinkage is 30%, schedule 70 ÷ 0.70 = <b>100</b>. A common mistake is multiplying by (1 + shrinkage), which gives 91 and understaffs.</p>
+${vz('waterfall','Interactive chart of how paid time splits into shrinkage, idle and handling')}
+<div class="key"><b>Key takeaways</b><ul><li>Shrinkage is applied after the Erlang C requirement, by dividing, not multiplying.</li><li>Only a little over half of paid time is typically spent handling contacts.</li></ul></div>
+<div class="try"><b>Try it</b>Set shrinkage to 30% and occupancy to 80%. What share of paid time is spent handling contacts?</div>`},
+{t:"Erlang C: from workload to agents",m:"30 min",h:`
+<div class="obj"><b>By the end of this lesson you can</b><ul><li>Explain each step of the Erlang C method</li><li>Find the agents needed to hit a service level target</li><li>State its assumptions and limits</li></ul></div>
+<p>Erlang C estimates how many agents you need so that a given share of contacts is answered within a threshold.</p>
+<p class="fm">Pw = [A^N ÷ N! × N ÷ (N − A)] ÷ [ Σ (A^k ÷ k!) for k = 0 to N−1 + A^N ÷ N! × N ÷ (N − A) ]<br>Service level = 1 − Pw × e^( −(N − A) × T ÷ AHT )<br>ASA = Pw × AHT ÷ (N − A)<br>Occupancy = A ÷ N</p>
+<p>Here A is the workload in Erlangs, N the number of agents, Pw the probability that a contact has to wait, T the threshold in seconds and AHT in seconds.</p>
+<h3>The method</h3>
+<ol><li>Calculate A from volume, AHT and interval length.</li><li>Start with N just above A.</li><li>Calculate Pw, then service level.</li><li>Add one agent at a time until the target is met.</li><li>Apply shrinkage to get agents to schedule.</li></ol>
+<h3>Worked example (200 calls in an hour, AHT 180 s, 20 s threshold, so A = 10)</h3>
+<div class="sc"><table><tr><th>Agents</th><th>Chance of waiting</th><th>Service level</th><th>ASA</th><th>Occupancy</th></tr>
+<tr><td>11</td><td>68.2%</td><td>39.0%</td><td>122.8 s</td><td>90.9%</td></tr>
+<tr><td>12</td><td>44.9%</td><td>64.0%</td><td>40.4 s</td><td>83.3%</td></tr>
+<tr><td>13</td><td>28.5%</td><td>79.6%</td><td>17.1 s</td><td>76.9%</td></tr>
+<tr><td>14</td><td>17.4%</td><td>88.8%</td><td>7.8 s</td><td>71.4%</td></tr></table></div>
+<p>13 agents just miss 80/20 at 79.6%, so you need <b>14</b>. Notice the cliff: going from 11 to 14 agents lifts service level from 39% to 89%.</p>
+${vz('slcurve','Interactive service level curve showing how many agents are needed')}
+<h3>Assumptions and limits</h3>
+<ul><li>Contacts arrive randomly (Poisson) and handle times are exponential.</li><li>Agents are identical, handle one contact at a time and serve in first-come order.</li><li>Customers never abandon. Because of this, Erlang C is generally conservative and tends to overstate the staff needed. Erlang A models abandonment.</li><li>Real handle-time distributions often differ from exponential.</li><li>It does not cover chat concurrency or complex multi-skill routing, where simulation is used.</li></ul>
+<div class="key"><b>Key takeaways</b><ul><li>Treat Erlang C as a strong baseline, not an exact prediction.</li><li>Small agent shortfalls near the workload cause large service level drops.</li></ul></div>
+<div class="try"><b>Try it</b>Set 120 calls, AHT 300, threshold 20 on the chart. How many agents does 80/20 need, and what is the occupancy?</div>`},
+{t:"Adherence, conformance, absence and headcount planning",m:"20 min",h:`
+<div class="obj"><b>By the end of this lesson you can</b><ul><li>Calculate adherence, conformance, absenteeism and attrition</li><li>Explain why 100% conformance does not mean good adherence</li></ul></div>
+<p class="fm">Adherence % = Time in adherence ÷ Scheduled time × 100<br>Conformance % = Actual time worked ÷ Scheduled time × 100<br>Absenteeism % = Absent hours ÷ Scheduled hours × 100<br>Attrition % = Leavers ÷ Average headcount × 100<br>FTE = Required hours ÷ Hours per FTE</p>
+<p>Examples: 432 ÷ 480 = <b>90%</b> adherence. 450 ÷ 480 = <b>93.75%</b> conformance. 96 ÷ 1,600 = <b>6%</b> absenteeism. 18 ÷ 120 = <b>15%</b> attrition. 2,400 ÷ 160 = <b>15 FTE</b>. State the period for attrition (monthly or annual) so numbers compare fairly.</p>
+<h3>Adherence is about timing. Conformance is about total hours.</h3>
+<p>Adherence asks whether the agent was in the right state at the right time. Conformance asks whether the agent worked the total hours scheduled. Many centers treat roughly 85 to 95% as an acceptable adherence range, with targets set by each organization. Adjust the example below.</p>
+${vz('adh','Interactive comparison of adherence and conformance for a late lunch')}
+<h3>Hiring need (planning shorthand)</h3>
+<p class="fm">Hires needed = Required headcount − Current headcount + Expected leavers</p>
+<div class="key"><b>Key takeaways</b><ul><li>An agent can have perfect conformance and poor adherence.</li><li>Always state the period and the exact definition used.</li></ul></div>
+<div class="try"><b>Try it</b>At what lunch delay does adherence drop below 90%?</div>`},
+{t:"Forecast accuracy and cost metrics",m:"20 min",h:`
+<div class="obj"><b>By the end of this lesson you can</b><ul><li>Calculate variance, MAPE, accuracy and WAPE</li><li>Calculate cost per contact and contacts per agent hour</li></ul></div>
+<p class="fm">Variance % = (Actual − Forecast) ÷ Forecast × 100<br>MAPE = average of ( |Actual − Forecast| ÷ Actual ) × 100<br>Forecast accuracy = 100 − MAPE<br>WAPE = Σ|Actual − Forecast| ÷ ΣActual × 100<br>Cost per contact = Total operating cost ÷ Contacts handled<br>Contacts per hour = Contacts handled ÷ Productive hours</p>
+<p>Example: forecast 1,000, actual 1,080 gives <b>+8%</b> variance. For actuals 520, 480, 610, 450, 700 against forecasts 500, 510, 580, 470, 650, MAPE is <b>5.32%</b>, accuracy <b>94.68%</b> and WAPE <b>5.43%</b>. Cost per contact 250,000 ÷ 42,000 = <b>5.95</b>. 1,800 contacts ÷ 300 hours = <b>6</b> per hour.</p>
+<ul><li>MAPE treats each interval equally. WAPE weights by volume, which better reflects staffing cost.</li><li>MAPE breaks down when an actual is zero, so use WAPE then.</li><li>Variance divides by forecast and MAPE divides by actual. Conventions differ, so confirm which your team uses.</li><li>Forecast AHT too. A 10% AHT miss is a 10% workload miss even when volume is exact.</li><li>Accuracy is lower at the interval level than for a day or week, and targets vary by center.</li></ul>
+${vz('mape','Interactive forecast bias and accuracy chart')}
+<div class="key"><b>Key takeaways</b><ul><li>Bias shows up quickly in MAPE, so feed variance patterns back to forecasters.</li></ul></div>
+<div class="try"><b>Try it</b>Apply a +10% forecast bias. What happens to accuracy?</div>`}
+];
+const QZ=[
+["Talk 240 s, hold 30 s, ACW 45 s. What is the AHT?",["270 s","285 s","315 s","345 s"],2,"240 + 30 + 45 = 315 seconds."],
+["150 calls arrive in 30 minutes with AHT 240 s. What is the traffic in Erlangs?",["10","15","20","30"],2,"150 × 240 ÷ 1,800 = 20 Erlangs."],
+["840 of 1,000 offered contacts were answered within the threshold. What is the service level?",["8.4%","84%","16%","94%"],1,"840 ÷ 1,000 × 100 = 84%."],
+["Total wait time of answered calls is 27,000 s across 900 answered calls. What is the ASA?",["20 s","27 s","30 s","90 s"],2,"27,000 ÷ 900 = 30 seconds."],
+["Handle time 6.0 hours and available time 1.5 hours. What is occupancy?",["75%","80%","85%","90%"],1,"6 ÷ (6 + 1.5) = 80%."],
+["60 agents are needed on the phones and shrinkage is 25%. How many should be scheduled?",["75","80","84","45"],1,"60 ÷ (1 − 0.25) = 80. Multiplying by 1.25 gives 75 and understaffs."],
+["With 10 Erlangs and 11 agents, what is the occupancy?",["71.4%","83.3%","90.9%","100%"],2,"Occupancy = A ÷ N = 10 ÷ 11 = 90.9%."],
+["An agent works every scheduled hour but takes lunch one hour late. Which statement is true?",["Conformance is 100% but adherence is below 100%","Adherence is 100% but conformance is below 100%","Both are 100%","Both are below 100%"],0,"The total hours were worked, but at the wrong times."],
+["Forecast 1,000 calls and actual 1,080. What is the variance using (Actual − Forecast) ÷ Forecast?",["−8%","+7.4%","+8%","+10%"],2,"80 ÷ 1,000 = +8%."],
+["Which is an assumption of the Erlang C model?",["Customers abandon after 60 seconds","Customers never abandon while waiting","Agents handle several contacts at once","Handle times are all identical"],1,"Erlang C assumes infinite patience, which is why it tends to overstate staffing."]
+];
+const LAB=`<h3>Lab: Size the morning</h3>
+<p>Using the Carrow WFM Formula Toolkit, complete this table for the four 30-minute intervals below. Target is 80% in 20 seconds. Shrinkage is 30%.</p>
+<div class="sc"><table><tr><th>Interval</th><th>Calls</th><th>AHT (s)</th><th>Erlangs</th><th>Agents on phone</th><th>Agents to schedule</th></tr>
+<tr><td>09:00</td><td>80</td><td>300</td><td></td><td></td><td></td></tr><tr><td>09:30</td><td>100</td><td>300</td><td></td><td></td><td></td></tr><tr><td>10:00</td><td>120</td><td>330</td><td></td><td></td><td></td></tr><tr><td>10:30</td><td>90</td><td>300</td><td></td><td></td><td></td></tr></table></div>
+<p>Then answer: which interval is the pinch point, and what happens to the requirement if AHT rises 10% across the morning?</p>
+<details><summary><b>Self-check answers</b></summary><div class="sc"><table><tr><th>Interval</th><th>Erlangs</th><th>Agents on phone</th><th>Agents to schedule</th></tr>
+<tr><td>09:00</td><td>13.33</td><td>18</td><td>26</td></tr><tr><td>09:30</td><td>16.67</td><td>21</td><td>31</td></tr><tr><td>10:00</td><td>22.00</td><td>27</td><td>39</td></tr><tr><td>10:30</td><td>15.00</td><td>19</td><td>28</td></tr></table></div><p>10:00 is the pinch point. Rounding is up to whole agents. Your toolkit results should match.</p></details>
+<div class="key"><b>Submit</b>Your completed table and a short note on the pinch point and the AHT sensitivity result.</div>
+<h3>What you learned</h3><ul><li>AHT, workload hours and Erlangs.</li><li>Service level, ASA and abandonment, and why ASA misleads alone.</li><li>Occupancy, utilization and shrinkage, and how to gross up headcount.</li><li>The Erlang C method, its worked example and limits.</li><li>Adherence, conformance, absence, attrition and FTE.</li><li>Forecast accuracy and cost metrics.</li></ul>`;
+
+V.workload=el=>{
+ el.innerHTML='<div class="ctl"><label for="wc">Calls in 30 minutes: <b id="wcv">100</b></label><input id="wc" type="range" min="20" max="200" value="100"></div><div class="ctl"><label for="wa">AHT (seconds): <b id="wav">300</b></label><input id="wa" type="range" min="120" max="480" step="10" value="300"></div><div id="wg" style="display:flex;flex-wrap:wrap;gap:3px;margin:10px 0"></div><p class="cap" id="wt"></p>';
+ const c=el.querySelector('#wc'),a=el.querySelector('#wa'),g=el.querySelector('#wg'),t=el.querySelector('#wt');
+ const run=()=>{const calls=+c.value,aht=+a.value,A=calls*aht/1800,n=Math.ceil(A)+1;
+  el.querySelector('#wcv').textContent=calls;el.querySelector('#wav').textContent=aht;
+  g.innerHTML=Array.from({length:n},(_,i)=>{const fill=Math.max(0,Math.min(1,A-i));return `<span style="width:16px;height:16px;border-radius:3px;border:1px solid var(--accent);background:linear-gradient(to top,var(--accent) ${fill*100}%,transparent ${fill*100}%)"></span>`}).join('');
+  t.textContent=`${f1(calls*aht/3600,2)} hours of work arrive in a 30-minute interval, so workload = ${f1(calls*aht/3600,2)} ÷ 0.5 = ${f1(A,2)} Erlangs. Each square is one agent busy for the whole interval. You need at least ${Math.floor(A)+1} agents just to keep up (${f1(A/(Math.floor(A)+1)*100,0)}% occupancy), and more to keep waits short.`};
+ c.oninput=a.oninput=run;run();return()=>{}};
+
+V.waits=el=>{
+ const{c,x,D,fit}=mkc(el,'<canvas></canvas><div class="ctl"><label for="wt2">Service level threshold: <b id="wtv">20</b> seconds</label><input id="wt2" type="range" min="5" max="60" value="20"></div><p class="cap" id="wx"></p>');
+ const s=el.querySelector('#wt2'),wx=el.querySelector('#wx');
+ const W=Array.from({length:40},(_,i)=>i<16?i%4:Math.round(-30*Math.log(1-(i-16+.5)/24)));
+ const asa=W.reduce((p,v)=>p+v,0)/W.length,mx=Math.max(...W);
+ const draw=()=>{fit();const w=c.width,h=c.height,T=+s.value,ok=col('--ok'),bad=col('--bad'),ink=col('--ink'),bw=w/W.length;
+  x.clearRect(0,0,w,h);const y=v=>h-v/mx*h*.88-4*D;
+  W.forEach((v,i)=>{x.fillStyle=v<=T?ok:bad;x.globalAlpha=.85;x.fillRect(i*bw+1,Math.min(y(v),h-6*D),bw-2,Math.max(2*D,h-y(v)-4*D))});
+  x.globalAlpha=1;x.setLineDash([6*D,5*D]);x.strokeStyle=ink;x.lineWidth=2*D;x.beginPath();x.moveTo(0,y(T));x.lineTo(w,y(T));x.stroke();x.setLineDash([]);
+  x.fillStyle=col('--mute');x.textAlign='left';x.font=`${12*D}px system-ui,sans-serif`;x.fillText('Each bar = one call. Taller = longer wait.',8*D,16*D);const within=W.filter(v=>v<=T).length;
+  el.querySelector('#wtv').textContent=T;
+  wx.textContent=`Each bar is one answered call, sorted by wait. Green waited within ${T} s. Service level = ${within} ÷ ${W.length} = ${f1(within/W.length*100,1)}%. ASA = ${f1(asa,1)} s and does not change with the threshold.`};
+ s.oninput=draw;draw();return()=>{}};
+
+V.waterfall=el=>{
+ el.innerHTML='<div class="ctl"><label for="ws">Shrinkage: <b id="wsv">30</b>%</label><input id="ws" type="range" min="10" max="45" value="30"></div><div class="ctl"><label for="wo">Occupancy: <b id="wov">80</b>%</label><input id="wo" type="range" min="50" max="95" value="80"></div><div id="wb" style="display:flex;height:34px;border-radius:6px;overflow:hidden;margin:10px 0;font-size:.8rem;font-weight:700"></div><p class="cap" id="wc2"></p>';
+ const s=el.querySelector('#ws'),o=el.querySelector('#wo'),b=el.querySelector('#wb'),t=el.querySelector('#wc2');
+ const run=()=>{const sh=+s.value/100,oc=+o.value/100,avail=1-sh,idle=avail*(1-oc),hand=avail*oc;
+  el.querySelector('#wsv').textContent=s.value;el.querySelector('#wov').textContent=o.value;
+  const seg=(w,bg,l,fg)=>`<div style="width:${w*100}%;background:${bg};color:${fg};display:flex;align-items:center;justify-content:center;white-space:nowrap;overflow:hidden">${w>.12?l:''}</div>`;
+  b.innerHTML=seg(sh,'#556677','Shrinkage','#fff')+seg(idle,'#E0A21B','Idle','#2A1D00')+seg(hand,'#0B6B5F','Handling','#fff');
+  t.textContent=`Of every paid hour: ${f1(sh*100,0)}% is shrinkage, ${f1(idle*100,0)}% is available but idle, and ${f1(hand*100,0)}% is spent handling contacts. Utilization-style view: only ${f1(hand*100,0)}% of paid time handles contacts.`};
+ s.oninput=o.oninput=run;run();return()=>{}};
+
+V.slcurve=el=>{
+ const{c,x,D,fit}=mkc(el,'<canvas></canvas><div class="ctl"><label for="sc1">Calls in 30 min: <b id="sc1v">120</b></label><input id="sc1" type="range" min="40" max="240" value="120"></div><div class="ctl"><label for="sc2">AHT (s): <b id="sc2v">300</b></label><input id="sc2" type="range" min="120" max="480" step="10" value="300"></div><div class="ctl"><label for="sc3">Threshold (s): <b id="sc3v">20</b></label><input id="sc3" type="range" min="10" max="60" step="5" value="20"></div><p class="cap" id="sct"></p>');
+ const r1=el.querySelector('#sc1'),r2=el.querySelector('#sc2'),r3=el.querySelector('#sc3'),sct=el.querySelector('#sct');
+ const draw=()=>{fit();const calls=+r1.value,aht=+r2.value,T=+r3.value,A=calls*aht/1800,w=c.width,h=c.height;
+  el.querySelector('#sc1v').textContent=calls;el.querySelector('#sc2v').textContent=aht;el.querySelector('#sc3v').textContent=T;
+  const N0=Math.floor(A)+1,K=14,bw=w/K,ok=col('--ok'),bad=col('--bad'),ink=col('--ink'),mute=col('--mute'),best=needN(A,aht,T,.8);
+  x.clearRect(0,0,w,h);x.font=`${11*D}px Figtree,system-ui,sans-serif`;
+  for(let k=0;k<K;k++){const N=N0+k,s=slv(N,A,aht,T),bh=s*h*.82;x.fillStyle=N===best?ok:s>=.8?ok:bad;x.globalAlpha=N===best?1:.55;x.fillRect(k*bw+3,h-bh-16*D,bw-6,bh);x.globalAlpha=1;x.fillStyle=mute;x.textAlign='center';x.fillText(N,k*bw+bw/2,h-3*D)}
+  x.strokeStyle=ink;x.setLineDash([6*D,5*D]);x.lineWidth=2*D;const ty=h-.8*h*.82-16*D;x.beginPath();x.moveTo(0,ty);x.lineTo(w,ty);x.stroke();x.setLineDash([]);
+  sct.textContent=`Workload ${f1(A,2)} Erlangs. Bars show service level for each agent count (labels below). Dashed line = 80% target. You need ${best} agents (occupancy ${f1(A/best*100,0)}%, ASA ${f1(asaf(best,A,aht),1)} s). Schedule ${Math.ceil(best/.7)} with 30% shrinkage.`};
+ r1.oninput=r2.oninput=r3.oninput=draw;draw();return()=>{}};
+
+V.adh=el=>{
+ const{c,x,D,fit}=mkc(el,'<canvas style="height:150px"></canvas><div class="ctl"><label for="al">Lunch taken late by: <b id="alv">60</b> minutes</label><input id="al" type="range" min="0" max="90" step="5" value="60"></div><p class="cap" id="at"></p>');
+ const s=el.querySelector('#al'),at=el.querySelector('#at');
+ const draw=()=>{fit();const X=+s.value,w=c.width,h=c.height,ok=col('--ok'),bad=col('--bad'),mute=col('--mute'),ink=col('--ink'),L=180,u=w/L;
+  el.querySelector('#alv').textContent=X;x.clearRect(0,0,w,h);x.font=`${12*D}px Figtree,system-ui,sans-serif`;x.fillStyle=ink;
+  x.fillText('Schedule (a 3-hour window around lunch)',4*D,16*D);x.fillText('What actually happened',4*D,h*.55-6*D);
+  const lane=(y,l0)=>{x.fillStyle=mute;x.globalAlpha=.25;x.fillRect(0,y,w,26*D);x.globalAlpha=1;x.fillStyle='#E0A21B';x.fillRect(l0*u,y,30*u,26*D);x.fillStyle=ink;x.fillText('Lunch',l0*u+4*D,y+17*D)};
+  lane(24*D,30);lane(h*.55,30+X);
+  const out=2*Math.min(30,X);
+  x.fillStyle=bad;x.globalAlpha=.5;
+  const segs=[];if(X>0){segs.push([30,30+Math.min(X,30)]);segs.push([Math.max(60,30+X),30+X+30])}
+  segs.forEach(([a,b])=>{x.fillRect(a*u,h*.82,(b-a)*u,8*D)});x.globalAlpha=1;
+  const adh=(480-out)/480*100;
+  at.textContent=`Red marks minutes where the agent is not doing what the schedule says: ${out} minutes. Adherence for the day = (480 − ${out}) ÷ 480 = ${f1(adh,1)}%. Conformance = 100%, because every scheduled hour was still worked.`};
+ s.oninput=draw;draw();return()=>{}};
+
+V.mape=el=>{
+ const{c,x,D,fit}=mkc(el,'<canvas></canvas><div class="ctl"><label for="mb">Forecast bias: <b id="mbv">0</b>%</label><input id="mb" type="range" min="-20" max="20" value="0"></div><p class="cap" id="mt2"></p>');
+ const A=[520,480,610,450,700,560,640,500],F=[500,510,580,470,650,575,630,520],s=el.querySelector('#mb'),mt=el.querySelector('#mt2');
+ const draw=()=>{fit();const b=+s.value/100,w=c.width,h=c.height,bw=w/A.length,sc=h*.85/800,ink=col('--ink'),ac=col('--accent'),bad=col('--bad');
+  el.querySelector('#mbv').textContent=s.value;x.clearRect(0,0,w,h);
+  const fc=F.map(v=>v*(1+b));let sum=0,ea=0,aa=0;
+  A.forEach((a,i)=>{const f=fc[i];sum+=Math.abs(a-f)/a;ea+=Math.abs(a-f);aa+=a;x.fillStyle=ac;x.globalAlpha=.4;x.fillRect(i*bw+6,h-f*sc,bw-12,f*sc);x.globalAlpha=1;
+   x.strokeStyle=bad;x.lineWidth=2*D;x.beginPath();x.moveTo(i*bw+bw/2,h-a*sc);x.lineTo(i*bw+bw/2,h-f*sc);x.stroke();
+   x.fillStyle=ink;x.beginPath();x.arc(i*bw+bw/2,h-a*sc,5*D,0,6.3);x.fill()});
+  const m=sum/A.length*100;
+  mt.textContent=`Bars = forecast, dots = actual, red lines = error. MAPE = ${f1(m,2)}%, forecast accuracy = ${f1(100-m,2)}%, WAPE = ${f1(ea/aa*100,2)}%.`};
+ s.oninput=draw;draw();return()=>{}};
+
+Object.assign(M,{cp:"rta.html",course:"WFM Real-Time Analyst",k:"rta",nh:null});
+</script>
+<script>
+document.title=`Module ${M.n}: ${M.t} | ${M.course} | Carrow Academy`;
+document.getElementById('h1').textContent=`Module ${M.n}: ${M.t}`;
+document.getElementById('crumb').innerHTML=`<a href="index.html">Carrow Academy</a> / <a href="${M.cp}">${M.course}</a> / ${M.lvl}`;
+const main=document.getElementById('main'),navEl=document.getElementById('nav');
+const KEY='carrow-'+(M.k||'rta')+'-m'+M.n;
+let cur=0,done=new Set(),total=LS.length+2;
+try{done=new Set(JSON.parse(localStorage.getItem(KEY)||'[]'))}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify([...done]))}catch(e){}};
+const names=[...LS.map((l,i)=>`${i+1}. ${l.t}`),"Knowledge check","Lab and wrap-up"];
+function nav(){
+  navEl.innerHTML=names.map((n,i)=>`<button data-i="${i}" class="${done.has(i)?'done':''}" ${i===cur?'aria-current="true"':''}><span class="dot">${done.has(i)?'&#10003;':i+1}</span><span class="nm">${n}</span></button>`).join('');
+  navEl.querySelectorAll('button').forEach(b=>b.onclick=()=>go(+b.dataset.i));
+  document.getElementById('pb').style.width=(done.size/total*100)+'%';
+  document.getElementById('pl').textContent=`${done.size} of ${total} complete`;
+}
+function foot(i){return `<div class="row"><button class="btn alt" ${i===0?'disabled':''} onclick="go(${i-1})">Previous</button><button class="btn" onclick="finish(${i})">${i===total-1?'Complete module':'Mark complete and continue'}</button></div>`}
+function finish(i){done.add(i);save();if(i<total-1)go(i+1);else{nav();if(!main.querySelector('.res.fin'))main.insertAdjacentHTML('beforeend',`<p class="res fin">Module ${M.n} complete. Next: ${M.nh?`<a href="${M.nh}">${M.next}</a>`:`${M.next} (coming soon)`}. <a href="${M.cp}">Back to the course outline</a></p>`)}}
+function go(i,quiet){
+  cur=i;cleanup.forEach(f=>f());cleanup=[];
+  if(i<LS.length){const l=LS[i];main.innerHTML=`<p class="pl">Lesson ${i+1} of ${LS.length}</p><h2>${l.t}</h2><p class="meta">${l.m} read</p>${l.h}${foot(i)}`}
+  else if(i===LS.length){
+    main.innerHTML=`<h2>Knowledge check</h2><p class="meta">${QZ.length} questions. Pass mark 70%.</p>`+QZ.map((q,n)=>`<div class="q" id="q${n}"><p>${n+1}. ${q[0]}</p>${shuf(q[1].map((o,k)=>[o,k])).map(([o,k])=>`<label><input type="radio" name="q${n}" value="${k}"> ${o}</label>`).join('')}<div class="fb"></div></div>`).join('')+`<button class="btn" id="chk">Check answers</button><div class="res" id="sc" role="status"></div>`+foot(i).replace('Mark complete and continue','Continue');
+    document.getElementById('chk').onclick=()=>{let s=0;QZ.forEach((q,n)=>{const v=document.querySelector(`input[name=q${n}]:checked`),b=document.getElementById('q'+n),ok=v&&+v.value===q[2];if(ok)s++;b.className='q '+(ok?'right':'wrong');b.querySelector('.fb').textContent=(ok?'Correct. ':v?'Not quite. ':'Unanswered. ')+q[3]});const p=Math.round(s/QZ.length*100);document.getElementById('sc').textContent=`Score: ${s}/${QZ.length} (${p}%). ${p>=70?'Passed.':'Review the lessons and try again.'}`;if(p>=70){done.add(i);save();nav()}};
+  } else main.innerHTML=`<h2>Lab and wrap-up</h2><p class="meta">${M.lab}</p>${LAB}${foot(i)}`;
+  main.querySelectorAll('.viz').forEach(e=>cleanup.push(V[e.dataset.v](e)));
+  nav();if(!quiet)main.scrollIntoView({behavior:rm?'auto':'smooth',block:'start'});
+}
+addEventListener('carrow-theme',()=>{cleanup.forEach(f=>f());cleanup=[];main.querySelectorAll('.viz').forEach(e=>cleanup.push(V[e.dataset.v](e)))});
+go(0,true);
+</script>
+<script>
+/* Carrow Academy: animated data background. Include once per page, before </body>.
+   Uses the page's --accent color. Respects reduced motion, pauses in hidden tabs. */
+(()=>{
+const lite=!!(navigator.connection&&navigator.connection.saveData)||(navigator.deviceMemory&&navigator.deviceMemory<=1);
+const rm=matchMedia('(prefers-reduced-motion: reduce)').matches||lite;
+const c=document.createElement('canvas');
+c.setAttribute('aria-hidden','true');
+c.style.cssText='position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none';
+document.body.prepend(c);
+const x=c.getContext('2d');
+let W,H,D,t=0,last=0,pts=[];
+function size(){
+  D=Math.min(devicePixelRatio||1,2);W=c.width=Math.round(innerWidth*D);H=c.height=Math.round(innerHeight*D);
+  pts=Array.from({length:36},()=>({x:Math.random()*W,y:Math.random()*H,r:(1+Math.random()*2)*D,v:(.15+Math.random()*.35)*D}));
+}
+function draw(){
+  const ac=getComputedStyle(document.documentElement).getPropertyValue('--accent').trim()||'#0F6E64';
+  x.clearRect(0,0,W,H);x.strokeStyle=ac;x.fillStyle=ac;
+  // data grid
+  x.globalAlpha=.05;x.lineWidth=D;const g=80*D;
+  for(let i=0;i<W;i+=g){x.beginPath();x.moveTo(i,0);x.lineTo(i,H);x.stroke()}
+  for(let j=0;j<H;j+=g){x.beginPath();x.moveTo(0,j);x.lineTo(W,j);x.stroke()}
+  // flowing trend lines
+  [[.28,.05,1,.5],[.42,.07,1.5,.8],[.58,.04,2.2,.35]].forEach(([b,a,f,s],k)=>{
+    x.globalAlpha=.13-k*.03;x.lineWidth=2*D;x.beginPath();
+    for(let i=0;i<=W;i+=8*D){
+      const u=i/W,y=H*(b+a*Math.sin(u*6*f+t*s)+a*.5*Math.sin(u*13+t*s*1.7+k));
+      i?x.lineTo(i,y):x.moveTo(i,y);
+    }
+    x.stroke();
+  });
+  // rising and falling interval bars
+  x.globalAlpha=.06;const bw=26*D,n=Math.ceil(W/bw);
+  for(let i=0;i<n;i++){
+    const h=H*.13*(.5+.5*Math.sin(i*.45+t*.7))*(.6+.4*Math.sin(i*.17+t*.2));
+    x.fillRect(i*bw,H-h,18*D,h);
+  }
+  // drifting data points
+  x.globalAlpha=.15;
+  pts.forEach(p=>{if(!rm){p.y-=p.v;if(p.y<-10)p.y=H+10}x.beginPath();x.arc(p.x,p.y,p.r,0,6.3);x.fill()});
+  x.globalAlpha=1;
+}
+function loop(ts){
+  if(!last)last=ts;
+  if(!document.hidden&&ts-last>33){t+=Math.min((ts-last)/1000,.1);last=ts;draw()}
+  requestAnimationFrame(loop);
+}
+size();draw();
+document.addEventListener('carrow-theme',draw);
+addEventListener('resize',()=>{size();draw()});
+addEventListener('carrow-theme',draw);
+if(!rm)requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

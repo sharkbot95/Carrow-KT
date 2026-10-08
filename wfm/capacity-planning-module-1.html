@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Module 1: From Workload to FTE | WFM Planning and Capacity Planning | Carrow Academy</title>
+<meta name="description" content="From workload to FTE: the capacity equation, attrition and hiring, new hire ramp and sensitivity analysis.">
+<meta name="robots" content="noindex,follow"><link rel="canonical" href="https://carrowacademy.space/capacity-planning-module-1.html">
+<meta name="theme-color" content="#F4F7FB">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Carrow Academy"><meta property="og:title" content="Module 1: From Workload to FTE | WFM Planning and Capacity Planning | Carrow Academy"><meta property="og:description" content="From workload to FTE: the capacity equation, attrition and hiring, new hire ramp and sensitivity analysis."><meta property="og:url" content="https://carrowacademy.space/capacity-planning-module-1.html"><meta name="twitter:card" content="summary">
+<style>/* Carrow Academy theme. Light and dark palettes. WCAG AA contrast checked. */
+:root{--bg:#F4F7FB;--card:#FFFFFF;--ink:#0F1E2E;--mute:#46596D;--line:#D3DDE8;--accent:#0B6B5F;--accent-ink:#FFFFFF;--on:#FFFFFF;--hi:#FFF1CC;--hiink:#6B4A00;--ok:#0B6B5F;--bad:#B3261E;--hero:#0F2236;--heroink:#E8EFF7;--bar:#4FD1BD;--bar2:#F0B429;color-scheme:light}
+:root[data-theme="dark"]{--bg:#0B1422;--card:#142238;--ink:#E8EFF7;--mute:#A3B4C6;--line:#26384D;--accent:#4FD1BD;--accent-ink:#0B1422;--on:#0B1422;--hi:#3A3016;--hiink:#F5D98A;--ok:#4FD1BD;--bad:#FF8A80;--hero:#08101B;--heroink:#E8EFF7;color-scheme:dark}
+@media (prefers-color-scheme:dark){:root:not([data-theme]){--bg:#0B1422;--card:#142238;--ink:#E8EFF7;--mute:#A3B4C6;--line:#26384D;--accent:#4FD1BD;--accent-ink:#0B1422;--on:#0B1422;--hi:#3A3016;--hiink:#F5D98A;--ok:#4FD1BD;--bad:#FF8A80;--hero:#08101B;color-scheme:dark}}
+html{box-sizing:border-box;scroll-padding-top:76px}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;-webkit-text-size-adjust:100%}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.topbar{display:flex;align-items:center;gap:18px;padding:10px 18px;padding-top:calc(10px + env(safe-area-inset-top,0px));background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
+.brand{font-weight:800;color:var(--ink);text-decoration:none;letter-spacing:-.01em;font-size:1.05rem}
+.brand span{color:var(--accent)}
+.tn{display:flex;gap:18px;margin-left:auto;font-size:.95rem}
+.tn a{color:var(--mute);text-decoration:none;font-weight:600}
+.tn a:hover{color:var(--ink)}
+.tt{flex:none;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--bg);color:var(--ink);display:grid;place-items:center;cursor:pointer}
+.tt svg{width:20px;height:20px}
+.brand{white-space:nowrap}
+@media (max-width:560px){.topbar{flex-wrap:wrap;gap:4px 12px;padding-left:12px;padding-right:12px}.tn{order:3;flex:1 0 100%;justify-content:space-between;margin-left:0;gap:8px;font-size:.92rem;border-top:1px solid var(--line);padding-top:6px}.tt{margin-left:auto;width:36px;height:36px}html{scroll-padding-top:110px}}
+.skip{position:absolute;left:-999px}.skip:focus{left:8px;top:8px;background:var(--card);padding:8px;z-index:50}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style><style>
+:root{box-sizing:border-box}
+header.mh{padding:18px;border-bottom:1px solid var(--line);background:var(--card)}
+header p{margin:0;color:var(--mute);font-size:.88rem}
+header h1{margin:2px 0 0;font-size:1.4rem;line-height:1.2}
+.layout{max-width:1040px;margin:0 auto;padding:22px 18px 60px;display:grid;gap:24px;grid-template-columns:260px 1fr}
+.layout>nav{align-self:start;position:sticky;top:76px}
+.layout>nav button{display:flex;gap:10px;width:100%;text-align:left;font:inherit;font-size:.95rem;background:none;border:1px solid transparent;border-radius:8px;padding:9px 10px;color:var(--ink);cursor:pointer}
+.layout>nav button[aria-current="true"]{background:var(--card);border-color:var(--line);font-weight:700}
+.layout>nav .dot{flex:none;width:20px;height:20px;border-radius:50%;border:2px solid var(--line);margin-top:2px;font-size:.7rem;display:grid;place-items:center}
+.layout>nav .done .dot{background:var(--ok);border-color:var(--ok);color:var(--on)}
+.bar{height:8px;background:var(--line);border-radius:4px;margin:0 0 14px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+.pl{font-size:.82rem;color:var(--mute);margin:0 0 4px}
+article{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:26px 28px;min-width:0}
+article h2{margin:0 0 4px;font-size:1.7rem;line-height:1.2}
+.meta{color:var(--mute);font-size:.9rem;margin:0 0 18px}
+article h3{margin:24px 0 6px;font-size:1.1rem}
+article p,article li{max-width:68ch}
+.obj,.key,.try{border-radius:8px;padding:12px 16px;margin:16px 0}
+.obj{background:var(--bg);border:1px solid var(--line)}
+.key{background:var(--hi);color:var(--hiink)}
+.try{border:2px dashed var(--accent)}
+.obj b,.key b,.try b{display:block;margin-bottom:2px}
+.obj ul,.key ul{margin:4px 0 0;padding-left:20px}
+.sc{overflow-x:auto}
+table{width:100%;border-collapse:collapse;margin:10px 0;font-size:.94rem}
+th,td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--mute)}
+.q{border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:14px 0}
+.q p{margin:0 0 8px;font-weight:700}
+.q label{display:block;padding:5px 0;cursor:pointer}
+.q .fb{margin:8px 0 0;font-size:.92rem}
+.q.right{border-color:var(--ok)}.q.wrong{border-color:var(--bad)}
+.q.right .fb{color:var(--ok)}.q.wrong .fb{color:var(--bad)}
+.btn{font:inherit;font-weight:700;background:var(--accent);color:var(--on);border:0;border-radius:8px;padding:11px 22px;cursor:pointer}
+.btn.alt{background:none;color:var(--ink);border:2px solid var(--line)}
+.row{display:flex;gap:10px;margin-top:26px;flex-wrap:wrap;justify-content:space-between}
+.res{font-weight:800;font-size:1.1rem;margin:12px 0}
+@media (max-width:820px){.layout{grid-template-columns:1fr}.layout>nav{position:static}article{padding:20px 16px}}
+.viz{margin:18px 0;border:1px solid var(--line);border-radius:10px;padding:12px;background:var(--bg)}
+.viz canvas{width:100%;height:230px;display:block}
+.viz .cap{font-size:.86rem;color:var(--mute);margin:8px 0 0}
+.viz .ctl{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:10px;font-size:.92rem}
+.viz input[type=range]{flex:1;min-width:160px;accent-color:var(--accent)}
+.layout>nav{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px}
+
+.fm{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.92rem;background:var(--bg);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:6px;padding:10px 14px;line-height:1.75;overflow-x:auto;max-width:none}
+.meter{background:var(--line);border-radius:6px;height:18px;overflow:hidden;margin:4px 0 12px}
+.meter i{display:block;height:100%;background:var(--ok);transition:width .25s}
+.meter.bad i{background:var(--bad)}
+.lbl{display:flex;justify-content:space-between;gap:12px;font-size:.92rem}
+article details{margin:10px 0}
+
+header.mh p{margin:0;color:var(--mute);font-size:.88rem}
+header.mh a{color:var(--mute)}
+header.mh h1{margin:2px 0 0;font-size:1.4rem;line-height:1.2}
+.ns{padding:18px}
+.pipe{display:flex;flex-wrap:wrap;gap:10px}
+.pipe .b{flex:1 1 140px;display:flex;flex-direction:column;gap:2px;border:2px solid var(--line);border-radius:10px;padding:10px 12px;text-align:center;background:var(--card);transition:background .3s,border-color .3s}
+.pipe .b.on{border-color:var(--accent);background:var(--hi);color:var(--hiink)}
+.pipe .n{align-self:center;width:22px;height:22px;border-radius:50%;background:var(--accent);color:var(--on);font-size:.75rem;font-weight:800;display:grid;place-items:center}
+.pipe small{color:var(--mute)}
+.pipe .b.on small{color:var(--hiink)}
+.viz .btn{margin-right:8px}
+.viz .ctl:has(input[type=range]){display:grid;grid-template-columns:minmax(170px,36%) 1fr;align-items:center}
+.viz .ctl.btns{display:flex}
+@media (max-width:560px){.viz .ctl:has(input[type=range]){grid-template-columns:1fr}}
+.pipe .b{flex:1 1 118px;min-width:0}
+.pipe .b b,.pipe .b span,.pipe .b small{overflow-wrap:normal;word-break:normal;hyphens:none}
+.pipe .b b{font-size:.85rem}
+.pipe .b{padding:8px 4px}
+@media (max-width:820px){
+ .layout{grid-template-columns:minmax(0,1fr)}
+ .layout>*{min-width:0}
+ .layout>nav{padding:10px 10px 8px}
+ #nav{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px}
+ #nav button{flex:none;width:auto;padding:6px 10px;align-items:center}
+ #nav button .nm{display:none}
+ #nav button[aria-current="true"] .nm{display:inline;white-space:nowrap}
+ .pipe .b{flex:1 1 130px}
+}
+</style>
+<script>
+(()=>{const d=document.documentElement,K='carrow-theme';
+const SUN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
+const MOON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>';
+const sys=()=>matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+const get=()=>{try{return localStorage.getItem(K)}catch(e){return null}};
+const apply=t=>{d.dataset.theme=t;const b=document.getElementById('theme-toggle');
+ if(b){b.setAttribute('aria-label',t==='dark'?'Switch to light theme':'Switch to dark theme');b.setAttribute('aria-pressed',t==='dark'?'true':'false');b.innerHTML=t==='dark'?SUN:MOON}
+ const m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='dark'?'#0B1422':'#F4F7FB';
+ dispatchEvent(new Event('carrow-theme'))};
+apply(get()||sys());
+document.addEventListener('DOMContentLoaded',()=>{
+ let b=document.getElementById('theme-toggle');
+ if(!b){const bar=document.createElement('nav');bar.className='topbar';bar.setAttribute('aria-label','Site');
+  bar.innerHTML='<a class="brand" href="index.html">Carrow <span>Academy</span></a><div class="tn"><a href="index.html">Home</a><a href="index.html#courses">Courses</a><a href="toolkit.html">Toolkit</a></div><button id="theme-toggle" class="tt" type="button"></button>';
+  document.body.prepend(bar);b=bar.querySelector('#theme-toggle')}
+ b.onclick=()=>{const n=d.dataset.theme==='dark'?'light':'dark';try{localStorage.setItem(K,n)}catch(e){}apply(n)};
+ apply(d.dataset.theme)});
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',e=>{if(!get())apply(e.matches?'dark':'light')});
+})();
+</script>
+
+</head>
+<body>
+<nav class="topbar" aria-label="Site"><a class="brand" href="index.html">Carrow <span>Academy</span></a><div class="tn"><a href="index.html">Home</a><a href="index.html#courses">Courses</a><a href="toolkit.html">Toolkit</a></div><button id="theme-toggle" class="tt" type="button" aria-label="Switch theme"></button></nav>
+<header class="mh"><p id="crumb"></p><h1 id="h1"></h1></header>
+<main class="layout" id="main-content">
+  <nav aria-label="Module lessons"><p class="pl" id="pl"></p><div class="bar"><i id="pb"></i></div><div id="nav"></div></nav>
+  <article id="main" tabindex="-1" aria-live="polite"><noscript><p class="ns">This interactive lesson needs JavaScript. Please enable it to continue.</p></noscript></article>
+</main>
+<script>
+const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let cleanup=[];const V={};
+const col=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const mkc=(el,h)=>{el.innerHTML=h;const c=el.querySelector('canvas'),D=Math.min(devicePixelRatio||1,2);
+  const fit=()=>{const w=Math.round(c.clientWidth*D),hh=Math.round(c.clientHeight*D);if(c.width!==w||c.height!==hh){c.width=w;c.height=hh}};
+  fit();return{c,x:c.getContext('2d'),D,fit}};
+// Erlang C via the Erlang B recursion (numerically stable)
+const ec=(N,A)=>{if(N<=A)return 1;let B=1;for(let i=1;i<=N;i++)B=A*B/(i+A*B);return N*B/(N-A*(1-B))};
+const slv=(N,A,aht,T)=>N>A?1-ec(N,A)*Math.exp(-(N-A)*T/aht):0;
+const asaf=(N,A,aht)=>N>A?ec(N,A)*aht/(N-A):Infinity;
+const needN=(A,aht,T,tgt)=>{for(let N=Math.max(1,Math.ceil(A));N<5000;N++)if(N>A&&slv(N,A,aht,T)>=tgt)return N};
+const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const f1=(n,d=1)=>Number.isFinite(n)?n.toLocaleString(undefined,{maximumFractionDigits:d}):'n/a';
+
+</script>
+<script>const SITE={slug:"capacity",name:"WFM Planning and Capacity Planning",page:"capacity-planning.html"};</script>
+<script>
+const M={n:1,t:"From Workload to FTE",lvl:"Level 1: Foundation",lab:"45 to 60 min",next:"Module 2, Shrinkage, Occupancy and Productive Hours"};
+const vz=(n,l)=>`<div class="viz" data-v="${n}" aria-live="off" role="group" aria-label="${l}"></div>`;
+const MI=[1.05,.95,1,.97,.98,.93,.92,.94,1,1.08,1.1,1.08],MS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const HPF=40*52/12;
+const fteOf=(vol,aht,occ,shr,hpf)=>vol*aht/3600/occ/(1-shr)/hpf;
+const LS=[
+{t:"What capacity planning is",m:"20 min",h:`
+<div class="obj"><b>By the end of this lesson you can</b><ul><li>Define capacity planning and its time horizon</li><li>Separate it from forecasting and scheduling</li><li>Follow the chain from volume to a hiring decision</li></ul></div>
+<p><b>Capacity planning</b> works out how many people you need in the coming months, how many you will have, and how to close the gap. It uses the long-term forecast, and it is usually planned at monthly level, looking months to a year or more ahead. Recruitment and training take time, so the plan has to start before the demand arrives.</p>
+<div class="sc"><table><tr><th>Question</th><th>Forecasting</th><th>Capacity planning</th><th>Scheduling</th></tr><tr><td>What does it answer?</td><td>How much work will arrive?</td><td>How many FTE do we need and have?</td><td>Who works when?</td></tr><tr><td>Typical horizon</td><td>Weeks to a year</td><td>Months to a year or more</td><td>Days to weeks</td></tr><tr><td>Typical output</td><td>Volume and AHT</td><td>FTE gap and hiring plan</td><td>Shifts and rosters</td></tr></table></div>
+${vz('chain','Animated chain from forecast volume to hiring decision')}
+<div class="key"><b>Key takeaways</b><ul><li>Capacity planning compares required FTE with available FTE month by month.</li><li>Attrition and hiring lead time are as important as volume.</li></ul></div>
+<div class="try"><b>Try it</b>If recruiting plus training takes about four months, how far ahead of a busy season must you open hiring?</div>`},
+{t:"The capacity equation",m:"30 min",h:`
+<div class="obj"><b>By the end of this lesson you can</b><ul><li>Convert monthly volume and AHT into required FTE</li><li>Explain each overhead layer: occupancy and shrinkage</li></ul></div>
+<p class="fm">Workload hours = Volume × AHT (seconds) ÷ 3,600<br>Logged-in hours = Workload hours ÷ Occupancy<br>Paid hours = Logged-in hours ÷ (1 − Shrinkage)<br>FTE required = Paid hours ÷ Paid hours per FTE for the period</p>
+<p>Required FTE is the workload converted into paid people, adjusted for the time agents are idle (occupancy) and the paid time they are not available (shrinkage). Paid hours per FTE depend on contract: a 40-hour week is about 173 hours a month (40 × 52 ÷ 12). Change the inputs and watch the hours stack up.</p>
+${vz('fte','Interactive stacked chart converting workload hours into paid hours and FTE')}
+<h3>Note on occupancy</h3>
+<p>A single monthly occupancy figure is a simplification. Real occupancy depends on interval size and service target, so planners often take it from Erlang C results for a typical day, or cap it (for example at 85%) to avoid burnout.</p>
+<div class="key"><b>Key takeaways</b><ul><li>Every layer adds hours: work, idle time, then paid time not on the phone.</li><li>Check units: seconds with seconds, and hours per FTE for the same period as the volume.</li></ul></div>
+<div class="try"><b>Try it</b>Set AHT to 330 s. How many more FTE are required?</div>`},
+{t:"Supply: attrition and hiring",m:"30 min",h:`
+<div class="obj"><b>By the end of this lesson you can</b><ul><li>Project headcount month by month with attrition and hires</li><li>Include training lag in the plan</li></ul></div>
+<p class="fm">Monthly attrition rate = 1 − (1 − Annual attrition)^(1 ÷ 12)  (about Annual ÷ 12)<br>Supply(next) = Supply − Leavers + Hires who finish training<br>Gap = FTE required − Supply</p>
+<p>Capacity planning starts from the staff you have, subtracts expected leavers, then adds new hires that will be ready by each month. A hire placed today only counts once training ends, so hiring for a busy month has to start earlier. Experiment with attrition, hiring and the training lag.</p>
+${vz('supply','Interactive twelve-month required FTE against projected supply')}
+<div class="key"><b>Key takeaways</b><ul><li>Hiring just to stand still is a plan: leavers must be replaced.</li><li>Training lag turns a gap today into a gap you could only have fixed months ago.</li></ul></div>
+<div class="try"><b>Try it</b>With 36% attrition and a 2-month lag, how many hires a month hold supply roughly level through the year?</div>`},
+{t:"New hires and the ramp",m:"25 min",h:`
+<div class="obj"><b>By the end of this lesson you can</b><ul><li>Explain why new hires are not full capacity at once</li><li>Estimate capacity lost during the ramp</li></ul></div>
+<p>New agents are trained first, then often placed in a supervised transition period ("nesting"). They usually handle contacts more slowly at first, and they need more coaching time, so a good plan counts them as <b>part of an FTE</b> that grows as they become proficient. Use your own ramp data where you have it.</p>
+<p class="fm">Effective FTE in week w = Hires × Productivity(w)<br>Capacity lost = Hires × Σ (1 − Productivity(w))   [FTE-weeks]</p>
+${vz('ramp','Interactive new hire productivity ramp and lost capacity')}
+<div class="key"><b>Key takeaways</b><ul><li>A class of new hires adds headcount immediately and capacity gradually.</li><li>Faster ramp is worth money: lost capacity falls directly.</li></ul></div>
+<div class="try"><b>Try it</b>Halve the time to proficiency. How many FTE-weeks do you recover?</div>`},
+{t:"What-if scenarios and sensitivity",m:"25 min",h:`
+<div class="obj"><b>By the end of this lesson you can</b><ul><li>Test how sensitive required FTE is to each assumption</li><li>Choose which assumptions to challenge first</li></ul></div>
+<p>Every capacity plan rests on assumptions: volume, AHT, occupancy, shrinkage and hours per FTE. A <b>sensitivity</b> view changes one input at a time and shows the effect on required FTE, so you know where an error would hurt most.</p>
+${vz('tornado','Interactive sensitivity chart showing the effect of each assumption on FTE')}
+<h3>What it shows</h3>
+<p>Volume and AHT move FTE one-for-one. Occupancy and hours per FTE move it in the opposite direction by slightly more than the percentage you change, because they sit in the denominator (a 10% relative drop in occupancy adds about 11% to FTE). Shrinkage has a smaller but real effect, about 4 to 5% for a 10% relative change at 30% shrinkage.</p>
+<div class="key"><b>Key takeaways</b><ul><li>Document every assumption, then test the biggest ones.</li><li>Re-forecast monthly: plans age quickly.</li></ul></div>
+<div class="try"><b>Try it</b>Change the size of the swing to 20%. Which assumption is now the biggest risk, and which would you ask operations about first?</div>`}
+];
+const QZ=[
+["Capacity planning is usually planned at which level?",["Every 15 minutes","Monthly, looking months or more ahead","Hourly","Daily only"],1,"It compares required and available FTE by month over a long horizon."],
+["60,000 calls a month with AHT 360 s. How many workload hours is that?",["3,000","6,000","60,000","216,000"],1,"60,000 × 360 ÷ 3,600 = 6,000 hours."],
+["6,000 workload hours at 85% occupancy requires about how many logged-in hours?",["5,100","6,000","7,059","8,000"],2,"6,000 ÷ 0.85 = 7,059 hours."],
+["7,059 logged-in hours with 30% shrinkage needs about how many paid hours?",["4,941","7,059","9,176","10,084"],3,"7,059 ÷ 0.70 = 10,084 paid hours."],
+["10,084 paid hours with 173.3 hours per FTE is about how many FTE?",["35","58","73","100"],1,"10,084 ÷ 173.3 = 58.2 FTE."],
+["Annual attrition is 36%. Approximately what is the monthly rate?",["About 3.7%","About 0.36%","About 12%","About 36%"],0,"1 − (1 − 0.36)^(1/12) is about 3.65%, close to 36% ÷ 12 = 3%."],
+["Why does training lag matter for hiring?",["New hires count as capacity only after training ends","It lowers volume","It increases AHT forever","It does not matter"],0,"A hire placed now only adds capacity once training is finished."],
+["20 new hires, productivity ramping linearly from 50% to 100% over 8 weeks. Roughly how many FTE-weeks of capacity are lost?",["10","20","45","160"],2,"20 × Σ(1 − productivity) over 8 weeks = 45 FTE-weeks."],
+["A 10% relative fall in occupancy changes required FTE by about...",["−10%","0%","+10%","+11%"],3,"1 ÷ 0.9 = 1.111, so about +11%."],
+["Which statement about the monthly occupancy figure in a capacity model is true?",["It is exact","It is a simplification, often taken from Erlang C results","It must be 100%","It ignores service level"],1,"Occupancy really depends on interval size and service targets, so it is an assumption."]
+];
+const LAB=`<h3>Lab: Build a one-year capacity plan</h3>
+<ol><li>In Lesson 2, set volume 60,000 calls a month, AHT 360 s, occupancy 85%, shrinkage 30% and 40-hour weeks. Record workload hours, paid hours and FTE.</li><li>In Lesson 3, set starting supply 60, attrition 36% and training lag 2 months. Find the hires per month that make the largest gap smallest, and note which month it falls in and why it cannot be removed.</li><li>In Lesson 4, estimate the capacity lost for a class of 15 with a 6-week ramp from 60% to 100%.</li><li>In Lesson 5, record the three biggest sensitivities at a 10% swing and write which assumption you would verify first.</li></ol>
+<details><summary><b>Check your numbers</b></summary><p>Step 1: 6,000 workload hours, 7,059 logged-in hours, 10,084 paid hours, 58.2 FTE. Step 3: 3 hires a month gives the smallest largest gap, about 3.3 FTE, in January. Nothing can fix January and February because hires started now only count after the 2-month lag, and extra hires beyond 3 just create surplus later in the year. Step 4: productivity is 60%, 67%, 73%, 80%, 87% and 93% over the six weeks, so lost capacity is 15 × (0.4 + 0.333 + 0.267 + 0.2 + 0.133 + 0.067) = 15 × 1.4 = 21 FTE-weeks.</p></details>
+<div class="key"><b>Submit</b>Your four results and a short note on which assumption you would challenge first.</div>
+<h3>What you learned</h3><ul><li>Capacity planning compares required FTE with supply by month.</li><li>Workload hours, occupancy, shrinkage and paid hours per FTE.</li><li>Attrition, hiring and training lag.</li><li>New hire ramp and lost capacity.</li><li>Sensitivity of FTE to each assumption.</li></ul>`;
+
+V.chain=el=>{
+ const B=[['Forecast','60,000 calls','AHT 360 s'],['Workload','6,000 hours','calls × AHT ÷ 3,600'],['Required FTE','58.2 FTE','85% occupancy, 30% shrinkage'],['Supply','Staff you will have','after attrition and hires'],['Gap and hiring plan','Hire by month','allow for training lag']];
+ el.innerHTML='<div class="pipe">'+B.map((b,i)=>`<div class="b" data-i="${i}"><span class="n">${i+1}</span><b>${b[0]}</b><span>${b[1]}</span><small>${b[2]}</small></div>`).join('')+'</div><p class="cap">Illustrative month: the chain capacity planning follows from forecast to hiring decision.</p>';
+ const bs=[...el.querySelectorAll('.b')];let k=0,id=0;const show=n=>bs.forEach((b,i)=>b.classList.toggle('on',i<=n));
+ if(rm)show(4);else{show(0);id=setInterval(()=>{k=(k+1)%7;show(Math.min(k,4))},1100)}
+ return()=>clearInterval(id)};
+
+V.fte=el=>{
+ const{c,x,D,fit}=mkc(el,'<canvas style="height:190px"></canvas><div class="ctl"><label for="fv">Calls per month: <b id="fvv">60,000</b></label><input id="fv" type="range" min="10000" max="200000" step="5000" value="60000"></div><div class="ctl"><label for="fa">AHT (s): <b id="fav">360</b></label><input id="fa" type="range" min="120" max="720" step="10" value="360"></div><div class="ctl"><label for="fo">Occupancy: <b id="fov">85</b>%</label><input id="fo" type="range" min="60" max="95" value="85"></div><div class="ctl"><label for="fs">Shrinkage: <b id="fsv">30</b>%</label><input id="fs" type="range" min="10" max="45" value="30"></div><div class="ctl"><label for="fh">Contract hours per week: <b id="fhv">40</b></label><input id="fh" type="range" min="20" max="48" step="2" value="40"></div><p class="cap" id="ft"></p>');
+ const g=id=>el.querySelector(id),R=['#fv','#fa','#fo','#fs','#fh'].map(g);
+ const draw=()=>{fit();const [v,a,o,s,hw]=R.map(r=>+r.value),oc=o/100,sh=s/100,hpf=hw*52/12;['v','a','o','s','h'].forEach((k,i)=>g('#f'+k+'v').textContent=k==='v'?(+R[i].value).toLocaleString():R[i].value);
+  const wl=v*a/3600,li=wl/oc,pd=li/(1-sh),fte=pd/hpf,w=c.width,h=c.height,sc=(w-16*D)/pd,ink=col('--ink');x.clearRect(0,0,w,h);x.font=`${12*D}px system-ui,sans-serif`;
+  const seg=[[wl,'#0B6B5F','Handling'],[li-wl,'#E0A21B','Idle'],[pd-li,'#556677','Shrinkage']];let px=8*D;
+  seg.forEach(([val,cl,lb],k)=>{x.fillStyle=cl;x.fillRect(px,h*.1,val*sc,h*.38);px+=val*sc;const lx=8*D+k*(w-16*D)/3;x.fillRect(lx,h*.58,12*D,12*D);x.fillStyle=ink;x.textAlign='left';x.fillText(`${lb}: ${f1(val,0)} h`,lx+16*D,h*.58+11*D)});
+  x.textAlign='left';x.fillStyle=ink;x.fillText(`Paid hours: ${f1(pd,0)}  |  Paid hours per FTE: ${f1(hpf,1)}  |  FTE: ${f1(fte,1)}`,8*D,h*.92);
+  g('#ft').textContent=`Workload ${f1(wl,0)} h ÷ ${o}% occupancy = ${f1(li,0)} logged-in h. ÷ (1 − ${s}%) = ${f1(pd,0)} paid h. ÷ ${f1(hpf,1)} h per FTE = ${f1(fte,1)} FTE required.`};
+ R.forEach(r=>r.oninput=draw);draw();return()=>{}};
+
+V.supply=el=>{
+ const{c,x,D,fit}=mkc(el,'<canvas></canvas><div class="ctl"><label for="s0">Starting supply (FTE): <b id="s0v">60</b></label><input id="s0" type="range" min="30" max="100" value="60"></div><div class="ctl"><label for="sa">Annual attrition: <b id="sav">36</b>%</label><input id="sa" type="range" min="0" max="60" value="36"></div><div class="ctl"><label for="sh">Hires starting training each month: <b id="shv">2</b></label><input id="sh" type="range" min="0" max="8" value="2"></div><div class="ctl"><label for="sl">Training lag (months): <b id="slv">2</b></label><input id="sl" type="range" min="1" max="4" value="2"></div><p class="cap" id="st"></p>');
+ const g=id=>el.querySelector(id),R=['#s0','#sa','#sh','#sl'].map(g);
+ const draw=()=>{fit();const [s0,at,hi,lag]=R.map(r=>+r.value);['0','a','h','l'].forEach((k,i)=>g('#s'+k+'v').textContent=R[i].value);
+  const req=MI.map(m=>fteOf(60000*m,360,.85,.3,HPF)),mr=1-Math.pow(1-at/100,1/12);let sup=s0;const S=[],lv=[];
+  for(let t=0;t<12;t++){const leave=sup*mr;sup=sup-leave+(t>=lag?hi:0);S.push(sup);lv.push(leave)}
+  const w=c.width,h=c.height,mx=Math.max(...req,...S,s0)*1.1,mn=Math.min(...req,...S)*.8,y=v=>h-18*D-(v-mn)/(mx-mn)*(h-28*D),bw=w/12,ac=col('--accent'),ink=col('--ink'),bad=col('--bad'),mute=col('--mute');
+  x.clearRect(0,0,w,h);x.font=`${11*D}px system-ui,sans-serif`;x.textAlign='center';
+  S.forEach((s,i)=>{const gap=req[i]-s;x.fillStyle=gap>0.5?bad:ac;x.globalAlpha=.55;const top=Math.min(y(s),y(req[i])),hh=Math.abs(y(s)-y(req[i]));x.fillRect(i*bw+4,top,bw-8,Math.max(2*D,hh));x.globalAlpha=1;x.fillStyle=mute;x.fillText(MS[i],i*bw+bw/2,h-4*D)});
+  x.strokeStyle=ink;x.lineWidth=2*D;x.beginPath();req.forEach((r,i)=>{const px=(i+.5)*bw;i?x.lineTo(px,y(r)):x.moveTo(px,y(r))});x.stroke();x.textAlign='left';x.fillStyle=ink;x.fillText('FTE '+Math.round(mx)+' (top)  to  '+Math.round(mn)+' (bottom)',6*D,12*D);x.fillText('Black line = required   Green line = supply',6*D,26*D);x.textAlign='center';
+  x.strokeStyle=ac;x.beginPath();S.forEach((s,i)=>{const px=(i+.5)*bw;i?x.lineTo(px,y(s)):x.moveTo(px,y(s))});x.stroke();
+  const worst=Math.max(...req.map((r,i)=>r-S[i])),wi=req.map((r,i)=>r-S[i]).indexOf(worst);
+  g('#st').textContent=`Black line = required FTE (60,000 calls × seasonal index, AHT 360 s). Green line = projected supply. Red bars = months short of FTE. Monthly attrition ${f1(mr*100,2)}%. Largest gap: ${f1(Math.max(worst,0),1)} FTE in ${MS[wi]}. New hires only count after the ${lag}-month lag. Supply at year end: ${f1(S[11],1)} FTE.`};
+ R.forEach(r=>r.oninput=draw);draw();return()=>{}};
+
+V.ramp=el=>{
+ const{c,x,D,fit}=mkc(el,'<canvas></canvas><div class="ctl"><label for="rn">Class size: <b id="rnv">20</b></label><input id="rn" type="range" min="5" max="40" value="20"></div><div class="ctl"><label for="rp">Starting productivity: <b id="rpv">50</b>%</label><input id="rp" type="range" min="20" max="90" step="5" value="50"></div><div class="ctl"><label for="rw">Weeks to full proficiency: <b id="rwv">8</b></label><input id="rw" type="range" min="2" max="26" value="8"></div><p class="cap" id="rt"></p>');
+ const g=id=>el.querySelector(id),R=['#rn','#rp','#rw'].map(g);
+ const draw=()=>{fit();const [n,p0,W]=R.map(r=>+r.value),p=p0/100;['n','p','w'].forEach((k,i)=>g('#r'+k+'v').textContent=R[i].value);
+  const T=Math.max(W,12),pr=Array.from({length:T},(_,w)=>w>=W?1:p+(1-p)*w/W),lost=n*pr.reduce((s,v)=>s+(1-v),0),w=c.width,h=c.height,bw=w/T,ok=col('--ok'),bad=col('--bad'),mute=col('--mute'),ink=col('--ink');
+  x.clearRect(0,0,w,h);x.font=`${11*D}px system-ui,sans-serif`;x.textAlign='center';
+  pr.forEach((v,i)=>{const bh=(h-24*D)*v,lh=(h-24*D)*(1-v);x.fillStyle=ok;x.globalAlpha=.8;x.fillRect(i*bw+3,h-20*D-bh,bw-6,bh);x.fillStyle=bad;x.globalAlpha=.45;x.fillRect(i*bw+3,h-20*D-bh-lh,bw-6,lh);x.globalAlpha=1;x.fillStyle=mute;if(T<=16||i%2===0)x.fillText('W'+(i+1),i*bw+bw/2,h-5*D)});
+  g('#rt').textContent=`Green = effective share of an FTE each hire provides; red = capacity not yet available. A class of ${n} loses about ${f1(lost,1)} FTE-weeks of capacity (${f1(lost/n,1)} FTE-weeks per hire) while ramping from ${p0}% to 100% over ${W} weeks.`};
+ R.forEach(r=>r.oninput=draw);draw();return()=>{}};
+
+V.tornado=el=>{
+ const{c,x,D,fit}=mkc(el,'<canvas style="height:210px"></canvas><div class="ctl"><label for="tw">Size of swing: <b id="twv">10</b>%</label><input id="tw" type="range" min="5" max="30" value="10"></div><p class="cap" id="tt"></p>');
+ const g=id=>el.querySelector(id),tw=g('#tw');
+ const draw=()=>{fit();const k=+tw.value/100;g('#twv').textContent=tw.value;const base=fteOf(60000,360,.85,.3,HPF);
+  const T=[['Volume',fteOf(60000*(1-k),360,.85,.3,HPF),fteOf(60000*(1+k),360,.85,.3,HPF)],['AHT',fteOf(60000,360*(1-k),.85,.3,HPF),fteOf(60000,360*(1+k),.85,.3,HPF)],['Occupancy',fteOf(60000,360,.85*(1+k),.3,HPF),fteOf(60000,360,.85*(1-k),.3,HPF)],['Shrinkage',fteOf(60000,360,.85,.3*(1-k),HPF),fteOf(60000,360,.85,.3*(1+k),HPF)],['Hours per FTE',fteOf(60000,360,.85,.3,HPF*(1+k)),fteOf(60000,360,.85,.3,HPF*(1-k))]].sort((a,b)=>(b[2]-b[1])-(a[2]-a[1]));
+  const w=c.width,h=c.height,mxd=Math.max(...T.map(t=>Math.max(base-t[1],t[2]-base)))*1.15,cx=w*.55,sc=(w*.38)/mxd,rh=(h-10*D)/T.length,ok=col('--ok'),bad=col('--bad'),ink=col('--ink'),mute=col('--mute');
+  x.clearRect(0,0,w,h);x.font=`${12*D}px system-ui,sans-serif`;
+  T.forEach((t,i)=>{const y0=i*rh+6*D;x.fillStyle=ok;x.globalAlpha=.8;x.fillRect(cx-(base-t[1])*sc,y0,(base-t[1])*sc,rh-8*D);x.fillStyle=bad;x.fillRect(cx,y0,(t[2]-base)*sc,rh-8*D);x.globalAlpha=1;x.fillStyle=ink;x.textAlign='left';x.fillText(t[0],6*D,y0+rh/2);x.textAlign='right';x.fillText((t[1]-base>=0?'+':'')+f1(t[1]-base,1),cx-(base-t[1])*sc-4*D,y0+rh/2);x.textAlign='left';x.fillText('+'+f1(t[2]-base,1),cx+(t[2]-base)*sc+4*D,y0+rh/2)});
+  x.strokeStyle=mute;x.lineWidth=D;x.beginPath();x.moveTo(cx,0);x.lineTo(cx,h);x.stroke();
+  g('#tt').textContent=`Base case: ${f1(base,1)} FTE (60,000 calls, AHT 360 s, 85% occupancy, 30% shrinkage, 40-hour week). Each bar shows the change in required FTE when that assumption moves ${tw.value}% (relative) in either direction. Green = lower FTE, red = higher FTE.`};
+ tw.oninput=draw;draw();return()=>{}};
+
+Object.assign(M,{cp:"capacity-planning.html",course:"WFM Planning and Capacity Planning",k:"capacity",nh:null});
+</script>
+<script>
+document.title=`Module ${M.n}: ${M.t} | ${M.course} | Carrow Academy`;
+document.getElementById('h1').textContent=`Module ${M.n}: ${M.t}`;
+document.getElementById('crumb').innerHTML=`<a href="index.html">Carrow Academy</a> / <a href="${M.cp}">${M.course}</a> / ${M.lvl}`;
+const main=document.getElementById('main'),navEl=document.getElementById('nav');
+const KEY='carrow-'+(M.k||'rta')+'-m'+M.n;
+let cur=0,done=new Set(),total=LS.length+2;
+try{done=new Set(JSON.parse(localStorage.getItem(KEY)||'[]'))}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify([...done]))}catch(e){}};
+const names=[...LS.map((l,i)=>`${i+1}. ${l.t}`),"Knowledge check","Lab and wrap-up"];
+function nav(){
+  navEl.innerHTML=names.map((n,i)=>`<button data-i="${i}" class="${done.has(i)?'done':''}" ${i===cur?'aria-current="true"':''}><span class="dot">${done.has(i)?'&#10003;':i+1}</span><span class="nm">${n}</span></button>`).join('');
+  navEl.querySelectorAll('button').forEach(b=>b.onclick=()=>go(+b.dataset.i));
+  document.getElementById('pb').style.width=(done.size/total*100)+'%';
+  document.getElementById('pl').textContent=`${done.size} of ${total} complete`;
+}
+function foot(i){return `<div class="row"><button class="btn alt" ${i===0?'disabled':''} onclick="go(${i-1})">Previous</button><button class="btn" onclick="finish(${i})">${i===total-1?'Complete module':'Mark complete and continue'}</button></div>`}
+function finish(i){done.add(i);save();if(i<total-1)go(i+1);else{nav();if(!main.querySelector('.res.fin'))main.insertAdjacentHTML('beforeend',`<p class="res fin">Module ${M.n} complete. Next: ${M.nh?`<a href="${M.nh}">${M.next}</a>`:`${M.next} (coming soon)`}. <a href="${M.cp}">Back to the course outline</a></p>`)}}
+function go(i,quiet){
+  cur=i;cleanup.forEach(f=>f());cleanup=[];
+  if(i<LS.length){const l=LS[i];main.innerHTML=`<p class="pl">Lesson ${i+1} of ${LS.length}</p><h2>${l.t}</h2><p class="meta">${l.m} read</p>${l.h}${foot(i)}`}
+  else if(i===LS.length){
+    main.innerHTML=`<h2>Knowledge check</h2><p class="meta">${QZ.length} questions. Pass mark 70%.</p>`+QZ.map((q,n)=>`<div class="q" id="q${n}"><p>${n+1}. ${q[0]}</p>${shuf(q[1].map((o,k)=>[o,k])).map(([o,k])=>`<label><input type="radio" name="q${n}" value="${k}"> ${o}</label>`).join('')}<div class="fb"></div></div>`).join('')+`<button class="btn" id="chk">Check answers</button><div class="res" id="sc" role="status"></div>`+foot(i).replace('Mark complete and continue','Continue');
+    document.getElementById('chk').onclick=()=>{let s=0;QZ.forEach((q,n)=>{const v=document.querySelector(`input[name=q${n}]:checked`),b=document.getElementById('q'+n),ok=v&&+v.value===q[2];if(ok)s++;b.className='q '+(ok?'right':'wrong');b.querySelector('.fb').textContent=(ok?'Correct. ':v?'Not quite. ':'Unanswered. ')+q[3]});const p=Math.round(s/QZ.length*100);document.getElementById('sc').textContent=`Score: ${s}/${QZ.length} (${p}%). ${p>=70?'Passed.':'Review the lessons and try again.'}`;if(p>=70){done.add(i);save();nav()}};
+  } else main.innerHTML=`<h2>Lab and wrap-up</h2><p class="meta">${M.lab}</p>${LAB}${foot(i)}`;
+  main.querySelectorAll('.viz').forEach(e=>cleanup.push(V[e.dataset.v](e)));
+  nav();if(!quiet)main.scrollIntoView({behavior:rm?'auto':'smooth',block:'start'});
+}
+addEventListener('carrow-theme',()=>{cleanup.forEach(f=>f());cleanup=[];main.querySelectorAll('.viz').forEach(e=>cleanup.push(V[e.dataset.v](e)))});
+go(0,true);
+</script>
+<script>
+/* Carrow Academy: animated data background. Include once per page, before </body>.
+   Uses the page's --accent color. Respects reduced motion, pauses in hidden tabs. */
+(()=>{
+const lite=!!(navigator.connection&&navigator.connection.saveData)||(navigator.deviceMemory&&navigator.deviceMemory<=1);
+const rm=matchMedia('(prefers-reduced-motion: reduce)').matches||lite;
+const c=document.createElement('canvas');
+c.setAttribute('aria-hidden','true');
+c.style.cssText='position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none';
+document.body.prepend(c);
+const x=c.getContext('2d');
+let W,H,D,t=0,last=0,pts=[];
+function size(){
+  D=Math.min(devicePixelRatio||1,2);W=c.width=Math.round(innerWidth*D);H=c.height=Math.round(innerHeight*D);
+  pts=Array.from({length:36},()=>({x:Math.random()*W,y:Math.random()*H,r:(1+Math.random()*2)*D,v:(.15+Math.random()*.35)*D}));
+}
+function draw(){
+  const ac=getComputedStyle(document.documentElement).getPropertyValue('--accent').trim()||'#0F6E64';
+  x.clearRect(0,0,W,H);x.strokeStyle=ac;x.fillStyle=ac;
+  // data grid
+  x.globalAlpha=.05;x.lineWidth=D;const g=80*D;
+  for(let i=0;i<W;i+=g){x.beginPath();x.moveTo(i,0);x.lineTo(i,H);x.stroke()}
+  for(let j=0;j<H;j+=g){x.beginPath();x.moveTo(0,j);x.lineTo(W,j);x.stroke()}
+  // flowing trend lines
+  [[.28,.05,1,.5],[.42,.07,1.5,.8],[.58,.04,2.2,.35]].forEach(([b,a,f,s],k)=>{
+    x.globalAlpha=.13-k*.03;x.lineWidth=2*D;x.beginPath();
+    for(let i=0;i<=W;i+=8*D){
+      const u=i/W,y=H*(b+a*Math.sin(u*6*f+t*s)+a*.5*Math.sin(u*13+t*s*1.7+k));
+      i?x.lineTo(i,y):x.moveTo(i,y);
+    }
+    x.stroke();
+  });
+  // rising and falling interval bars
+  x.globalAlpha=.06;const bw=26*D,n=Math.ceil(W/bw);
+  for(let i=0;i<n;i++){
+    const h=H*.13*(.5+.5*Math.sin(i*.45+t*.7))*(.6+.4*Math.sin(i*.17+t*.2));
+    x.fillRect(i*bw,H-h,18*D,h);
+  }
+  // drifting data points
+  x.globalAlpha=.15;
+  pts.forEach(p=>{if(!rm){p.y-=p.v;if(p.y<-10)p.y=H+10}x.beginPath();x.arc(p.x,p.y,p.r,0,6.3);x.fill()});
+  x.globalAlpha=1;
+}
+function loop(ts){
+  if(!last)last=ts;
+  if(!document.hidden&&ts-last>33){t+=Math.min((ts-last)/1000,.1);last=ts;draw()}
+  requestAnimationFrame(loop);
+}
+size();draw();
+document.addEventListener('carrow-theme',draw);
+addEventListener('resize',()=>{size();draw()});
+addEventListener('carrow-theme',draw);
+if(!rm)requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
