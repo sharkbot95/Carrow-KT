@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Carrow Academy — Call Volume Forecasting</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+:root{--bg:#f6f9fb;--bg-pattern:rgba(13,148,136,.06);--card:#ffffff;--text:#0f172a;--muted:#5b6679;--border:#e2e8f0;--accent:#0d9488;--accent2:#ca8a04;--gold-text:#1a1406;--accent-text:#ffffff;--head:#ecfdf9;--head-text:#0f766e;--good:#16a34a;--bad:#dc2626;color-scheme:light;}
+:root[data-theme="dark"]{--bg:#0a0e17;--bg-pattern:rgba(45,212,191,.05);--card:#121726;--text:#f1f5f9;--muted:#94a3b8;--border:#242b3d;--accent:#2dd4bf;--accent2:#eab308;--gold-text:#1a1406;--accent-text:#06241f;--head:rgba(45,212,191,.1);--head-text:#2dd4bf;--good:#4ade80;--bad:#f87171;color-scheme:dark;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg) radial-gradient(var(--bg-pattern) 1px,transparent 1px) 0 0/28px 28px;color:var(--text);font-family:"Segoe UI",-apple-system,Roboto,Arial,sans-serif;padding-bottom:env(safe-area-inset-bottom,0px);-webkit-tap-highlight-color:transparent;}
+.topbar{position:sticky;top:0;z-index:30;background:var(--card);border-bottom:1px solid var(--border);padding:calc(10px + env(safe-area-inset-top,0px)) 16px 10px;backdrop-filter:blur(8px)}
+.topbar-inner{max-width:1320px;margin:0 auto;display:flex;align-items:center;gap:10px}
+.brand-text{display:flex;flex-direction:column;line-height:1.2;min-width:0}
+.brand-name{font-size:1.15rem;font-weight:800;white-space:nowrap}
+.brand-name .hl{color:var(--accent)}
+.brand-sub{font-size:.7rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.theme-toggle{margin-left:auto;background:var(--bg);border:1px solid var(--border);border-radius:50%;width:38px;height:38px;flex-shrink:0;cursor:pointer;font-size:1.05rem;display:flex;align-items:center;justify-content:center}
+.tabbar{display:flex;gap:4px;overflow-x:auto;-webkit-overflow-scrolling:touch;background:var(--card);border:1px solid var(--border);border-radius:13px;padding:4px;scrollbar-width:none;margin-bottom:14px}
+.tabbar::-webkit-scrollbar{display:none}
+.tabbtn{flex:0 0 auto;display:flex;align-items:center;gap:6px;background:transparent;border:none;border-radius:10px;padding:10px 14px;font-size:.84rem;font-weight:700;color:var(--muted);cursor:pointer;white-space:nowrap;min-height:42px;transition:background .15s,color .15s}
+.tabbtn.active{background:var(--accent);color:var(--card)}
+.wrap{max-width:1320px;margin:0 auto;padding:16px 14px 60px;}
+p.sub{color:var(--muted);margin:0 0 16px;font-size:.88rem}
+.card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:18px;margin-bottom:14px;box-shadow:0 2px 10px rgba(10,15,25,.06)}
+.grid-settings{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+label{font-size:.72rem;color:var(--muted);display:block;margin-bottom:3px;font-weight:600}
+input,select{width:100%;padding:9px 10px;border:1px solid var(--border);border-radius:9px;background:var(--bg);color:var(--text);font-size:1rem;min-height:40px}
+.btn{background:var(--accent2);color:var(--gold-text);border:none;border-radius:999px;padding:10px 18px;font-size:.85rem;cursor:pointer;font-weight:700;transition:transform .1s,filter .15s;min-height:42px}
+.btn:hover{filter:brightness(1.08)}
+.btn:active{transform:scale(.96)}
+.btn.secondary{background:transparent;color:var(--text);border:1px solid var(--border)}
+.btn.excel{background:var(--accent);color:var(--accent-text);border:none}
+.btn.gsheet{background:#0f9d58;color:#fff;border:none}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;align-items:center}
+table{border-collapse:collapse;width:100%;font-size:.78rem}
+th,td{border:1px solid var(--border);padding:4px 5px;text-align:center;white-space:nowrap}
+th{background:var(--head);color:var(--head-text);position:sticky;top:0;z-index:2}
+td:nth-child(2) input,th:nth-child(2){position:sticky;left:0;background:var(--card);z-index:1}
+td select,td input{min-width:84px;min-height:38px;padding:6px 4px;border:none;background:transparent;color:var(--text);text-align:center;font-size:1rem}
+td select:focus,td input:focus{outline:2px solid var(--accent);background:var(--bg);border-radius:6px}
+th,td{padding:6px 6px}
+.tablewrap{overflow-x:auto;max-height:440px;overflow-y:auto;border-radius:8px}
+.log{font-family:monospace;font-size:.72rem;white-space:pre-wrap;max-height:140px;overflow:auto;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;margin-top:10px}
+.pill{display:inline-block;padding:3px 10px;border-radius:99px;font-size:.7rem;font-weight:700;background:var(--head);color:var(--head-text)}
+.pill.good{background:rgba(22,163,74,.15);color:var(--good)}
+.pill.bad{background:rgba(220,38,38,.15);color:var(--bad)}
+small.hint{color:var(--muted);font-size:.7rem;display:block;margin-top:8px}
+.section-head{display:flex;gap:10px;align-items:flex-start;margin-bottom:14px}
+.section-icon{font-size:1.2rem;flex-shrink:0;width:38px;height:38px;border-radius:50%;background:var(--head);display:flex;align-items:center;justify-content:center}
+.section-head h3{margin:0;font-size:1.05rem;font-weight:800}
+.section-head p{margin:3px 0 0;font-size:.76rem;color:var(--muted);line-height:1.4}
+.option-composer{display:flex;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--bg)}
+.option-composer input{border:none;border-radius:0;background:transparent;flex:1;min-width:0}
+.option-composer select{border:none;border-radius:0;background:transparent;border-left:1px solid var(--border);max-width:150px;flex-shrink:0}
+.option-composer button{border:none;border-radius:0;border-left:1px solid var(--border);flex-shrink:0}
+.option-groups{display:flex;flex-direction:column;gap:12px;margin-top:16px}
+.option-group-title{font-size:.66rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:6px}
+.chip-row{display:flex;flex-wrap:wrap;gap:6px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.chip{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:6px 6px 6px 11px;font-size:.78rem;display:flex;align-items:center;gap:7px;box-shadow:0 1px 2px rgba(20,20,50,.04)}
+.chip .dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex-shrink:0}
+.chip button{background:var(--bg);border:none;border-radius:6px;color:var(--bad);cursor:pointer;font-weight:700;padding:2px 7px;font-size:.8rem;min-height:auto}
+.statgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin:12px 0}
+.stat{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:12px;text-align:center;transition:transform .15s}
+.stat:hover{transform:translateY(-2px)}
+.stat .n{font-size:1.5rem;font-weight:800;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat .l{font-size:.68rem;color:var(--muted);margin-top:2px}
+.chartsgrid{display:grid;grid-template-columns:1.3fr 1fr;gap:14px}
+@media (max-width:760px){.chartsgrid{grid-template-columns:1fr} .wrap{padding:12px 8px 50px} .card{padding:10px}}
+.chartbox{min-height:260px}
+.barrow{display:flex;align-items:center;gap:8px;margin:7px 0;font-size:.78rem}
+.barrow .lab{width:110px;flex-shrink:0;color:var(--muted);text-align:right;font-size:.72rem}
+.barrow .track{flex:1;background:var(--bg);border-radius:6px;height:16px;overflow:hidden;border:1px solid var(--border)}
+.barrow .fill{height:100%;border-radius:6px;width:0;transition:width .8s cubic-bezier(.22,1,.36,1)}
+.barrow .val{width:34px;flex-shrink:0;font-weight:700;font-size:.74rem}
+.legend{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:10px;font-size:.72rem}
+.legend span{display:flex;align-items:center;gap:5px}
+.legend .dot{width:9px;height:9px;border-radius:50%}
+#dashCard{display:none;animation:fadein .4s ease}
+@keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.donutwrap{display:flex;flex-direction:column;align-items:center}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand-text">
+      <strong class="brand-name">Carrow <span class="hl">Academy</span></strong>
+      <span class="brand-sub">Call Volume Forecasting</span>
+    </div>
+    <button class="theme-toggle" id="themeToggleBtn" onclick="toggleTheme()" title="Switch theme" aria-label="Switch theme">🌙</button>
+  </div>
+</header>
+<div class="wrap">
+  <div class="tabbar" role="tablist">
+    <button class="tabbtn active" id="tabBtnFc" onclick="showTab('fc')">🔮 <span>Forecasting</span></button>
+    <button class="tabbtn" id="tabBtnAgents" onclick="showTab('agents')">👤 <span>Agent Master Data</span></button>
+  </div>
+
+<div id="tabFc">
+  <p class="sub">Upload historical interval data, forecast with 5 methods, and get required-agent staffing numbers for each interval.</p>
+
+  <div class="card">
+    <div class="section-head"><span class="section-icon">🔮</span><div><h3>Call Volume Forecasting</h3><p>Upload historical interval data (minimum 4 weeks, no upper limit) — Date, Time, Calls, plus optional AHT, Occupancy, Shrinkage, Utilization. Five methods run automatically and are compared for accuracy where history allows.</p></div></div>
+    <div class="btn-row" style="margin-top:0">
+      <label class="btn secondary" style="cursor:pointer">⬆ Upload historical data<input type="file" id="fcImportFile" accept=".xlsx,.xls,.csv" style="display:none" onchange="importFcFile(event)"></label>
+    </div>
+    <div id="fcUploadStatus" style="margin-top:10px"></div>
+
+    <div class="grid-settings" style="margin-top:12px">
+      <div><label>Use history from</label><input id="fcHistFrom" type="date"></div>
+      <div><label>Use history to</label><input id="fcHistTo" type="date"></div>
+    </div>
+    <small class="hint" id="fcHistRangeHint">Defaults to your full uploaded range — narrow it to exclude an unusual week or use only the most recent history.</small>
+
+    <div class="grid-settings" style="margin-top:12px">
+      <div><label>Default AHT (sec)</label><input id="fcDefAHT" type="number" value="300"></div>
+      <div><label>Default occupancy (%)</label><input id="fcDefOcc" type="number" value="85"></div>
+      <div><label>Default shrinkage (%)</label><input id="fcDefShrink" type="number" value="30"></div>
+      <div><label>Default utilization (%)</label><input id="fcDefUtil" type="number" value="100"></div>
+    </div>
+    <small class="hint">Used only for whichever of AHT/Occupancy/Shrinkage/Utilization your uploaded file doesn't include — those get forecasted from history instead.</small>
+
+    <div class="grid-settings" style="margin-top:12px">
+      <div><label>Forecast from</label><input id="fcStartDate" type="date"></div>
+      <div><label>Forecast to</label><input id="fcEndDate" type="date"></div>
+      <div><label>Business growth rate (%)</label><input id="fcGrowthRate" type="number" step="0.1" value="0"></div>
+      <div><label>Growth compounds</label><select id="fcGrowthPeriod"><option value="weekly">Weekly</option><option value="monthly">Monthly</option></select></div>
+    </div>
+    <small class="hint">Growth compounds from the forecast start date — e.g. 2% weekly means week 2's forecast is ×1.02, week 3 is ×1.02², and so on. Leave at 0% for a flat (non-compounding) forecast.</small>
+    <div class="btn-row">
+      <button class="btn" onclick="runForecast()">Run forecast (5 methods)</button>
+    </div>
+
+    <div id="fcResults"></div>
+  </div>
+</div>
+
+<div id="tabAgents" style="display:none">
+  <div class="card">
+    <div class="section-head"><span class="section-icon">👤</span><div><h3>Agent Master Data</h3><p>Add agents one at a time below, or upload an Excel/CSV file with the same columns to bulk-load your roster.</p></div></div>
+
+    <div class="grid-settings">
+      <div><label>Emp ID</label><input id="agEmpId" placeholder="e.g. 1001"></div>
+      <div><label>First name</label><input id="agFirst"></div>
+      <div><label>Middle name (optional)</label><input id="agMiddle"></div>
+      <div><label>Last name</label><input id="agLast"></div>
+      <div><label>DOJ (date of joining)</label><input id="agDoj" type="date"></div>
+      <div><label>Process</label><input id="agProcess"></div>
+      <div><label>Team leader name</label><input id="agTl"></div>
+      <div><label>Shift start date</label><input id="agShiftStartDate" type="date" onchange="updateShiftDurationPreview()"></div>
+      <div><label>Shift start time</label><input id="agShiftStartTime" type="time" onchange="updateShiftDurationPreview()"></div>
+      <div><label>Shift end date</label><input id="agShiftEndDate" type="date" onchange="updateShiftDurationPreview()"></div>
+      <div><label>Shift end time</label><input id="agShiftEndTime" type="time" onchange="updateShiftDurationPreview()"></div>
+      <div><label>Shift duration (auto)</label><input id="agShiftDuration" value="—" disabled style="opacity:.8"></div>
+      <div><label>Rotational shift</label><select id="agRotational"><option value="No">No</option><option value="Yes">Yes</option></select></div>
+      <div><label>Company transport (cab)</label><select id="agTransport"><option value="No">No</option><option value="Yes">Yes</option></select></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn" onclick="addAgent()">+ Add agent</button>
+      <label class="btn secondary" style="cursor:pointer">⬆ Upload agent list<input type="file" id="agImportFile" accept=".xlsx,.xls,.csv" style="display:none" onchange="importAgentFile(event)"></label>
+      <button class="btn secondary" onclick="downloadAgentTemplate()">⬇ Download blank template</button>
+      <button class="btn excel" onclick="exportAgentExcel()">⬇ Export agent list to Excel</button>
+    </div>
+    <small class="hint">Upload expects headers like Emp ID, First Name, Middle Name, Last Name, DOJ, Process, Team Leader, Shift Start Date, Shift Start Time, Shift End Date, Shift End Time, Rotational Shift (Yes/No), Company Transport (Yes/No) — any order, column names auto-detected, Middle Name may be blank. Night Shift is worked out automatically from the start/end date+time, not uploaded.</small>
+
+    <div id="agentStatus" style="margin-top:10px"></div>
+    <div class="tablewrap" style="max-height:420px;margin-top:10px"><table id="agentTable"></table></div>
+  </div>
+</div>
+</div>
+
+<script>
+function $(id){return document.getElementById(id)}
+function showTab(which){
+  $('tabFc').style.display = which==='fc' ? '' : 'none';
+  $('tabAgents').style.display = which==='agents' ? '' : 'none';
+  $('tabBtnFc').className = which==='fc' ? 'tabbtn active' : 'tabbtn';
+  $('tabBtnAgents').className = which==='agents' ? 'tabbtn active' : 'tabbtn';
+}
+function applyTheme(theme){
+  document.documentElement.setAttribute('data-theme', theme);
+  const btn=$('themeToggleBtn'); if(btn) btn.textContent = theme==='dark' ? '☀️' : '🌙';
+}
+function toggleTheme(){
+  const cur=document.documentElement.getAttribute('data-theme')==='dark' ? 'dark':'light';
+  const next= cur==='dark' ? 'light':'dark';
+  applyTheme(next);
+  try{ localStorage.setItem('ca_theme', next); }catch(e){}
+}
+(function initTheme(){
+  let saved=null; try{ saved=localStorage.getItem('ca_theme'); }catch(e){}
+  applyTheme(saved || 'dark');
+})();
+
+// ---- Agent Master Data ----
+let agents = [];
+function computeShiftHours(a){
+  if(!a.shiftStartDate||!a.shiftStartTime||!a.shiftEndDate||!a.shiftEndTime) return null;
+  const start=new Date(`${a.shiftStartDate}T${a.shiftStartTime}:00`);
+  let end=new Date(`${a.shiftEndDate}T${a.shiftEndTime}:00`);
+  if(isNaN(start)||isNaN(end)) return null;
+  if(end<=start) end=new Date(end.getTime()+86400000); // guards against an end date/time that's accidentally not after start (e.g. same date typed for an overnight shift)
+  return Math.round(((end-start)/3600000)*100)/100; // hours, 2dp
+}
+function updateShiftDurationPreview(){
+  const a={shiftStartDate:$('agShiftStartDate').value, shiftStartTime:$('agShiftStartTime').value, shiftEndDate:$('agShiftEndDate').value, shiftEndTime:$('agShiftEndTime').value};
+  const h=computeShiftHours(a);
+  $('agShiftDuration').value = h===null ? '—' : h+' hrs';
+}
+function isNightShift(a){
+  if(!a.shiftStartDate || !a.shiftStartTime || !a.shiftEndDate || !a.shiftEndTime) return null;
+  if(a.shiftEndDate !== a.shiftStartDate) return true; // crosses midnight onto a later calendar date
+  return a.shiftEndTime < a.shiftStartTime; // same date but end clock-time before start clock-time also implies a midnight crossing
+}
+function renderAgentTable(){
+  const cols=['Emp ID','First Name','Middle Name','Last Name','DOJ','Process','Team Leader','Shift Start','Shift End','Duration (hrs)','Night Shift','Rotational','Transport',''];
+  let html='<thead><tr>'+cols.map(c=>`<th>${c}</th>`).join('')+'</tr></thead><tbody>';
+  agents.forEach((a,i)=>{
+    const night=isNightShift(a);
+    const nightLabel = night===null ? '—' : (night ? '<span class="pill bad">Yes</span>' : '<span class="pill good">No</span>');
+    const dur=computeShiftHours(a);
+    html+=`<tr><td>${a.empId}</td><td>${a.first}</td><td>${a.middle||''}</td><td>${a.last}</td><td>${a.doj||''}</td><td>${a.process}</td><td>${a.tl}</td>
+      <td>${a.shiftStartDate||''} ${a.shiftStartTime||''}</td><td>${a.shiftEndDate||''} ${a.shiftEndTime||''}</td><td><strong>${dur===null?'—':dur}</strong></td><td>${nightLabel}</td>
+      <td>${a.rotational}</td><td>${a.transport}</td><td><button class="btn secondary" style="padding:4px 10px;min-height:auto" onclick="removeAgent(${i})">×</button></td></tr>`;
+  });
+  $('agentTable').innerHTML = html+'</tbody>';
+  $('agentStatus').innerHTML = agents.length ? `<span class="pill good">${agents.length} agent(s)</span>` : '';
+}
+function clearAgentForm(){
+  ['agEmpId','agFirst','agMiddle','agLast','agDoj','agProcess','agTl','agShiftStartDate','agShiftStartTime','agShiftEndDate','agShiftEndTime'].forEach(id=>$(id).value='');
+  $('agRotational').value='No'; $('agTransport').value='No';
+  $('agShiftDuration').value='—';
+}
+function addAgent(){
+  const empId=$('agEmpId').value.trim(), first=$('agFirst').value.trim(), last=$('agLast').value.trim();
+  const process=$('agProcess').value.trim(), tl=$('agTl').value.trim(), doj=$('agDoj').value;
+  const shiftStartDate=$('agShiftStartDate').value, shiftStartTime=$('agShiftStartTime').value, shiftEndDate=$('agShiftEndDate').value, shiftEndTime=$('agShiftEndTime').value;
+  if(!empId||!first||!last||!doj||!process||!tl||!shiftStartDate||!shiftStartTime||!shiftEndDate||!shiftEndTime){ alert('Emp ID, First name, Last name, DOJ, Process, Team leader and all 4 shift start/end fields are required (Middle name is optional).'); return; }
+  agents.push({empId, first, middle:$('agMiddle').value.trim(), last, doj, process, tl, shiftStartDate, shiftStartTime, shiftEndDate, shiftEndTime, rotational:$('agRotational').value, transport:$('agTransport').value});
+  clearAgentForm();
+  renderAgentTable();
+}
+function removeAgent(i){ agents.splice(i,1); renderAgentTable(); }
+const AGENT_HEADERS=['Emp ID','First Name','Middle Name','Last Name','DOJ','Process','Team Leader','Shift Start Date','Shift Start Time','Shift End Date','Shift End Time','Rotational Shift','Company Transport'];
+function downloadAgentTemplate(){
+  const wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet([AGENT_HEADERS]), 'Agents');
+  XLSX.writeFile(wb,'Agent_List_Template.xlsx');
+}
+function exportAgentExcel(){
+  const headers=[...AGENT_HEADERS.slice(0,11),'Duration (hrs)',...AGENT_HEADERS.slice(11)];
+  const aoa=[headers, ...agents.map(a=>{
+    const dur=computeShiftHours(a);
+    return [a.empId,a.first,a.middle||'',a.last,a.doj,a.process,a.tl,a.shiftStartDate,a.shiftStartTime,a.shiftEndDate,a.shiftEndTime,dur===null?'':dur,a.rotational,a.transport];
+  })];
+  const wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(aoa), 'Agents');
+  XLSX.writeFile(wb,'Agent_List.xlsx');
+}
+function importAgentFile(ev){
+  const file=ev.target.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=e=>{ try{ const wb=XLSX.read(e.target.result,{type:'array'}); const ws=wb.Sheets[wb.SheetNames[0]];
+    parseAgentUpload(XLSX.utils.sheet_to_json(ws,{header:1,raw:false,defval:''})); }catch(err){ alert('Could not read file: '+err.message); } };
+  reader.readAsArrayBuffer(file);
+}
+function parseAgentUpload(aoa){
+  if(!aoa.length){ alert('File appears empty.'); return; }
+  const header=aoa[0].map(h=>String(h));
+  const iEmp=findCol(header,['emp id','empid','employee id']), iFirst=findCol(header,['first']), iMiddle=findCol(header,['middle']), iLast=findCol(header,['last']);
+  const iDoj=findCol(header,['doj','date of joining','joining']), iProcess=findCol(header,['process']), iTl=findCol(header,['team leader','tl']);
+  const iSSD=findCol(header,['shift start date','start date']), iSST=findCol(header,['shift start time','start time']);
+  const iSED=findCol(header,['shift end date','end date']), iSET=findCol(header,['shift end time','end time']);
+  const iRot=findCol(header,['rotational']), iTrans=findCol(header,['transport','cab']);
+  if(iEmp===-1||iFirst===-1||iLast===-1){ alert('Could not find Emp ID / First Name / Last Name columns. Check your headers.'); return; }
+  const rows=aoa.slice(1).filter(r=>r.some(v=>String(v).trim()!==''));
+  let added=0;
+  rows.forEach(r=>{
+    agents.push({
+      empId:String(r[iEmp]||'').trim(), first:String(r[iFirst]||'').trim(), middle: iMiddle!==-1?String(r[iMiddle]||'').trim():'',
+      last:String(r[iLast]||'').trim(), doj: iDoj!==-1?String(r[iDoj]||'').trim():'', process: iProcess!==-1?String(r[iProcess]||'').trim():'',
+      tl: iTl!==-1?String(r[iTl]||'').trim():'',
+      shiftStartDate: iSSD!==-1?String(r[iSSD]||'').trim():'', shiftStartTime: iSST!==-1?String(r[iSST]||'').trim():'',
+      shiftEndDate: iSED!==-1?String(r[iSED]||'').trim():'', shiftEndTime: iSET!==-1?String(r[iSET]||'').trim():'',
+      rotational: iRot!==-1 && /^y/i.test(String(r[iRot]||'')) ? 'Yes':'No',
+      transport: iTrans!==-1 && /^y/i.test(String(r[iTrans]||'')) ? 'Yes':'No'
+    });
+    added++;
+  });
+  renderAgentTable();
+  $('agentStatus').innerHTML = `<span class="pill good">Imported</span> ${added} agent(s) added.`;
+}
+function fmt(mins){ mins=((mins%1440)+1440)%1440; return String(Math.floor(mins/60)).padStart(2,'0')+':'+String(Math.round(mins%60)).padStart(2,'0'); }
+function parseDutyToMinutes(v){
+  v=(v||'').trim(); if(!v) return null;
+  if(/^\d*\.?\d+$/.test(v)){ const n=parseFloat(v);
+    if(n<1) return Math.round(n*24*60);
+    if(v.length<=2) return parseInt(v)*60;
+    if(v.length===3&&v.includes('.')) return parseInt(v[0])*60+30;
+    if(v.length===4&&v.includes('.')) return parseInt(v.slice(0,2))*60+30;
+    if(v.length===4) return parseInt(v.slice(0,2))*60+parseInt(v.slice(2));
+  }
+  const m=v.match(/^(\d{1,2}):?(\d{2})/); return m?parseInt(m[1])*60+parseInt(m[2]):null;
+}
+function findCol(header, keywords){ return header.findIndex(h => keywords.some(k => String(h).toLowerCase().includes(k))); }
+let fcData = null; // {rows:[{date,wd,m,calls,aht}], step, hasAht, weeks}
+function parseFcDate(v){
+  if(v instanceof Date && !isNaN(v)) return v;
+  const s=String(v).trim();
+  let d=new Date(s); if(!isNaN(d)) return new Date(d.getFullYear(),d.getMonth(),d.getDate());
+  const m=s.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})$/);
+  if(m){ let day=+m[1], mon=+m[2], y=m[3].length===2?2000+(+m[3]):+m[3]; if(day>12 && mon<=12){} else if(mon>12){ [day,mon]=[mon,day]; } return new Date(y,mon-1,day); }
+  return null;
+}
+function importFcFile(ev){
+  const file=ev.target.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=e=>{ try{ const wb=XLSX.read(e.target.result,{type:'array'}); const ws=wb.Sheets[wb.SheetNames[0]];
+    parseFcUpload(XLSX.utils.sheet_to_json(ws,{header:1,raw:false,defval:''})); }catch(err){ alert('Could not read file: '+err.message); } };
+  reader.readAsArrayBuffer(file);
+}
+function parseFcUpload(aoa){
+  if(!aoa.length){ alert('File appears empty.'); return; }
+  const header=aoa[0].map(h=>String(h));
+  const iDate=findCol(header,['date']), iTime=findCol(header,['time','interval']), iCalls=findCol(header,['call']);
+  const iAht=findCol(header,['aht','handle']), iOcc=findCol(header,['occup']), iShrink=findCol(header,['shrink']), iUtil=findCol(header,['util']);
+  if(iDate===-1||iTime===-1||iCalls===-1){ alert('Could not find Date, Time and Calls columns. Expected headers like "Date", "Time", "Calls", optional "AHT", "Occupancy", "Shrinkage", "Utilization".'); return; }
+  const rows=aoa.slice(1).filter(r=>r.some(v=>String(v).trim()!=='')).map(r=>{
+    const date=parseFcDate(r[iDate]); const m=parseDutyToMinutes(String(r[iTime]).split(/[–-]/)[0].trim());
+    if(!date||m===null) return null;
+    return {date, wd:date.getDay(), m, calls:parseFloat(r[iCalls])||0,
+      aht: iAht!==-1 && r[iAht]!=='' ? parseFloat(r[iAht]) : null,
+      occ: iOcc!==-1 && r[iOcc]!=='' ? parseFloat(r[iOcc]) : null,
+      shrink: iShrink!==-1 && r[iShrink]!=='' ? parseFloat(r[iShrink]) : null,
+      util: iUtil!==-1 && r[iUtil]!=='' ? parseFloat(r[iUtil]) : null};
+  }).filter(Boolean).sort((a,b)=>a.date-b.date || a.m-b.m);
+  if(!rows.length){ alert('No valid rows parsed. Check Date and Time formats.'); return; }
+  const minDate=rows[0].date;
+  rows.forEach(r=>{ r.weekIdx=Math.floor((r.date-minDate)/(7*86400000)); });
+  const weeks=new Set(rows.map(r=>r.weekIdx)).size;
+  const ms=[...new Set(rows.map(r=>r.m))].sort((a,b)=>a-b);
+  const step = ms.length>1 ? ms[1]-ms[0] : 30;
+  const has={aht:rows.some(r=>r.aht!==null), occ:rows.some(r=>r.occ!==null), shrink:rows.some(r=>r.shrink!==null), util:rows.some(r=>r.util!==null)};
+  fcData = {rows, step, has, weeks, minDate};
+  const last = rows[rows.length-1].date;
+  const startNext = new Date(last); startNext.setDate(startNext.getDate()+1);
+  const endDefault = new Date(startNext); endDefault.setDate(endDefault.getDate()+6);
+  $('fcStartDate').valueAsDate = startNext;
+  $('fcEndDate').valueAsDate = endDefault;
+  $('fcHistFrom').valueAsDate = minDate;
+  $('fcHistTo').valueAsDate = last;
+  const extras=[has.aht&&'AHT',has.occ&&'Occupancy',has.shrink&&'Shrinkage',has.util&&'Utilization'].filter(Boolean);
+  $('fcUploadStatus').innerHTML = `<span class="pill ${weeks>=4?'good':'bad'}">${weeks>=4?'OK':'Low history'}</span> ${rows.length} rows parsed · ${weeks} week(s) of history · ${step}-min interval${extras.length?' · '+extras.join(', ')+' included':''}${weeks<4?' — best practice wants at least 4 weeks; results will be less reliable.':''}${!has.occ||!has.shrink?' · Occupancy/Shrinkage not in file — falling back to WFM tab defaults for whichever is missing.':''}`;
+  $('fcHistRangeHint').textContent = `Full uploaded range: ${minDate.toLocaleDateString()} – ${last.toLocaleDateString()}. Narrow the dates above to use only part of it.`;
+  $('fcResults').innerHTML='';
+}
+function avg(a){ return a.length? a.reduce((x,y)=>x+y,0)/a.length : 0; }
+function m_sma(arr,k=4){ return avg(arr.slice(-k)); }
+function m_wma(arr,k=4){ const s=arr.slice(-k); let num=0,den=0; s.forEach((v,i)=>{const w=i+1; num+=v*w; den+=w;}); return den?num/den:0; }
+function m_ses(arr,alpha=0.3){ if(!arr.length) return 0; let lvl=arr[0]; for(let i=1;i<arr.length;i++) lvl=alpha*arr[i]+(1-alpha)*lvl; return lvl; }
+function m_trend(arr,stepsAhead=1){ const n=arr.length; if(n<2) return arr[n-1]||0; let sx=0,sy=0,sxy=0,sxx=0; arr.forEach((y,x)=>{sx+=x;sy+=y;sxy+=x*y;sxx+=x*x;}); const den=(n*sxx-sx*sx)||1; const b=(n*sxy-sx*sy)/den; const a=(sy-b*sx)/n; return Math.max(0, a+b*(n-1+stepsAhead)); }
+function seasonalModel(allRows, field){
+  const vals=allRows.map(r=>r[field]).filter(v=>v!==null);
+  const grand=avg(vals)||1;
+  const byWd={}; for(let wd=0;wd<7;wd++){ const v=allRows.filter(r=>r.wd===wd).map(r=>r[field]).filter(x=>x!==null); byWd[wd]=v.length?avg(v)/grand:1; }
+  const byM={}; [...new Set(allRows.map(r=>r.m))].forEach(m=>{ const v=allRows.filter(r=>r.m===m).map(r=>r[field]).filter(x=>x!==null); byM[m]=v.length?avg(v)/grand:1; });
+  return {grand,byWd,byM};
+}
+function m_seasonal(model, wd, m){ return model.grand*(model.byWd[wd]||1)*(model.byM[m]||1); }
+
+function groupBuckets(rows, field){
+  const map={};
+  rows.filter(r=>r[field]!==null).forEach(r=>{ const k=r.wd+'|'+r.m; (map[k]=map[k]||[]).push(r[field]); });
+  return map;
+}
+function ensembleForecast(buckets, season, wd, m, stepsAhead){
+  const arr=buckets[wd+'|'+m]||[];
+  return avg([m_sma(arr), m_wma(arr), m_ses(arr), m_trend(arr,stepsAhead), m_seasonal(season,wd,m)]);
+}
+function runForecast(){
+  if(!fcData){ alert('Upload historical data first.'); return; }
+  const { step, has } = fcData;
+  const startDate = $('fcStartDate').valueAsDate, endDate = $('fcEndDate').valueAsDate;
+  if(!startDate||!endDate){ alert('Pick both a forecast start and end date.'); return; }
+  if(endDate<startDate){ alert('Forecast end date must be on or after the start date.'); return; }
+  const days = Math.round((endDate-startDate)/86400000)+1;
+  if(days>366){ alert('That forecast range is over a year — narrow it down to keep this responsive.'); return; }
+
+  const histFrom=$('fcHistFrom').valueAsDate, histTo=$('fcHistTo').valueAsDate;
+  let rows=fcData.rows;
+  if(histFrom && histTo){
+    const to=new Date(histTo); to.setHours(23,59,59,999);
+    rows = rows.filter(r=>r.date>=histFrom && r.date<=to);
+  }
+  if(!rows.length){ alert('No historical rows fall inside that date range.'); return; }
+  const minDate=rows[0].date;
+  rows.forEach(r=>{ r.weekIdx=Math.floor((r.date-minDate)/(7*86400000)); });
+  const weeksInRange=new Set(rows.map(r=>r.weekIdx)).size;
+
+  const callBuckets = groupBuckets(rows,'calls'), callSeason = seasonalModel(rows,'calls');
+  const ahtBuckets = has.aht ? groupBuckets(rows,'aht') : null, ahtSeason = has.aht ? seasonalModel(rows,'aht') : null;
+  const occBuckets = has.occ ? groupBuckets(rows,'occ') : null, occSeason = has.occ ? seasonalModel(rows,'occ') : null;
+  const shrinkBuckets = has.shrink ? groupBuckets(rows,'shrink') : null, shrinkSeason = has.shrink ? seasonalModel(rows,'shrink') : null;
+  const utilBuckets = has.util ? groupBuckets(rows,'util') : null, utilSeason = has.util ? seasonalModel(rows,'util') : null;
+  const ms=[...new Set(rows.map(r=>r.m))].sort((a,b)=>a-b);
+  const wdOccurrence={};
+
+  // Fallback static defaults from the WFM tab, used only for whichever drivers the upload didn't include
+  const fallback={aht:parseFloat($('fcDefAHT').value)||300, occ:parseFloat($('fcDefOcc').value)||85, shrink:parseFloat($('fcDefShrink').value)||30, util:parseFloat($('fcDefUtil').value)||100};
+
+  // Optional backtest: hold out most recent complete week if we have 5+ weeks — run for every forecasted field we have history for
+  let backtest=null;
+  if(weeksInRange>=5){
+    const maxWeek=Math.max(...rows.map(r=>r.weekIdx));
+    const train=rows.filter(r=>r.weekIdx<maxWeek), holdout=rows.filter(r=>r.weekIdx===maxWeek);
+    if(holdout.length){
+      backtest={};
+      const btFields=[['calls',true],['aht',has.aht],['occ',has.occ],['shrink',has.shrink],['util',has.util]];
+      btFields.forEach(([field,present])=>{
+        if(!present) return;
+        const trainBuckets=groupBuckets(train,field), trainSeason=seasonalModel(train,field);
+        const errs={sma:[],wma:[],ses:[],trend:[],seasonal:[]};
+        holdout.forEach(h=>{ const actual=h[field]; if(actual===null||!actual) return; const arr=trainBuckets[h.wd+'|'+h.m]||[];
+          const preds={sma:m_sma(arr),wma:m_wma(arr),ses:m_ses(arr),trend:m_trend(arr,1),seasonal:m_seasonal(trainSeason,h.wd,h.m)};
+          Object.keys(preds).forEach(k=>{ errs[k].push(Math.abs(preds[k]-actual)/actual); });
+        });
+        backtest[field] = Object.fromEntries(Object.entries(errs).map(([k,v])=>[k, v.length? Math.max(0,100-avg(v)*100).toFixed(1) : null]));
+      });
+    }
+  }
+
+  const growthRate=parseFloat($('fcGrowthRate').value)||0;
+  const growthPeriod=$('fcGrowthPeriod').value;
+  const horizon=[];
+  for(let d=0; d<days; d++){
+    const date=new Date(startDate); date.setDate(date.getDate()+d);
+    const wd=date.getDay();
+    wdOccurrence[wd]=(wdOccurrence[wd]||0)+1;
+    const stepsAhead=wdOccurrence[wd];
+    const periodsElapsed = growthPeriod==='weekly'
+      ? Math.floor((date-startDate)/(7*86400000))
+      : (date.getFullYear()-startDate.getFullYear())*12 + (date.getMonth()-startDate.getMonth());
+    const growthMult = Math.pow(1+growthRate/100, periodsElapsed);
+    ms.forEach(m=>{
+      const arr=callBuckets[wd+'|'+m]||[];
+      const sma=m_sma(arr), wma=m_wma(arr), ses=m_ses(arr), trend=m_trend(arr,stepsAhead), seasonal=m_seasonal(callSeason,wd,m);
+      const rec=Math.round(avg([sma,wma,ses,trend,seasonal])*growthMult);
+      const ahtRec = has.aht ? Math.round(ensembleForecast(ahtBuckets, ahtSeason, wd, m, stepsAhead)) : fallback.aht;
+      const occRec = has.occ ? Math.round(ensembleForecast(occBuckets, occSeason, wd, m, stepsAhead)) : fallback.occ;
+      const shrinkRec = has.shrink ? Math.round(ensembleForecast(shrinkBuckets, shrinkSeason, wd, m, stepsAhead)) : fallback.shrink;
+      const utilRec = has.util ? Math.round(ensembleForecast(utilBuckets, utilSeason, wd, m, stepsAhead)) : fallback.util;
+      const required = computeRequiredAgents(rec, ahtRec, occRec, shrinkRec, utilRec, step*60);
+      horizon.push({date,wd,m,sma:Math.round(sma),wma:Math.round(wma),ses:Math.round(ses),trend:Math.round(trend),seasonal:Math.round(seasonal),rec,ahtRec,occRec,shrinkRec,utilRec,required,growthMult});
+    });
+  }
+  window.fcHorizon = horizon;
+  renderForecastResults(horizon, backtest, step, growthRate, growthPeriod, has);
+}
+const FC_METHOD_LABELS={sma:'Simple Moving Avg',wma:'Weighted Moving Avg',ses:'Exp. Smoothing',trend:'Linear Trend',seasonal:'Seasonal Decomposition'};
+const FC_METHOD_COLORS={sma:'#2563eb',wma:'#f59e0b',ses:'#10b981',trend:'#ef4444',seasonal:'#8b5cf6'};
+function fcBucketKey(date, gran){
+  if(gran==='week'){ const d=new Date(date); d.setDate(d.getDate()-d.getDay()); return d.toDateString(); }
+  if(gran==='month') return date.getFullYear()+'-'+String(date.getMonth()+1).padStart(2,'0');
+  return date.toDateString();
+}
+function fcBucketLabel(sampleDate, gran){
+  if(gran==='week'){ const d=new Date(sampleDate); d.setDate(d.getDate()-d.getDay()); return 'Wk of '+d.toLocaleDateString(undefined,{month:'short',day:'numeric'}); }
+  if(gran==='month') return sampleDate.toLocaleDateString(undefined,{month:'short',year:'numeric'});
+  return sampleDate.toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric'});
+}
+function buildVarianceChart(type, bucketKeys, bucketLabels, methodKeys, methodTotals){
+  const w=820,h=230,padL=36,padB=28,padT=14,padR=10,plotW=w-padL-padR,plotH=h-padT-padB;
+  const n=bucketKeys.length;
+  const labelEvery=Math.max(1,Math.ceil(n/8));
+  const axisLines=`<line x1="${padL}" y1="${padT}" x2="${padL}" y2="${h-padB}" stroke="var(--border)"/><line x1="${padL}" y1="${h-padB}" x2="${w-padR}" y2="${h-padB}" stroke="var(--border)"/>`;
+
+  if(type==='bars'){
+    const allVals=methodKeys.flatMap(mk=>methodTotals[mk]);
+    const maxV=Math.max(...allVals,1);
+    const groupW=plotW/Math.max(n,1);
+    const barW=Math.max(2, groupW/(methodKeys.length+1.5));
+    let rects='';
+    bucketKeys.forEach((k,gi)=>{
+      const groupX=padL+gi*groupW;
+      methodKeys.forEach((mk,mi)=>{
+        const v=methodTotals[mk][gi]; const bh=(v/maxV)*plotH;
+        const x=groupX+mi*barW+barW*0.3, y=padT+plotH-bh;
+        rects+=`<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${(barW*0.8).toFixed(1)}" height="${Math.max(0,bh).toFixed(1)}" fill="${FC_METHOD_COLORS[mk]}" rx="1"/>`;
+      });
+    });
+    const xLabels=bucketKeys.map((k,i)=>`<text x="${(padL+i*groupW+groupW/2).toFixed(1)}" y="${h-8}" font-size="9" fill="var(--muted)" text-anchor="middle">${bucketLabels[i]}</text>`).join('');
+    return `<svg viewBox="0 0 ${w} ${h}" style="width:100%;height:auto">${axisLines}${rects}${xLabels}</svg>`;
+  }
+
+  if(type==='band'){
+    const mins=bucketKeys.map((k,i)=>Math.min(...methodKeys.map(mk=>methodTotals[mk][i])));
+    const maxs=bucketKeys.map((k,i)=>Math.max(...methodKeys.map(mk=>methodTotals[mk][i])));
+    const means=bucketKeys.map((k,i)=>avg(methodKeys.map(mk=>methodTotals[mk][i])));
+    const vMax=Math.max(...maxs,1), vMin=Math.min(...mins,0);
+    const xAt=i=> padL+(n<=1?0:(i/(n-1))*plotW);
+    const yAt=v=> padT+plotH-((v-vMin)/((vMax-vMin)||1))*plotH;
+    const top=maxs.map((v,i)=>`${i===0?'M':'L'}${xAt(i).toFixed(1)},${yAt(v).toFixed(1)}`).join(' ');
+    const bottom=[...mins.keys()].reverse().map(i=>`L${xAt(i).toFixed(1)},${yAt(mins[i]).toFixed(1)}`).join(' ');
+    const meanPath=means.map((v,i)=>`${i===0?'M':'L'}${xAt(i).toFixed(1)},${yAt(v).toFixed(1)}`).join(' ');
+    const xLabels=bucketKeys.map((k,i)=> i%labelEvery===0 ? `<text x="${xAt(i).toFixed(1)}" y="${h-6}" font-size="9" fill="var(--muted)" text-anchor="middle">${bucketLabels[i]}</text>` : '').join('');
+    return `<svg viewBox="0 0 ${w} ${h}" style="width:100%;height:auto">${axisLines}
+      <path d="${top} ${bottom} Z" fill="var(--accent)" fill-opacity="0.16" stroke="none"/>
+      <path d="${meanPath}" fill="none" stroke="var(--accent)" stroke-width="2.2"/>
+      ${xLabels}</svg>
+      <small class="hint">Shaded band = range between the lowest and highest method forecast at each point; the solid line is the mean across all 5 methods. A wider band means less agreement.</small>`;
+  }
+
+  if(type==='box'){
+    const allVals=methodKeys.flatMap(mk=>methodTotals[mk]);
+    const vMax=Math.max(...allVals,1), vMin=Math.min(...allVals,0);
+    const yAt=v=> padT+plotH-((v-vMin)/((vMax-vMin)||1))*plotH;
+    const groupW=plotW/Math.max(n,1);
+    let boxes='';
+    bucketKeys.forEach((k,i)=>{
+      const vals=methodKeys.map(mk=>methodTotals[mk][i]).sort((a,b)=>a-b);
+      const [mn,q1,med,q3,mx]=vals;
+      const cx=padL+i*groupW+groupW/2, bw=Math.min(26,groupW*0.5);
+      boxes+=`<line x1="${cx.toFixed(1)}" y1="${yAt(mx).toFixed(1)}" x2="${cx.toFixed(1)}" y2="${yAt(mn).toFixed(1)}" stroke="var(--muted)" stroke-width="1.4"/>
+        <rect x="${(cx-bw/2).toFixed(1)}" y="${yAt(q3).toFixed(1)}" width="${bw}" height="${Math.max(1,yAt(q1)-yAt(q3)).toFixed(1)}" fill="var(--accent)" fill-opacity="0.3" stroke="var(--accent)"/>
+        <line x1="${(cx-bw/2).toFixed(1)}" y1="${yAt(med).toFixed(1)}" x2="${(cx+bw/2).toFixed(1)}" y2="${yAt(med).toFixed(1)}" stroke="var(--accent)" stroke-width="2"/>`;
+    });
+    const xLabels=bucketKeys.map((k,i)=> i%labelEvery===0 ? `<text x="${(padL+i*groupW+groupW/2).toFixed(1)}" y="${h-6}" font-size="9" fill="var(--muted)" text-anchor="middle">${bucketLabels[i]}</text>` : '').join('');
+    return `<svg viewBox="0 0 ${w} ${h}" style="width:100%;height:auto">${axisLines}${boxes}${xLabels}</svg>
+      <small class="hint">Whisker = full min\u2013max across the 5 methods at that point; box = middle 3 values; bar = median. Taller boxes mean more disagreement.</small>`;
+  }
+
+  if(type==='donut'){
+    const sums=methodKeys.map(mk=>methodTotals[mk].reduce((a,b)=>a+b,0));
+    const total=sums.reduce((a,b)=>a+b,0)||1;
+    const r=72,cx=100,cy=100,circ=2*Math.PI*r; let off=0;
+    const segs=methodKeys.map((mk,i)=>{
+      const frac=sums[i]/total, len=frac*circ;
+      const seg=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${FC_METHOD_COLORS[mk]}" stroke-width="26" stroke-dasharray="${len.toFixed(1)} ${(circ-len).toFixed(1)}" stroke-dashoffset="${(-off).toFixed(1)}" transform="rotate(-90 ${cx} ${cy})"><title>${FC_METHOD_LABELS[mk]}: ${Math.round(frac*100)}%</title></circle>`;
+      off+=len; return seg;
+    }).join('');
+    return `<div style="display:flex;justify-content:center"><svg viewBox="0 0 200 200" width="220" height="220">${segs}<circle cx="${cx}" cy="${cy}" r="44" fill="var(--card)"/></svg></div>
+      <small class="hint">Share of total forecasted Calls across the whole horizon, by method — shows which methods run systematically higher or lower overall, not point-by-point disagreement.</small>`;
+  }
+
+  if(type==='radar'){
+    const idx = n<=10 ? bucketKeys.map((_,i)=>i) : Array.from({length:10},(_,j)=>Math.round(j*(n-1)/9));
+    const axes=idx.length, cx=140, cy=128, r=100;
+    const allVals=methodKeys.flatMap(mk=>idx.map(i=>methodTotals[mk][i]));
+    const vMax=Math.max(...allVals,1);
+    const angle=i=> -Math.PI/2 + i*(2*Math.PI/axes);
+    const ptAt=(i,v)=>{ const rad=(v/vMax)*r, a=angle(i); return [cx+rad*Math.cos(a), cy+rad*Math.sin(a)]; };
+    const spokes=idx.map((_,i)=>{ const [x,y]=ptAt(i,vMax); return `<line x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="var(--border)"/>`; }).join('');
+    const rings=[0.33,0.66,1].map(f=>idx.map((_,i)=>ptAt(i,vMax*f).join(',')).join(' ')).map(pts=>`<polygon points="${pts}" fill="none" stroke="var(--border)"/>`).join('');
+    const polys=methodKeys.map(mk=>{
+      const pts=idx.map((bi,i)=>ptAt(i,methodTotals[mk][bi]).join(',')).join(' ');
+      return `<polygon points="${pts}" fill="${FC_METHOD_COLORS[mk]}" fill-opacity="0.08" stroke="${FC_METHOD_COLORS[mk]}" stroke-width="2"/>`;
+    }).join('');
+    const labels=idx.map((bi,i)=>{ const [x,y]=ptAt(i,vMax*1.16); return `<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" font-size="9" fill="var(--muted)" text-anchor="middle">${bucketLabels[bi]}</text>`; }).join('');
+    return `<div style="display:flex;justify-content:center"><svg viewBox="0 0 280 256" style="width:100%;max-width:420px;height:auto">${rings}${spokes}${polys}${labels}</svg></div>
+      <small class="hint">${n>10?`Showing 10 evenly-spaced points out of ${n} to keep this readable. `:''}Each colored shape is one method across the selected points — overlapping shapes mean agreement; a lopsided shape flags where that method diverges.</small>`;
+  }
+
+  // default: line overlay
+  const allVals=methodKeys.flatMap(mk=>methodTotals[mk]);
+  const vMax=Math.max(...allVals,1), vMin=Math.min(...allVals,0);
+  const xAt=i=> padL+(n<=1?0:(i/(n-1))*plotW);
+  const yAt=v=> padT+plotH-((v-vMin)/((vMax-vMin)||1))*plotH;
+  const linePaths=methodKeys.map(mk=>{
+    const d=methodTotals[mk].map((v,i)=>`${i===0?'M':'L'}${xAt(i).toFixed(1)},${yAt(v).toFixed(1)}`).join(' ');
+    return `<path d="${d}" fill="none" stroke="${FC_METHOD_COLORS[mk]}" stroke-width="2.2"/>`;
+  }).join('');
+  const xLabels=bucketKeys.map((k,i)=> i%labelEvery===0 ? `<text x="${xAt(i).toFixed(1)}" y="${h-6}" font-size="9" fill="var(--muted)" text-anchor="middle">${bucketLabels[i]}</text>` : '').join('');
+  return `<svg viewBox="0 0 ${w} ${h}" style="width:100%;height:auto">${axisLines}${linePaths}${xLabels}</svg>`;
+}
+function renderFcCharts(){
+  const horizon=window.fcHorizon; if(!horizon||!horizon.length) return;
+  const gran=$('fcGranularity').value;
+  const growthRate=window.fcGrowthRate||0, growthPeriod=window.fcGrowthPeriod||'weekly';
+  const byBucket={};
+  horizon.forEach(h=>{ const k=fcBucketKey(h.date,gran); (byBucket[k]=byBucket[k]||{sampleDate:h.date,rows:[]}).rows.push(h); });
+  const bucketKeys=Object.keys(byBucket).sort((a,b)=>byBucket[a].sampleDate-byBucket[b].sampleDate);
+  const n=bucketKeys.length;
+  const totals=bucketKeys.map(k=>byBucket[k].rows.reduce((a,h)=>a+h.rec,0));
+  const peakAgents=bucketKeys.map(k=>Math.max(...byBucket[k].rows.map(h=>h.required)));
+  const max=Math.max(...totals,1), maxAgents=Math.max(...peakAgents,1);
+  const barsHtml=bucketKeys.map((k,i)=>`<div class="barrow"><div class="lab">${fcBucketLabel(byBucket[k].sampleDate,gran)}</div><div class="track"><div class="fill" style="background:var(--accent);width:${Math.round(totals[i]/max*100)}%"></div></div><div class="val">${totals[i]}</div></div>`).join('');
+  const agentBarsHtml=bucketKeys.map((k,i)=>`<div class="barrow"><div class="lab">${fcBucketLabel(byBucket[k].sampleDate,gran)}</div><div class="track"><div class="fill" style="background:#8b5cf6;width:${Math.round(peakAgents[i]/maxAgents*100)}%"></div></div><div class="val">${peakAgents[i]}</div></div>`).join('');
+
+  const methodKeys=Object.keys(FC_METHOD_LABELS);
+  const methodTotals={}; methodKeys.forEach(mk=>{ methodTotals[mk]=bucketKeys.map(k=>byBucket[k].rows.reduce((a,h)=>a+h[mk],0)); });
+  const spread=bucketKeys.map((k,i)=>{ const vals=methodKeys.map(mk=>methodTotals[mk][i]); const mean=avg(vals); return Math.round(Math.sqrt(avg(vals.map(v=>(v-mean)**2)))); });
+  const granLabel={day:'day',week:'week',month:'month'}[gran];
+  const chartType=$('fcChartType')?$('fcChartType').value:'line';
+  const bucketLabels=bucketKeys.map(k=>fcBucketLabel(byBucket[k].sampleDate,gran));
+  const varianceSvg = buildVarianceChart(chartType, bucketKeys, bucketLabels, methodKeys, methodTotals);
+  const methodLegend=methodKeys.map(mk=>`<span><span class="dot" style="background:${FC_METHOD_COLORS[mk]}"></span>${FC_METHOD_LABELS[mk]}</span>`).join('');
+  const maxSpread=Math.max(...spread,1);
+  const spreadBars=bucketKeys.map((k,i)=>`<div class="barrow"><div class="lab">${bucketLabels[i]}</div><div class="track"><div class="fill" style="background:${spread[i]>maxSpread*0.6?'var(--bad)':'var(--accent)'};width:${Math.round(spread[i]/maxSpread*100)}%"></div></div><div class="val">±${spread[i]}</div></div>`).join('');
+
+  $('fcChartsBox').innerHTML = `
+    <div class="chartsgrid">
+      <div class="card" style="margin:0"><strong style="font-size:.8rem">Forecast total calls by ${granLabel}${growthRate?` (${growthRate}% ${growthPeriod} growth compounded)`:''}</strong>
+        <div style="margin-top:8px">${barsHtml}</div></div>
+      <div class="card" style="margin:0"><strong style="font-size:.8rem">Peak agents required by ${granLabel}</strong>
+        <div style="margin-top:8px">${agentBarsHtml}</div></div>
+    </div>
+    <div class="card" style="margin-top:12px">
+      <div class="section-head"><span class="section-icon">📐</span><div><h3>Method Variance — how much the 5 forecasts disagree</h3><p>Each method's total Calls forecast per ${granLabel}, shown as a ${chartType==='line'?'line overlay':chartType==='bars'?'grouped bar comparison':'min–max range band with mean'}.</p></div></div>
+      <div class="btn-row" style="margin-top:0;margin-bottom:10px">
+        <label style="font-size:.78rem;color:var(--muted)">Chart style:</label>
+        <select id="fcChartType" onchange="renderFcCharts()">
+          <option value="line" ${chartType==='line'?'selected':''}>Line (overlay)</option>
+          <option value="bars" ${chartType==='bars'?'selected':''}>Grouped bars</option>
+          <option value="band" ${chartType==='band'?'selected':''}>Range band (min–max + mean)</option>
+          <option value="box" ${chartType==='box'?'selected':''}>Box & Whisker</option>
+          <option value="donut" ${chartType==='donut'?'selected':''}>Donut (share of total)</option>
+          <option value="radar" ${chartType==='radar'?'selected':''}>Radar (method comparison)</option>
+        </select>
+      </div>
+      ${varianceSvg}
+      <div class="legend">${methodLegend}</div>
+      <strong style="font-size:.78rem;display:block;margin-top:14px">Spread by ${granLabel} (standard deviation across methods)</strong>
+      <div style="margin-top:8px">${spreadBars}</div>
+      <small class="hint">Red bars flag where methods disagree most — treat the Recommended figure there with more caution, or lean on whichever method backtested best.</small>
+    </div>`;
+}
+function renderForecastResults(horizon, backtest, step, growthRate, growthPeriod, has){
+  window.fcGrowthRate=growthRate; window.fcGrowthPeriod=growthPeriod;
+  const byDate={}; horizon.forEach(h=>{ const k=h.date.toDateString(); (byDate[k]=byDate[k]||[]).push(h); });
+  const dateKeys=Object.keys(byDate);
+  const fieldLabels={calls:'Calls',aht:'AHT',occ:'Occupancy',shrink:'Shrinkage',util:'Utilization'};
+
+  let backtestHtml='';
+  if(backtest){
+    const fields=Object.keys(backtest);
+    backtestHtml = `<div class="card" style="margin-top:12px"><strong style="font-size:.8rem">Backtest accuracy by method & metric (holdout: most recent week)</strong>
+      <table style="margin-top:8px"><thead><tr><th>Method</th>${fields.map(f=>`<th>${fieldLabels[f]}</th>`).join('')}</tr></thead><tbody>
+      ${Object.keys(FC_METHOD_LABELS).map(mk=>`<tr><td>${FC_METHOD_LABELS[mk]}</td>${fields.map(f=>`<td>${backtest[f][mk]!==null?backtest[f][mk]+'%':'—'}</td>`).join('')}</tr>`).join('')}
+      </tbody></table></div>`;
+  } else {
+    backtestHtml = `<small class="hint">Need 5+ weeks of history to backtest method accuracy — currently showing all 5 methods without an accuracy comparison.</small>`;
+  }
+  const driverNote = `<small class="hint">AHT${has.aht?'':' (WFM default)'}, Occupancy${has.occ?'':' (WFM default)'}, Shrinkage${has.shrink?'':' (WFM default)'} and Utilization${has.util?'':' (default 100%)'} are forecasted with the same 5 methods as Calls (no compounding growth applied to these four) and feed directly into Required Agents below.</small>`;
+
+  const detailRows = horizon.map(h=>`<tr><td>${h.date.toLocaleDateString()}</td><td>${fmt(h.m)}</td><td>${h.sma}</td><td>${h.wma}</td><td>${h.ses}</td><td>${h.trend}</td><td>${h.seasonal}</td><td><strong>${h.rec}</strong></td><td>${h.ahtRec}</td><td>${h.occRec}%</td><td>${h.shrinkRec}%</td><td>${h.utilRec}%</td><td><strong>${h.required}</strong></td></tr>`).join('');
+
+  $('fcResults').innerHTML = `
+    <div class="card" style="margin-top:14px">
+      <div class="btn-row" style="margin-top:0">
+        <label style="font-size:.78rem;color:var(--muted)">Graph view:</label>
+        <select id="fcGranularity" onchange="renderFcCharts()">
+          <option value="day">Day</option>
+          <option value="week">Week</option>
+          <option value="month">Month</option>
+        </select>
+      </div>
+      <div id="fcChartsBox" style="margin-top:10px"></div>
+    </div>
+    ${backtestHtml}
+    ${driverNote}
+
+    <div class="card" style="margin-top:12px">
+      <strong style="font-size:.8rem">📅 Dashboard — Interval × Date matrix</strong>
+      <div class="btn-row" style="margin-top:8px">
+        <label style="font-size:.78rem;color:var(--muted)">Metric:</label>
+        <select id="fcMatrixMetric" onchange="renderFcMatrix()">
+          <option value="required">Required Agents</option>
+          <option value="rec">Calls - Recommended</option>
+          <option value="sma">Calls - SMA</option>
+          <option value="wma">Calls - WMA</option>
+          <option value="ses">Calls - SES</option>
+          <option value="trend">Calls - Trend</option>
+          <option value="seasonal">Calls - Seasonal</option>
+          <option value="ahtRec">AHT</option>
+          <option value="occRec">Occupancy %</option>
+          <option value="shrinkRec">Shrinkage %</option>
+          <option value="utilRec">Utilization %</option>
+        </select>
+        <button class="btn excel" onclick="exportFcExcel()">⬇ Export all 11 sheets to Excel (Date columns × Interval rows)</button>
+      </div>
+      <div id="fcMatrixBox" class="tablewrap" style="max-height:420px;margin-top:10px"></div>
+    </div>
+
+    <div class="btn-row" style="margin-top:12px">
+      <label style="font-size:.78rem;color:var(--muted)">Selected day:</label>
+      <select id="fcSendDate">${dateKeys.map(k=>`<option value="${k}">${new Date(k).toLocaleDateString()}</option>`).join('')}</select>
+      <button class="btn secondary" onclick="exportFcDayCsv()">⬇ Export this day (CSV)</button>
+      <button class="btn excel" onclick="exportFcExcel()">⬇ Export ALL days & metrics to Excel (11 sheets)</button>
+    </div>
+    <small class="hint">"Export ALL days & metrics" writes 11 separate sheets — Required Agents; Calls by Recommended, SMA, WMA, SES, Trend and Seasonal; AHT; Occupancy; Shrinkage; Utilization — each in the Interval-row/Date-column layout.</small>
+    <div class="tablewrap" style="max-height:360px;margin-top:10px"><table>
+      <thead><tr><th>Date</th><th>Interval</th><th>SMA</th><th>WMA</th><th>SES</th><th>Trend</th><th>Seasonal</th><th>Calls (rec)</th><th>AHT</th><th>Occ%</th><th>Shrink%</th><th>Util%</th><th>Required Agents</th></tr></thead>
+      <tbody>${detailRows}</tbody></table></div>`;
+  renderFcCharts();
+  renderFcMatrix();
+}
+function fcMetricMeta(){
+  return {required:{label:'Required Agents',fmt:v=>v},rec:{label:'Calls - Recommended',fmt:v=>v},
+    sma:{label:'Calls - SMA',fmt:v=>v},wma:{label:'Calls - WMA',fmt:v=>v},ses:{label:'Calls - SES',fmt:v=>v},
+    trend:{label:'Calls - Trend',fmt:v=>v},seasonal:{label:'Calls - Seasonal',fmt:v=>v},
+    ahtRec:{label:'AHT (sec)',fmt:v=>v},occRec:{label:'Occupancy %',fmt:v=>v+'%'},
+    shrinkRec:{label:'Shrinkage %',fmt:v=>v+'%'},utilRec:{label:'Utilization %',fmt:v=>v+'%'}};
+}
+function renderFcMatrix(){
+  const horizon=window.fcHorizon; if(!horizon||!horizon.length) return;
+  const metric=$('fcMatrixMetric').value;
+  const meta=fcMetricMeta()[metric];
+  const dateKeys=[...new Set(horizon.map(h=>h.date.toDateString()))];
+  const times=[...new Set(horizon.map(h=>h.m))].sort((a,b)=>a-b);
+  const lookup={}; horizon.forEach(h=>{ lookup[h.date.toDateString()+'|'+h.m]=h[metric]; });
+  const vals=horizon.map(h=>h[metric]);
+  const min=Math.min(...vals), max=Math.max(...vals,1);
+  const heat=v=>{ const t=(v-min)/((max-min)||1); const a=0.08+t*0.55; return `background:rgba(37,99,235,${a.toFixed(2)})`; };
+  let html='<table><thead><tr><th>Interval</th>'+dateKeys.map(k=>`<th>${new Date(k).toLocaleDateString(undefined,{month:'short',day:'numeric'})}</th>`).join('')+'</tr></thead><tbody>';
+  times.forEach(t=>{
+    html+=`<tr><td style="font-weight:600">${fmt(t)}</td>`+dateKeys.map(k=>{ const v=lookup[k+'|'+t]; return `<td style="${v!==undefined?heat(v):''}">${v!==undefined?meta.fmt(v):'—'}</td>`; }).join('')+'</tr>';
+  });
+  html+='</tbody></table>';
+  $('fcMatrixBox').innerHTML=html;
+}
+function exportFcExcel(){
+  const horizon=window.fcHorizon; if(!horizon||!horizon.length){ alert('Run a forecast first.'); return; }
+  const dateKeys=[...new Set(horizon.map(h=>h.date.toDateString()))];
+  const times=[...new Set(horizon.map(h=>h.m))].sort((a,b)=>a-b);
+  const wb=XLSX.utils.book_new();
+  Object.entries(fcMetricMeta()).forEach(([metric,meta])=>{
+    const lookup={}; horizon.forEach(h=>{ lookup[h.date.toDateString()+'|'+h.m]=h[metric]; });
+    const aoa=[['Interval', ...dateKeys.map(k=>new Date(k).toLocaleDateString())]];
+    times.forEach(t=>{ aoa.push([fmt(t), ...dateKeys.map(k=>lookup[k+'|'+t] ?? '')]); });
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(aoa), meta.label.slice(0,31));
+  });
+  XLSX.writeFile(wb,'Forecast_Matrix.xlsx');
+}
+function exportFcDayCsv(){
+  const key=$('fcSendDate').value;
+  const dayRows=(window.fcHorizon||[]).filter(h=>h.date.toDateString()===key).sort((a,b)=>a.m-b.m);
+  if(!dayRows.length) return;
+  const aoa=[['Interval','Calls','AHT','Occupancy %','Shrinkage %','Utilization %','Required Agents']];
+  dayRows.forEach(h=>aoa.push([fmt(h.m),h.rec,h.ahtRec,h.occRec,h.shrinkRec,h.utilRec,h.required]));
+  const csv=aoa.map(r=>r.join(',')).join('\n');
+  const url=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+  const a=document.createElement('a'); a.href=url; a.download=`Forecast_${key.replace(/\s+/g,'_')}.csv`; a.click();
+}
+function computeRequiredAgents(calls, aht, occPct, shrinkPct, utilPct, intervalSec){
+  const occ=(occPct||1)/100, shrink=(shrinkPct||0)/100, util=(utilPct||100)/100;
+  const erlangs = calls*aht/intervalSec;
+  const reqFTE = occ>0 ? erlangs/occ : 0;
+  let scheduled = shrink<1 ? reqFTE/(1-shrink) : reqFTE;
+  if(util>0) scheduled = scheduled/util;
+  return Math.ceil(scheduled);
+}
+</script>
+</body>
+</html>
