@@ -1,0 +1,8 @@
+{
+"rewrites": [
+{
+"source": "/metrics",
+"destination": "/Metrics/WFM_METRICS.html"
+}
+]
+}
